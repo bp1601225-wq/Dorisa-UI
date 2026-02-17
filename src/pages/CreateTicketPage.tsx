@@ -1,3 +1,4 @@
+import { AlertTriangle, CalendarDays, FileText, Ticket, User } from 'lucide-react'
 import FormField from '../components/ui/FormField'
 import { formControlClassName } from '../components/templates/formControlClassName'
 
@@ -5,17 +6,21 @@ const priorities = ['High', 'Medium', 'Low']
 
 const CreateTicketPage = () => {
   return (
-    <section className="space-y-6">
-      <header className="space-y-1">
-        <p className="text-xs uppercase tracking-[0.4em] text-slate-500">Tickets</p>
-        <h1 className="text-3xl font-semibold text-slate-900">Submit a new ticket</h1>
-        <p className="text-sm text-slate-500">
-          Describe the need, pick an owner, and we will route it to the right delivery team.
-        </p>
+    <section className="space-y-8">
+      <header className="mb-6 border-b border-slate-200 pb-5">
+        <div className="rounded-2xl border-l-4 border-slate-300 bg-slate-50 p-4 shadow-sm">
+          <h1 className="text-3xl font-semibold text-slate-900 flex items-center gap-3">
+            <Ticket size={24} className="text-slate-700" />
+            Submit ticket
+          </h1>
+          <p className="mt-2 max-w-2xl text-sm text-slate-500">
+            Describe the request, assign an owner, and route work to the right delivery team.
+          </p>
+        </div>
       </header>
 
       <form className="grid gap-6 rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm md:grid-cols-2">
-        <FormField id="ticketTitle" label="Ticket title">
+        <FormField id="ticketTitle" label="Ticket title" icon={Ticket}>
           <input
             className={formControlClassName}
             id="ticketTitle"
@@ -25,7 +30,7 @@ const CreateTicketPage = () => {
           />
         </FormField>
 
-        <FormField id="priority" label="Priority">
+        <FormField id="priority" label="Priority" icon={AlertTriangle}>
           <select className={formControlClassName} id="priority" name="priority" defaultValue="">
             <option value="">Select priority</option>
             {priorities.map((priority) => (
@@ -36,7 +41,7 @@ const CreateTicketPage = () => {
           </select>
         </FormField>
 
-        <FormField id="owner" label="Owner">
+        <FormField id="owner" label="Owner" icon={User}>
           <input
             className={formControlClassName}
             id="owner"
@@ -46,7 +51,7 @@ const CreateTicketPage = () => {
           />
         </FormField>
 
-        <FormField id="due" label="Desired completion">
+        <FormField id="due" label="Desired completion" icon={CalendarDays}>
           <input
             className={formControlClassName}
             id="due"
@@ -56,18 +61,18 @@ const CreateTicketPage = () => {
           />
         </FormField>
 
-        <FormField className="md:col-span-2" id="details" label="Details">
+        <FormField className="md:col-span-2" id="details" label="Details" icon={FileText}>
           <textarea
-            className={`${formControlClassName} min-h-24 resize-y`}
+            className={`${formControlClassName} min-h-28 resize-y`}
             id="details"
             name="details"
-            placeholder="Explain the context so we can immediately route and prioritize."
+            placeholder="Explain the context so we can route and prioritize quickly."
           />
         </FormField>
 
         <div className="md:col-span-2 flex justify-end">
           <button
-            className="rounded-full border border-slate-200 bg-white px-6 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+            className="rounded-full border border-slate-200 bg-slate-900 px-6 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
             type="submit"
           >
             Create ticket
