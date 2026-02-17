@@ -1,11 +1,17 @@
 import {
+  Briefcase,
   ClipboardList,
-  FileText,
+  FileInvoice,
   FolderKanban,
-  FolderOpen,
-  MessageSquareText,
+  Layers,
   PanelLeftClose,
   PanelLeftOpen,
+  Settings,
+  Sparkles,
+  Ticket,
+  UserCheck,
+  UserPlus,
+  Users,
   X,
   type LucideIcon,
 } from 'lucide-react'
@@ -41,31 +47,48 @@ type NavGroup = {
 }
 
 const standaloneNavItem: NavItem = {
-  to: '/template-one',
-  label: 'Template One',
+  to: '/dashboard',
+  label: 'Dashboard',
   icon: ClipboardList,
 }
 
 const navGroups: NavGroup[] = [
   {
-    id: 'group-core',
-    label: 'Core Forms',
+    id: 'group-operations',
+    label: 'Operations',
     icon: FolderKanban,
-    children: [{ to: '/template-two', label: 'Template Two', icon: FileText }],
+    children: [
+      { to: '/projects', label: 'Projects', icon: Briefcase },
+      { to: '/tickets', label: 'Tickets', icon: Ticket },
+      { to: '/invoices', label: 'Invoices', icon: FileInvoice },
+    ],
   },
   {
-    id: 'group-extra',
-    label: 'Feedback Forms',
-    icon: FolderOpen,
-    children: [{ to: '/template-three', label: 'Template Three', icon: MessageSquareText }],
+    id: 'group-people',
+    label: 'People & Clients',
+    icon: Users,
+    children: [
+      { to: '/users', label: 'Users', icon: UserCheck },
+      { to: '/clients', label: 'Clients', icon: UserPlus },
+    ],
+  },
+  {
+    id: 'group-strategy',
+    label: 'Consult & Controls',
+    icon: Sparkles,
+    children: [
+      { to: '/settings', label: 'Settings', icon: Settings },
+      { to: '/consulting', label: 'Consulting', icon: Layers },
+    ],
   },
 ]
 
 function Sidebar({ collapsed, toggled, onToggleCollapsed, onCloseMobile }: SidebarProps) {
   const { pathname } = useLocation()
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
-    'group-core': true,
-    'group-extra': true,
+    'group-operations': true,
+    'group-people': true,
+    'group-strategy': true,
   })
 
   const handleGroupOpenChange = (groupId: string, open: boolean) => {
@@ -100,13 +123,13 @@ function Sidebar({ collapsed, toggled, onToggleCollapsed, onCloseMobile }: Sideb
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-700">
-                  Workspace
+                  D O R i S A
                 </p>
                 <h1 className="truncate text-base font-bold text-slate-900">
-                  {collapsed ? 'Forms' : 'Form Templates'}
+                  {collapsed ? 'Dorisa' : 'Dorisa Consult'}
                 </h1>
                 {!collapsed && (
-                  <p className="text-xs text-slate-500">Collapsible React Pro Sidebar</p>
+                  <p className="text-xs text-slate-500">Best in consulting Service</p>
                 )}
               </div>
 
@@ -200,8 +223,8 @@ function Sidebar({ collapsed, toggled, onToggleCollapsed, onCloseMobile }: Sideb
         </Menu>
 
         <div className="mt-auto px-4">
-          <div className="rounded-xl border border-slate-200 bg-white/80 p-3 text-xs text-slate-500">
-            {collapsed ? '3 templates' : 'Three simple form templates are ready for reuse.'}
+          <div className="rounded-xl border border-slate-200 bg-white/80 p-3 text-slate-500 text-sm ">
+            {collapsed ? 'version' : 'Version 1.0.0'}
           </div>
         </div>
       </div>

@@ -1,9 +1,14 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
 import LoginPage from './pages/LoginPage'
-import TemplateOnePage from './pages/TemplateOnePage'
-import TemplateThreePage from './pages/TemplateThreePage'
-import TemplateTwoPage from './pages/TemplateTwoPage'
+import Dashboard from './pages/Dashboard'
+import ProjectsPage from './pages/ProjectsPage'
+import UsersPage from './pages/UsersPage'
+import ClientsPage from './pages/ClientsPage'
+import TicketsPage from './pages/TicketsPage'
+import InvoicesPage from './pages/InvoicesPage'
+import SettingsPage from './pages/SettingsPage'
+import ConsultingPage from './pages/ConsultingPage'
 
 export const router = createBrowserRouter([
   {
@@ -16,19 +21,39 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate replace to="template-one" />,
+        element: <Navigate replace to="dashboard" />,
       },
       {
-        path: 'template-one',
-        element: <TemplateOnePage />,
+        path: 'dashboard',
+        element: <Dashboard />,
       },
       {
-        path: 'template-two',
-        element: <TemplateTwoPage />,
+        path: 'projects',
+        element: <ProjectsPage />,
       },
       {
-        path: 'template-three',
-        element: <TemplateThreePage />,
+        path: 'users',
+        element: <UsersPage />,
+      },
+      {
+        path: 'clients',
+        element: <ClientsPage />,
+      },
+      {
+        path: 'tickets',
+        element: <TicketsPage />,
+      },
+      {
+        path: 'invoices',
+        element: <InvoicesPage />,
+      },
+      {
+        path: 'settings',
+        element: <SettingsPage />,
+      },
+      {
+        path: 'consulting',
+        element: <ConsultingPage />,
       },
     ],
   },
