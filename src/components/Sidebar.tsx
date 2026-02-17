@@ -1,6 +1,7 @@
 import {
   Briefcase,
   ClipboardList,
+  CurrencyDollar,
   FilePlus,
   LayoutDashboard,
   PanelLeftClose,
@@ -62,20 +63,43 @@ const standaloneNavItem: NavItem = {
 const navGroups: NavGroup[] = [
   {
     id: "projects",
-    label: "Projects & ops",
+    label: "Projects",
     icon: Briefcase,
     children: [
       { to: "/projects", label: "All projects", icon: ClipboardList },
       { to: "/projects/create", label: "Create project", icon: PlusSquare },
-      { to: "/tickets", label: "Tickets", icon: Ticket },
+    ],
+  },
+  {
+    id: "tickets",
+    label: "Tickets",
+    icon: Ticket,
+    children: [
+      { to: "/tickets", label: "All tickets", icon: Ticket },
       { to: "/tickets/create", label: "Create ticket", icon: PlusCircle },
-      { to: "/invoices", label: "Invoices", icon: Receipt },
+    ],
+  },
+  {
+    id: "invoices",
+    label: "Invoices",
+    icon: Receipt,
+    children: [
+      { to: "/invoices", label: "All invoices", icon: Receipt },
       { to: "/invoices/create", label: "Create invoice", icon: FilePlus },
     ],
   },
   {
+    id: "payments",
+    label: "Payments",
+    icon: CurrencyDollar,
+    children: [
+      { to: "/payments", label: "All payments", icon: CurrencyDollar },
+      { to: "/payments/record", label: "Record payment", icon: PlusCircle },
+    ],
+  },
+  {
     id: "people",
-    label: "People & clients",
+    label: "People",
     icon: Users,
     children: [
       { to: "/users", label: "Users", icon: Users },
@@ -86,7 +110,7 @@ const navGroups: NavGroup[] = [
   },
   {
     id: "consulting",
-    label: "Consult & controls",
+    label: "Consulting",
     icon: Sparkles,
     children: [
       { to: "/settings", label: "Settings", icon: Settings },
@@ -107,6 +131,9 @@ function Sidebar({
 
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     projects: true,
+    tickets: true,
+    invoices: true,
+    payments: true,
     people: true,
     consulting: true,
   });
@@ -206,6 +233,17 @@ function Sidebar({
               fontWeight: 600,
               fontSize: "0.9rem",
             },
+            subMenuContent: {
+              backgroundColor: "#f8fafc",
+              borderRadius: "16px",
+              margin: "0 12px",
+            },
+          }}
+          rootStyles={{
+            [`& .${menuClasses.subMenuContent}`]: {
+              paddingBottom: "4px",
+              boxShadow: "0 4px 20px rgba(15, 23, 42, 0.08)",
+            },
           }}
         >
           {/* Dashboard */}
@@ -246,8 +284,11 @@ function Sidebar({
         </Menu>
 
         {/* ===== FOOTER ===== */}
-        <div className="mt-auto px-4">
-          <div className="rounded-xl border border-slate-200 bg-white/80 p-3 text-sm text-slate-500">
+        <div className="mt-auto px-4 pb-4">
+          <div
+            className="sticky bottom-4 rounded-2xl border border-slate-200 bg-white/95 p-3 text-sm font-semibold text-slate-500 shadow-sm"
+            style={{ backdropFilter: "blur(12px)" }}
+          >
             {collapsed ? "v1" : "Version 1.0.0"}
           </div>
         </div>
