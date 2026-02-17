@@ -1,3 +1,4 @@
+import { Briefcase, Clipboard, Flag, Layer, SlidersHorizontal } from 'lucide-react'
 import FormField from '../components/ui/FormField'
 import { formControlClassName } from '../components/templates/formControlClassName'
 
@@ -14,8 +15,8 @@ const CreateProjectPage = () => {
         </p>
       </header>
 
-      <form className="grid gap-6 rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm md:grid-cols-2">
-        <FormField id="projectName" label="Project name">
+      <form className="grid gap-6 rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm md:grid-cols-2">
+        <FormField id="projectName" label="Project name" icon={Briefcase}>
           <input
             className={formControlClassName}
             id="projectName"
@@ -25,7 +26,7 @@ const CreateProjectPage = () => {
           />
         </FormField>
 
-        <FormField id="client" label="Client">
+        <FormField id="client" label="Client" icon={Clipboard}>
           <input
             className={formControlClassName}
             id="client"
@@ -35,7 +36,7 @@ const CreateProjectPage = () => {
           />
         </FormField>
 
-        <FormField id="owner" label="Owner">
+        <FormField id="owner" label="Owner" icon={SlidersHorizontal}>
           <select className={formControlClassName} id="owner" name="owner" defaultValue="">
             <option value="">Select owner</option>
             <option value="studio-alpha">Studio Alpha</option>
@@ -44,7 +45,7 @@ const CreateProjectPage = () => {
           </select>
         </FormField>
 
-        <FormField id="stage" label="Stage">
+        <FormField id="stage" label="Stage" icon={Flag}>
           <select className={formControlClassName} id="stage" name="stage" defaultValue="">
             <option value="">Choose stage</option>
             {projectStages.map((stage) => (
@@ -55,7 +56,7 @@ const CreateProjectPage = () => {
           </select>
         </FormField>
 
-        <FormField className="md:col-span-2" id="summary" label="Project summary">
+        <FormField className="md:col-span-2" id="summary" label="Project summary" icon={Layer}>
           <textarea
             className={`${formControlClassName} min-h-32 resize-y`}
             id="summary"

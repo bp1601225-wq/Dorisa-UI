@@ -1,3 +1,4 @@
+import { FileMinus, FileText, Receipt, UserPlus, Wallet } from 'lucide-react'
 import FormField from '../components/ui/FormField'
 import { formControlClassName } from '../components/templates/formControlClassName'
 
@@ -15,7 +16,7 @@ const RecordPaymentPage = () => {
       </header>
 
       <form className="grid gap-6 rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm md:grid-cols-2">
-        <FormField id="client" label="Client">
+        <FormField id="client" label="Client" icon={UserPlus}>
           <input
             className={formControlClassName}
             id="client"
@@ -25,7 +26,7 @@ const RecordPaymentPage = () => {
           />
         </FormField>
 
-        <FormField id="amount" label="Amount">
+        <FormField id="amount" label="Amount" icon={Receipt}>
           <input
             className={formControlClassName}
             id="amount"
@@ -35,7 +36,7 @@ const RecordPaymentPage = () => {
           />
         </FormField>
 
-        <FormField id="invoice" label="Invoice number">
+        <FormField id="invoice" label="Invoice number" icon={FileText}>
           <input
             className={formControlClassName}
             id="invoice"
@@ -45,7 +46,7 @@ const RecordPaymentPage = () => {
           />
         </FormField>
 
-        <FormField id="method" label="Payment method">
+        <FormField id="method" label="Payment method" icon={Wallet}>
           <select className={formControlClassName} id="method" name="method" defaultValue="">
             <option value="">Choose method</option>
             {paymentMethods.map((method) => (
@@ -56,7 +57,7 @@ const RecordPaymentPage = () => {
           </select>
         </FormField>
 
-        <FormField className="md:col-span-2" id="notes" label="Notes">
+        <FormField className="md:col-span-2" id="notes" label="Notes" icon={FileMinus}>
           <textarea
             className={`${formControlClassName} min-h-24 resize-y`}
             id="notes"

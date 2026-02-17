@@ -1,3 +1,4 @@
+import { Mail, Users, User } from 'lucide-react'
 import FormField from '../components/ui/FormField'
 import { formControlClassName } from '../components/templates/formControlClassName'
 
@@ -15,7 +16,7 @@ const CreateUserPage = () => {
       </header>
 
       <form className="grid gap-6 rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm md:grid-cols-2">
-        <FormField id="fullName" label="Full name">
+        <FormField id="fullName" label="Full name" icon={User}>
           <input
             className={formControlClassName}
             id="fullName"
@@ -25,7 +26,7 @@ const CreateUserPage = () => {
           />
         </FormField>
 
-        <FormField id="email" label="Work email">
+        <FormField id="email" label="Work email" icon={Mail}>
           <input
             className={formControlClassName}
             id="email"
@@ -35,7 +36,7 @@ const CreateUserPage = () => {
           />
         </FormField>
 
-        <FormField id="role" label="Role">
+        <FormField id="role" label="Role" icon={Users}>
           <select className={formControlClassName} id="role" name="role" defaultValue="">
             <option value="">Select role</option>
             {roles.map((role) => (
@@ -46,7 +47,7 @@ const CreateUserPage = () => {
           </select>
         </FormField>
 
-        <FormField id="team" label="Team">
+        <FormField id="team" label="Team" icon={Users}>
           <input
             className={formControlClassName}
             id="team"
@@ -56,7 +57,7 @@ const CreateUserPage = () => {
           />
         </FormField>
 
-        <FormField className="md:col-span-2" id="notes" label="Onboarding notes">
+        <FormField className="md:col-span-2" id="notes" label="Onboarding notes" icon={Mail}>
           <textarea
             className={`${formControlClassName} min-h-24 resize-y`}
             id="notes"

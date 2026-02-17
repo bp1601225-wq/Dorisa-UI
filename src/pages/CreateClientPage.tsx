@@ -1,3 +1,4 @@
+import { Building, FileText, Mail, Public, UserPlus } from 'lucide-react'
 import FormField from '../components/ui/FormField'
 import { formControlClassName } from '../components/templates/formControlClassName'
 
@@ -15,7 +16,7 @@ const CreateClientPage = () => {
       </header>
 
       <form className="grid gap-6 rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm md:grid-cols-2">
-        <FormField id="clientName" label="Client name">
+        <FormField id="clientName" label="Client name" icon={Building}>
           <input
             className={formControlClassName}
             id="clientName"
@@ -25,7 +26,7 @@ const CreateClientPage = () => {
           />
         </FormField>
 
-        <FormField id="industry" label="Industry">
+        <FormField id="industry" label="Industry" icon={Public}>
           <select className={formControlClassName} id="industry" name="industry" defaultValue="">
             <option value="">Select industry</option>
             {industries.map((industry) => (
@@ -36,7 +37,7 @@ const CreateClientPage = () => {
           </select>
         </FormField>
 
-        <FormField id="contact" label="Primary contact">
+        <FormField id="contact" label="Primary contact" icon={UserPlus}>
           <input
             className={formControlClassName}
             id="contact"
@@ -46,7 +47,7 @@ const CreateClientPage = () => {
           />
         </FormField>
 
-        <FormField id="email" label="Contact email">
+        <FormField id="email" label="Contact email" icon={Mail}>
           <input
             className={formControlClassName}
             id="email"
@@ -56,7 +57,7 @@ const CreateClientPage = () => {
           />
         </FormField>
 
-        <FormField className="md:col-span-2" id="notes" label="Relationship notes">
+        <FormField className="md:col-span-2" id="notes" label="Relationship notes" icon={FileText}>
           <textarea
             className={`${formControlClassName} min-h-24 resize-y`}
             id="notes"

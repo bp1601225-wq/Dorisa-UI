@@ -9,10 +9,12 @@ const CreateTicketPage = () => {
     <section className="space-y-8">
       <header className="mb-6 border-b border-slate-200 pb-5">
         <div className="rounded-2xl border-l-4 border-slate-300 bg-slate-50 p-4 shadow-sm">
-          <h1 className="text-3xl font-semibold text-slate-900 flex items-center gap-3">
+          <h1 className="mt-2 text-3xl tracking-wider font-bold flex items-center gap-3 bg-gradient-to-r 
+        from-yellow-600  via-white to yellow-300 bg-clip-text text-transparent italic">
             <Ticket size={24} className="text-slate-700" />
-            Submit ticket
+             Ticket
           </h1>
+
           <p className="mt-2 max-w-2xl text-sm text-slate-500">
             Describe the request, assign an owner, and route work to the right delivery team.
           </p>
