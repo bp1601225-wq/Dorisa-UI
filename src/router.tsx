@@ -17,12 +17,18 @@ import CreateClientPage from './pages/CreateClientPage'
 import SettingsPage from './pages/SettingsPage'
 import ConsultingPage from './pages/ConsultingPage'
 import LandingPage from './pages/starter/landingPage'
+import ServicesPage from './pages/starter/ServicesPage'
+import NotFoundPage from './pages/NotFoundPage'
+
 
 
  export const router = createBrowserRouter([
  {
     path: '/welcome',
     element: <LandingPage />,
+  }, {
+    path: '/all-services',
+    element: <ServicesPage />,
   },
 
   {
@@ -101,7 +107,8 @@ import LandingPage from './pages/starter/landingPage'
           },
         ],
       },
-   {
+
+      {
         path: 'users',
         element: <Outlet />,
         children: [
@@ -141,6 +148,6 @@ import LandingPage from './pages/starter/landingPage'
   },
   {
     path: '*',
-    element: <Navigate replace to="/" />,
+    element: <NotFoundPage />,
   },
 ])

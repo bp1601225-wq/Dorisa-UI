@@ -1,93 +1,103 @@
-import { LockKeyhole } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
-import { toast } from 'sonner'
-import type {FormFields} from "../../GlobalTypes"
+import { LockKeyhole } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
+import type { FormFields } from "../../GlobalTypes";
+import { motion } from "framer-motion";
 
 function LoginPage() {
-const {
-register,
-handleSubmit,
-formState: { errors, isSubmitting },
-} = useForm<FormFields>()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormFields>();
 
-return (
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-cyan-50 to-sky-100 p-6">
+      
+      <motion.section
+        className="w-full max-w-md rounded-3xl border border-slate-200 bg-white shadow-xl overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {/* Header */}
+        <header className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-cyan-500 px-6 py-5 text-white">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20">
+            <LockKeyhole size={20} />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold">Login</h2>
+            <p className="text-sm text-blue-100 mt-1">Sign in to continue to your account.</p>
+          </div>
+        </header>
 
-<div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-100 via-sky-50 to-cyan-100 p-4">
-  
-<section className="w-full max-w-md overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm ">
+        {/* Form */}
+        <form
+          className="space-y-5 p-6"
+          onSubmit={handleSubmit(async () => {
+            await new Promise((resolve) => setTimeout(resolve, 200));
+            toast.info('Demo login form', {
+              description: 'Authentication is not connected yet. This is UI only.',
+            });
+          })}
+        >
+          <div className="flex flex-col">
+            <label htmlFor="email" className="mb-2 text-sm font-medium text-slate-700">
+              Email
+            </label>
+            <input
+              {...register('email', { required: true })}
+              id="email"
+              name="email"
+              type="email"
+              placeholder="name@company.com"
+              className="rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+            />
+            {errors.email && <span className="mt-1 text-red-500 text-sm">Email is required</span>}
+          </div>
 
-<header className="border-b border-slate-200 bg-gradient-to-r from-blue-600 to-cyan-500 px-6 py-5 text-white flex items-center gap-2">
+          <div className="flex flex-col">
+            <label htmlFor="password" className="mb-2 text-sm font-medium text-slate-700">
+              Password
+            </label>
+            <input
+              {...register('password', { required: true })}
+              id="password"
+              name="password"
+              type="password"
+              placeholder="********"
+              className="rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+            />
+            {errors.password && <span className="mt-1 text-red-500 text-sm">Password is required</span>}
+          </div>
 
-<div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/20">
-<LockKeyhole size={18} />
-</div>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 py-3 text-white font-semibold text-sm hover:scale-105 transition-transform disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? 'Submitting...' : 'Login'}
+          </button>
 
-<h2 className="text-2xl font-bold">Login</h2>
-<p className="mt-1 text-sm text-blue-50">Sign in to continue to your form templates.</p>
-</header>
+          <p className="text-center text-sm text-slate-500 mt-2">
+            Don't have an account?{' '}
+            <Link to="/register" className="text-blue-600 font-medium underline">
+              Register
+            </Link>
+          </p>
+        </form>
 
-<form
-className="space-y-4 p-6"
-onSubmit={handleSubmit(async () => {
-await new Promise((resolve) => setTimeout(resolve, 200))
-toast.info('Demo login form', {
-  description: 'Authentication is not connected yet. This is UI only.',
-})
-})}
->
-<div>
-<label className="mb-2 block text-sm font-semibold text-slate-700" htmlFor="email">
-  Email
-</label>
-<input
-  {...register('email', {
-    required: true,
-  })}
-  className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
-  id="email"
-  name="email"
-  placeholder="name@company.com"
-  type="email"
-/>
-{errors.email && <div className="text-red-500">Email is required</div>}
-</div>
-
-<div>
-<label className="mb-2 block text-sm font-semibold text-slate-700" htmlFor="password">
-  Password
-</label>
-<input
-  {...register('password', {
-    required: true,
-  })}
-  className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
-  id="password"
-  name="password"
-  placeholder="********"
-  type="password"
-/>
-{errors.password && <div className="text-red-500">Password is required</div>}
-</div>
-
-<button
-className="w-full rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-70 cursor-pointer"
-disabled={isSubmitting}
-type="submit"
->
-{isSubmitting ? 'submitting...' : 'Submit'}
-</button>
-</form>
-
-<p className="border-t border-slate-200 px-6 py-4 text-sm text-slate-600">
-Back to app:{' '}
-<Link className="font-semibold text-slate-900 underline" to="/template-one">
-App
-</Link>
-</p>
-</section>
-</div>
-)
+        {/* Back to app */}
+        <p className="border-t border-slate-200 px-6 py-4 text-center text-sm text-slate-600">
+          Back to app:{' '}
+          <Link className="font-semibold text-slate-900 underline" to="/template-one">
+            App
+          </Link>
+        </p>
+      </motion.section>
+    </div>
+  );
 }
 
-export default LoginPage
+export default LoginPage;
