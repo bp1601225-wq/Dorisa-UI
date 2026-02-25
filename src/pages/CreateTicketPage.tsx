@@ -2,13 +2,13 @@ import { AlertTriangle, CalendarDays, FileText, Ticket, User } from 'lucide-reac
 import FormField from '../components/ui/FormField'
 import { formControlClassName } from '../components/templates/formControlClassName'
 
-const priorities = ['High', 'Medium', 'Low']
+// const priorities = ['High', 'Medium', 'Low']
 
 const CreateTicketPage = () => {
   return (
     <section className="space-y-8">
       <header className="mb-6 border-b border-slate-200 pb-5">
-        <div className="rounded-2xl border-l-4 border-slate-300 bg-slate-50 p-4 shadow-sm">
+        <div className="rounded-2xl border-l-5 border-l-black border-slate-300 bg-slate-50 p-4 shadow-sm">
           <h1 className="mt-2 text-3xl tracking-wider font-bold flex items-center gap-3 bg-gradient-to-r 
         from-yellow-600  via-white to yellow-300 bg-clip-text text-transparent italic">
             <Ticket size={24} className="text-slate-700" />
@@ -35,33 +35,14 @@ const CreateTicketPage = () => {
         <FormField id="priority" label="Priority" icon={AlertTriangle}>
           <select className={formControlClassName} id="priority" name="priority" defaultValue="">
             <option value="">Select priority</option>
-            {priorities.map((priority) => (
+            {/* {priorities.map((priority) => (
               <option key={priority} value={priority.toLowerCase()}>
                 {priority}
               </option>
-            ))}
+            ))} */}
           </select>
         </FormField>
 
-        <FormField id="owner" label="Owner" icon={User}>
-          <input
-            className={formControlClassName}
-            id="owner"
-            name="owner"
-            placeholder="Service desk"
-            type="text"
-          />
-        </FormField>
-
-        <FormField id="due" label="Desired completion" icon={CalendarDays}>
-          <input
-            className={formControlClassName}
-            id="due"
-            name="due"
-            placeholder="2026-03-01"
-            type="date"
-          />
-        </FormField>
 
         <FormField className="md:col-span-2" id="details" label="Details" icon={FileText}>
           <textarea
@@ -74,7 +55,7 @@ const CreateTicketPage = () => {
 
         <div className="md:col-span-2 flex justify-end">
           <button
-            className="rounded-full border border-slate-200 bg-slate-900 px-6 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+            className="rounded-full border border-slate-200 bg-slate-900 px-6 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 transition-1s active:scale-105 cursor-pointer"
             type="submit"
           >
             Create ticket

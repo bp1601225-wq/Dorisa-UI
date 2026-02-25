@@ -1,4 +1,4 @@
-import { Menu } from 'lucide-react'
+import { LogOut, Menu } from 'lucide-react'
 import { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
@@ -8,7 +8,7 @@ const [collapsed, setCollapsed] = useState(false)
 const [toggled, setToggled] = useState(false)
 
 return (
-<div className="min-h-screen bg-white text-slate-900">
+<div className="min-h-screen bg-white text-slate-900 ">
 <div className="flex min-h-screen">
 <Sidebar
 collapsed={collapsed}
@@ -31,25 +31,28 @@ toggled={toggled}
 </button>
 <div>
   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-    React Tutorials
+    Dorisa Consult
   </p>
-  <h2 className="text-base font-semibold text-slate-900 sm:text-lg">
-    Simple Form Templates
+  <h2 className="text-base font-semibold text-blue-900 sm:text-lg">
+    Bringing solutions closer to you
   </h2>
 </div>
 </div>
 
 <Link
-className="rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+className="rounded-xl border border-slate-300 bg-red-600 text-white border-none px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-red-700 flex gap-2 transition-all"
 onClick={() => setToggled(false)}
 to="/login"
 >
-Login
+  <LogOut />
+Logout
 </Link>
+
+
 </div>
 </header>
 
-<main className="flex-1 bg-white p-4 sm:p-6 lg:p-10">
+<main className="flex-1 bg-white p-4 sm:p-6 lg:p-10 max-w-4xl">
 <Outlet />
 </main>
 </div>

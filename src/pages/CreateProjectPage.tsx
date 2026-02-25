@@ -1,66 +1,109 @@
-import { Briefcase, Clipboard, Flag, Layer, SlidersHorizontal } from 'lucide-react'
+import { Briefcase, Clipboard, Flag, DollarSign } from 'lucide-react'
 import FormField from '../components/ui/FormField'
 import { formControlClassName } from '../components/templates/formControlClassName'
-
-const projectStages = ['Discovery', 'Design', 'Delivery', 'Enablement']
+import TextProps from './utils/utils'
+import { useForm, useFieldArray } from "react-hook-form";
+const projectStages = ['Planning', 'Approved', 'In Progress', 'On Hold', 'Review', 'Completed', 'Delivered', 'Cancelled']
 
 const CreateProjectPage = () => {
+
+  const demoProject = {
+  id: 101,
+  title: "Dorisa Design Website",
+  budget: 3000,
+  client: 2,          // client id
+  stages: 3,          // index from projectStages array
+  description: "Build a modern landing page and dashboard UI."
+};
+
+  const {register, handleSubmit, watch, formState: {errors}} = useForm()
+
+
+const clientSelected = watch("client");
+
+  
+const clients = [ 
+  { id: 1, clientName: "Acme Corporation" },
+  { id: 2, clientName: "Bright Future Ltd" },
+  { id: 3, clientName: "Golden Star Ventures" },
+  { id: 4, clientName: "NovaTech Solutions" },
+  { id: 5, clientName: "Sunrise Holdings" }
+];
+
+function CreateProject(data:any){
+console.log(data)
+}
+
+
+
   return (
     <section className="space-y-6">
       <header className="space-y-1">
-        <p className="text-xs uppercase tracking-[0.4em] text-slate-500">Projects</p>
-        <h1 className="text-3xl font-semibold text-slate-900">Create a new project</h1>
-        <p className="text-sm text-slate-500">
-          Capture the brief, assign an owner, and let the squad know what success looks like.
-        </p>
+    
+    <TextProps data = "Create Projects" text = "Capture the brief, assign an owner, and let the squad know what success looks like." />
+      
+
       </header>
 
-      <form className="grid gap-6 rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm md:grid-cols-2">
-        <FormField id="projectName" label="Project name" icon={Briefcase}>
+      <form className="grid gap-6 rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm md:grid-cols-2"
+      onSubmit={handleSubmit(CreateProject)}>
+        <FormField id="projectName" label="Project Title" icon={Briefcase}
+        >
           <input
+          {...register("title", {required:"title is required"})}
             className={formControlClassName}
             id="projectName"
-            name="projectName"
-            placeholder="Dorisa Insight Studio"
+            placeholder="Dorisa Design"
             type="text"
           />
         </FormField>
 
-        <FormField id="client" label="Client" icon={Clipboard}>
+
+     <FormField id="projectName" label="Budget" icon={DollarSign}>
           <input
+          {...register("budget")}
             className={formControlClassName}
-            id="client"
-            name="client"
-            placeholder="Northridge Health"
+            id="projectName"
+            placeholder=" 3000.00"
             type="text"
           />
         </FormField>
 
-        <FormField id="owner" label="Owner" icon={SlidersHorizontal}>
-          <select className={formControlClassName} id="owner" name="owner" defaultValue="">
-            <option value="">Select owner</option>
-            <option value="studio-alpha">Studio Alpha</option>
-            <option value="experience-lab">Experience Lab</option>
-            <option value="product-ops">Product Ops</option>
-          </select>
+        <FormField id="client" label="Select Client" icon={Clipboard}>
+        <select
+        {...register("client")}
+      className = {formControlClassName} >
+          <option value="">Select Client</option>
+        {clients.map((clients)=>{
+          return (
+            <option key={clients.id} value={clients.id}>
+              {clients.clientName}
+            </option>
+          )
+        })}
+        </select>
         </FormField>
 
-        <FormField id="stage" label="Stage" icon={Flag}>
-          <select className={formControlClassName} id="stage" name="stage" defaultValue="">
+   
+
+        <FormField id="status" label="Stage" icon={Flag}>
+          <select className={formControlClassName} id="stage"  defaultValue=""
+            {...register("stages")}
+          >
             <option value="">Choose stage</option>
-            {projectStages.map((stage) => (
-              <option key={stage} value={stage.toLowerCase()}>
+            {projectStages.map((stage, index:number) => (
+              <option key={index} value={index}>
                 {stage}
               </option>
             ))}
           </select>
         </FormField>
 
-        <FormField className="md:col-span-2" id="summary" label="Project summary" icon={Layer}>
+        <FormField className="md:col-span-2" id="summary" label="Project description" >
           <textarea
+          {...register("description")}
             className={`${formControlClassName} min-h-32 resize-y`}
             id="summary"
-            name="summary"
             placeholder="Describe the goals, desired outcomes, and success cues."
           />
         </FormField>

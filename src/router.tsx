@@ -16,12 +16,20 @@ import ClientsPage from './pages/ClientsPage'
 import CreateClientPage from './pages/CreateClientPage'
 import SettingsPage from './pages/SettingsPage'
 import ConsultingPage from './pages/ConsultingPage'
+import LandingPage from './pages/starter/landingPage'
 
-export const router = createBrowserRouter([
+
+ export const router = createBrowserRouter([
+ {
+    path: '/welcome',
+    element: <LandingPage />,
+  },
+
   {
     path: '/login',
     element: <LoginPage />,
   },
+
   {
     path: '/',
     element: <MainLayout />,
@@ -48,6 +56,7 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      
       {
         path: 'tickets',
         element: <Outlet />,
@@ -62,6 +71,7 @@ export const router = createBrowserRouter([
           },
         ],
       },
+
       {
         path: 'invoices',
         element: <Outlet />,
@@ -76,6 +86,7 @@ export const router = createBrowserRouter([
           },
         ],
       },
+
       {
         path: 'payments',
         element: <Outlet />,
@@ -90,7 +101,7 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      {
+   {
         path: 'users',
         element: <Outlet />,
         children: [

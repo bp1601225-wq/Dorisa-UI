@@ -1,3 +1,5 @@
+import { useForm } from "react-hook-form"
+
 const clientSpotlights = [
   {
     name: 'Zenith Finance',
@@ -17,6 +19,11 @@ const clientSpotlights = [
 ]
 
 const ClientsPage = () => {
+
+const {handleSubmit, register, reset} = useForm()
+
+
+
   return (
     <section className="space-y-6">
       <header className="space-y-1">
@@ -33,7 +40,10 @@ const ClientsPage = () => {
             key={client.name}
             className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between" onClick={() => {
+  console.log(client);
+  reset(client);
+}}>
               <h2 className="text-xl font-semibold text-slate-900">{client.name}</h2>
               <span className="text-xs uppercase tracking-[0.3em] text-slate-400">
                 {client.status}
@@ -42,6 +52,14 @@ const ClientsPage = () => {
             <p className="mt-2 text-sm text-slate-500">{client.focus}</p>
           </article>
         ))}
+      </div>
+
+      <div>
+        <input
+        {...register("name")}
+        type="text" 
+        
+        />
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-gradient-to-r from-amber-50 to-white p-6 shadow-lg">

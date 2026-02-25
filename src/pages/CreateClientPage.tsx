@@ -1,4 +1,4 @@
-import { Building, FileText, Mail, Public, UserPlus } from 'lucide-react'
+import { Building, FileText, Mail,  UserPlus } from 'lucide-react'
 import FormField from '../components/ui/FormField'
 import { formControlClassName } from '../components/templates/formControlClassName'
 
@@ -26,7 +26,7 @@ const CreateClientPage = () => {
           />
         </FormField>
 
-        <FormField id="industry" label="Industry" icon={Public}>
+        <FormField id="industry" label="Industry" >
           <select className={formControlClassName} id="industry" name="industry" defaultValue="">
             <option value="">Select industry</option>
             {industries.map((industry) => (
@@ -68,7 +68,7 @@ const CreateClientPage = () => {
 
         <div className="md:col-span-2 flex justify-end">
           <button
-            className="rounded-full border border-slate-200 bg-slate-900 px-6 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+            className="rounded-full border border-slate-200 bg-slate-900 px-6 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 transition-1s active:scale-10.5 cursor-pointer"
             type="submit"
           >
             Save client

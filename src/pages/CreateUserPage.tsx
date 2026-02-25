@@ -1,38 +1,64 @@
-import { Mail, Users, User } from 'lucide-react'
+import { Phone, Users, User, User2 } from 'lucide-react'
 import FormField from '../components/ui/FormField'
 import { formControlClassName } from '../components/templates/formControlClassName'
+import TextProps from './utils/utils'
 
 const roles = ['Designer', 'Product Manager', 'Consultant', 'Ops Lead']
+
 
 const CreateUserPage = () => {
   return (
     <section className="space-y-6">
       <header className="space-y-1">
-        <p className="text-xs uppercase tracking-[0.4em] text-slate-500">Users</p>
-        <h1 className="text-3xl font-semibold text-slate-900">Invite a new user</h1>
+        <p className="text-xs uppercase tracking-[0.4em] text-slate-500">
+        </p>
+   
+   <TextProps data = "create user" />
+
+
         <p className="text-sm text-slate-500">
           Bring the next collaborator on board with the right role and visibility.
         </p>
       </header>
-
+      
       <form className="grid gap-6 rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm md:grid-cols-2">
-        <FormField id="fullName" label="Full name" icon={User}>
+        <FormField id="firstName" label="First Name" icon={User}>
           <input
             className={formControlClassName}
-            id="fullName"
-            name="fullName"
-            placeholder="Alex Rivera"
+            id="firstName"
+            name="firstName"
+            placeholder="Alex"
             type="text"
           />
         </FormField>
 
-        <FormField id="email" label="Work email" icon={Mail}>
+        <FormField id="middleName" label="Middle Name" icon={User}>
           <input
             className={formControlClassName}
-            id="email"
-            name="email"
-            placeholder="alex.rivera@dorisa.io"
-            type="email"
+            id="middleName"
+            name="middleName"
+            placeholder="Rivera"
+            type="text"
+          />
+        </FormField>
+
+        <FormField id="lastName" label="Last Name" icon={User}>
+          <input
+            className={formControlClassName}
+            id="lastName"
+            name="lastName"
+            placeholder="Diaz"
+            type="text"
+          />
+        </FormField>
+
+        <FormField id="phone" label="Phone" icon={Phone}>
+          <input
+            className={formControlClassName}
+            id="phone"
+            name="phone"
+            placeholder="(555) 123-4567"
+            type="tel"
           />
         </FormField>
 
@@ -47,31 +73,14 @@ const CreateUserPage = () => {
           </select>
         </FormField>
 
-        <FormField id="team" label="Team" icon={Users}>
-          <input
-            className={formControlClassName}
-            id="team"
-            name="team"
-            placeholder="Experience Lab"
-            type="text"
-          />
-        </FormField>
-
-        <FormField className="md:col-span-2" id="notes" label="Onboarding notes" icon={Mail}>
-          <textarea
-            className={`${formControlClassName} min-h-24 resize-y`}
-            id="notes"
-            name="notes"
-            placeholder="Any permissions, calendar preferences, or kickoff context"
-          />
-        </FormField>
-
         <div className="md:col-span-2 flex justify-end">
           <button
-            className="rounded-full border border-slate-200 bg-white px-6 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+            className="rounded-full border border-slate-200 bg-green-500 text-white px-6 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-100 hover:text-black cursor-pointer 
+            active:scale-105
+            "
             type="submit"
           >
-            Send invite
+            create User
           </button>
         </div>
       </form>
