@@ -19,23 +19,25 @@ import ConsultingPage from './pages/ConsultingPage'
 import LandingPage from './pages/starter/landingPage'
 import ServicesPage from './pages/starter/ServicesPage'
 import NotFoundPage from './pages/NotFoundPage'
+import Registration from './pages/Registration'
 
-
-
- export const router = createBrowserRouter([
- {
+export const router = createBrowserRouter([
+  {
     path: '/welcome',
     element: <LandingPage />,
-  }, {
+  },
+  {
     path: '/all-services',
     element: <ServicesPage />,
   },
-
   {
     path: '/login',
     element: <LoginPage />,
   },
-
+  {
+    path: '/register',
+    element: <Registration />,
+  },
   {
     path: '/',
     element: <MainLayout />,
@@ -62,7 +64,6 @@ import NotFoundPage from './pages/NotFoundPage'
           },
         ],
       },
-      
       {
         path: 'tickets',
         element: <Outlet />,
@@ -77,7 +78,6 @@ import NotFoundPage from './pages/NotFoundPage'
           },
         ],
       },
-
       {
         path: 'invoices',
         element: <Outlet />,
@@ -92,7 +92,6 @@ import NotFoundPage from './pages/NotFoundPage'
           },
         ],
       },
-
       {
         path: 'payments',
         element: <Outlet />,
@@ -107,7 +106,6 @@ import NotFoundPage from './pages/NotFoundPage'
           },
         ],
       },
-
       {
         path: 'users',
         element: <Outlet />,
