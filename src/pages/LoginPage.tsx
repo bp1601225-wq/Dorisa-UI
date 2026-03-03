@@ -1,91 +1,76 @@
-import { LockKeyhole, User } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { toast } from 'sonner';
+import { LockKeyhole, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-function LoginPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm();
-
-  const onSubmit = async (data:any) => {
-    await new Promise((resolve) => setTimeout(resolve, 200));
-    toast.info('Demo login form', {
-      description: 'Authentication is not connected yet. This is UI only.',
-    });
-    console.log(data);
-  };
-
+const LoginPage = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-6">
-      <div className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-md p-8">
-        {/* Header */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 rounded-lg bg-green-100">
-            <LockKeyhole className="text-green-600" />
+    <div className="flex min-h-screen items-center justify-center bg-white px-4 py-10">
+      <motion.section
+        className="w-full max-w-[440px] rounded-[10px] bg-white px-8 py-10 shadow-[0_5px_20px_rgba(15,23,42,0.1)]"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="flex justify-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-[18px] bg-emerald-100">
+            <LockKeyhole className="text-emerald-600" size={26} />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800">Login</h2>
         </div>
 
-        {/* Form */}
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col">
-            <label htmlFor="email" className="mb-1 font-medium text-gray-700">Email</label>
-            <div className="flex items-center border rounded-xl px-3 py-2">
-              <User className="text-gray-400 mr-2" />
+        <div className="mt-6 text-center">
+          <h1 className="text-2xl font-semibold text-slate-900">Welcome Back</h1>
+          <p className="text-sm text-slate-500">Login to access your dashboard</p>
+        </div>
+
+        <form className="mt-8 space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-slate-600">Email Address</label>
+            <div className="flex items-center gap-3 rounded-[18px] border border-slate-200 bg-[#fafbff] px-4 py-3">
+              <Mail className="text-slate-400" />
               <input
-                {...register('email', { required: true })}
-                id="email"
                 type="email"
                 placeholder="name@company.com"
-                className="w-full outline-none text-gray-800"
+                className="w-full bg-transparent text-sm font-medium text-slate-700 outline-none"
               />
             </div>
-            {errors.email && <span className="text-red-500 text-sm mt-1">Email is required</span>}
           </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="password" className="mb-1 font-medium text-gray-700">Password</label>
-            <div className="flex items-center border rounded-xl px-3 py-2">
-              <LockKeyhole className="text-gray-400 mr-2" />
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-slate-600">Password</label>
+            <div className="flex items-center gap-3 rounded-[18px] border border-slate-200 bg-[#fafbff] px-4 py-3">
+              <LockKeyhole className="text-slate-400" />
               <input
-                {...register('password', { required: true })}
-                id="password"
                 type="password"
-                placeholder="********"
-                className="w-full outline-none text-gray-800"
+                placeholder="Enter your password"
+                className="w-full bg-transparent text-sm font-medium text-slate-700 outline-none"
               />
             </div>
-            {errors.password && <span className="text-red-500 text-sm mt-1">Password is required</span>}
           </div>
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-green-600 text-white py-2 rounded-xl font-semibold hover:bg-green-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? 'Logging in...' : 'Login'}
-          </button>
+          <div className="flex items-center justify-end text-xs font-semibold text-emerald-600">
+            <Link to="/forgot-password">Forgot password?</Link>
+          </div>
 
-          <p className="text-center text-sm text-gray-500">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-green-600 font-medium underline">
-              Register
-            </Link>
-          </p>
+          {/* Framer Motion Button */}
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            type="button"
+            className="w-full rounded-[18px] bg-emerald-500 px-4 py-3 text-sm font-semibold text-white shadow-[0_6px_15px_rgba(16,185,129,0.2)] transition-colors"
+          >
+            Login
+          </motion.button>
         </form>
 
-        <p className="border-t border-gray-200 mt-6 pt-4 text-center text-sm text-gray-600">
-          Back to app:{' '}
-          <Link className="text-gray-800 font-semibold underline" to="/template-one">
-            App
+        <p className="mt-6 text-center text-sm text-slate-500">
+          Don&apos;t have an account?{" "}
+          <Link to="/register-client" className="font-semibold text-emerald-600">
+            Create account
           </Link>
         </p>
-      </div>
+      </motion.section>
     </div>
   );
-}
+};
 
 export default LoginPage;
