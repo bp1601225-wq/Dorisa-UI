@@ -19,7 +19,7 @@ import ConsultingPage from './pages/ConsultingPage'
 import LandingPage from './pages/starter/landingPage'
 import ServicesPage from './pages/starter/ServicesPage'
 import NotFoundPage from './pages/NotFoundPage'
-import Registration from './pages/Registration'
+import Registration from './pages/Registration/Registration'
 
 export const router = createBrowserRouter([
   {

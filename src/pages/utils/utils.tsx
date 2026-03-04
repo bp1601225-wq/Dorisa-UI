@@ -2,7 +2,7 @@ import type { InputHTMLAttributes, ReactElement, ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import React from "react";
 
-export const countries = [
+export const Arraycountries = [
   "United States",
   "United Kingdom",
   "Canada",
@@ -31,6 +31,36 @@ type TextProps = {
   icon?: ReactNode;
 };
 
+
+// ........................ MOTION DIVS ...........................................
+export const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+export const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 25 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+export const slideUp: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
 function TextProps({ data, text, icon }: TextProps) {
   return (
     <div className="rounded-2xl border-l-4 border-slate-300 bg-slate-50 p-4 shadow-sm">
@@ -52,7 +82,6 @@ type InputFieldProps = {
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export const ErrorText = ({ message }: { message?: string }) => {
-  if (!message) return null;
   return <p className="text-xs text-red-500 font-semibold">{message}</p>;
 };
 

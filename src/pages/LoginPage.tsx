@@ -12,7 +12,7 @@ const LoginPage = () => {
         transition={{ duration: 0.4 }}
       >
         <div className="flex justify-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-[18px] bg-emerald-100">
+          <div className="flex h-16 w-16 items-center justify-center rounded-[18px] bg-emerald-100/60">
             <LockKeyhole className="text-emerald-600" size={26} />
           </div>
         </div>
@@ -64,7 +64,7 @@ const LoginPage = () => {
 
         <p className="mt-6 text-center text-sm text-slate-500">
           Don&apos;t have an account?{" "}
-          <Link to="/register-client" className="font-semibold text-emerald-600">
+          <Link to="/register" className="font-semibold text-emerald-600">
             Create account
           </Link>
         </p>

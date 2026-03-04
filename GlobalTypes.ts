@@ -22,6 +22,3 @@ export interface CorporateForm {
 
 // Union type for registration
 export type RegistrationForm = IndividualForm | CorporateForm;
-
-// Form type with ID for internal use (e.g., state + modal)
-export type FormWithId = RegistrationForm & { id: string };

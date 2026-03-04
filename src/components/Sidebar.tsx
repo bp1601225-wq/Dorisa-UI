@@ -62,54 +62,54 @@ icon: LayoutDashboard,
 };
 
 const navGroups: NavGroup[] = [
-{
-id: "projects",
-label: "Projects",
-icon: Briefcase,
-children: [
-{ to: "/projects/create", label: "Create project", icon: PlusSquare },
+// {
+// id: "projects",
+// label: "Projects",
+// icon: Briefcase,
+// children: [
+// { to: "/projects/create", label: "Create project", icon: PlusSquare },
 
-{ to: "/projects", label: "All projects", icon: ClipboardList },
-],
-},
-{
-id: "tickets",
-label: "Tickets",
-icon: Ticket,
-children: [
-{ to: "/tickets/create", label: "Create ticket", icon: PlusCircle },
+// { to: "/projects", label: "All projects", icon: ClipboardList },
+// ],
+// },
+// {
+// id: "tickets",
+// label: "Tickets",
+// icon: Ticket,
+// children: [
+// { to: "/tickets/create", label: "Create ticket", icon: PlusCircle },
 
-{ to: "/tickets", label: "All tickets", icon: Ticket },
-],
-},
-{
-id: "invoices",
-label: "Invoices",
-icon: Receipt,
-children: [
-{ to: "/invoices", label: "All invoices", icon: Receipt },
-],
-},
-{
-id: "payments",
-label: "Payments",
-icon: Currency,
-children: [
-{ to: "/payments", label: "All payments", icon: Currency },
-{ to: "/payments/record", label: "Record payment", icon: PlusCircle },
-],
-},
+// { to: "/tickets", label: "All tickets", icon: Ticket },
+// ],
+// },
+// {
+// id: "invoices",
+// label: "Invoices",
+// icon: Receipt,
+// children: [
+// { to: "/invoices", label: "All invoices", icon: Receipt },
+// ],
+// },
+// {
+// id: "payments",
+// label: "Payments",
+// icon: Currency,
+// children: [
+// { to: "/payments", label: "All payments", icon: Currency },
+// { to: "/payments/record", label: "Record payment", icon: PlusCircle },
+// ],
+// },
 
 
-{
-  id: "clients",
-  label: "Clients",
-  icon: UserCheck,
-  children: [
-    { to: "/clients", label: "All clients", icon: UserCheck },
-    { to: "/clients/create", label: "Add client", icon: UserPlus },
-  ],
-},
+// {
+//   id: "clients",
+//   label: "Clients",
+//   icon: UserCheck,
+//   children: [
+//     { to: "/clients", label: "All clients", icon: UserCheck },
+//     { to: "/clients/create", label: "Add client", icon: UserPlus },
+//   ],
+// },
 
 // {
 // id: "people",
@@ -136,15 +136,15 @@ children: [
 
 
 
-{
-id: "consulting",
-label: "Consulting",
-icon: Sparkles,
-children: [
-{ to: "/settings", label: "Settings", icon: Settings },
-{ to: "/consulting", label: "Consulting", icon: Briefcase },
-],
-},
+// {
+// id: "consulting",
+// label: "Consulting",
+// icon: Sparkles,
+// children: [
+// { to: "/settings", label: "Settings", icon: Settings },
+// { to: "/consulting", label: "Consulting", icon: Briefcase },
+// ],
+// },
 ];
 
 /* ================= COMPONENT ================= */
