@@ -12,6 +12,9 @@ import Corporate from "./Corporate";
 import { Arraycountries, ErrorText } from "../utils/utils";
 import { useForm } from "react-hook-form";
 import { type RegistrationForm } from "../../../GlobalTypes";
+import { useClientStore } from "../../ZustandShare/ClientsZuts";
+
+
 
 const containerVariants: Variants = {
 hidden: { opacity: 0 },
@@ -47,6 +50,11 @@ const [selected, setSelected] = useState<"Individual" | "Corporate">(
 );
 const [formData, setFormData] = useState<RegistrationForm | null>(null);
 
+
+const {fetchClients, addClient} = useClientStore()
+
+
+
 const buttonStyles = (active: boolean) =>
 `cursor-pointer flex items-center justify-center gap-2 rounded-sm px-6 py-2 text-sm font-semibold transition ${
 active
@@ -62,9 +70,20 @@ formState: { errors },
 } = useForm<RegistrationForm>();
 
 function RegisterButton(data: RegistrationForm) {
-setFormData(data);
-reset();
-console.log(data);
+
+  if (selected === "Individual") {
+    addClient({
+      ...data,
+      type: "INDIVIDUAL"
+    });
+  } else {
+    addClient({
+      ...data,
+      type: "CORPORATE"
+    });
+  }
+
+  reset();
 }
 
 return (
@@ -154,14 +173,14 @@ needs and prepare a tailored proposal.
         <div className="flex items-center gap-2 border border-slate-200 px-2 py-2">
           <UserRoundPlus className="text-slate-400" />
           <input
-            {...register("Full Name", { required: "Full name is required" })}
+            {...register("fullName", { required: "Full name is required" })}
             type="text"
             placeholder="Jane Doe"
             className="w-full bg-transparent text-sm text-slate-700 outline-none"
           />
         </div>
-        {"Full Name" in errors && (
-          <ErrorText message={errors["Full Name"]?.message as string} />
+        {"fullName" in errors && (
+          <ErrorText message={errors["fullName"]?.message as string} />
         )}
       </motion.div>
 
@@ -173,14 +192,14 @@ needs and prepare a tailored proposal.
         <div className="flex items-center gap-2 border border-slate-200 px-2 py-2">
           <Mail className="text-slate-400" />
           <input
-            {...register("Email", { required: "Email is required" })}
+            {...register("email", { required: "Email is required" })}
             type="email"
             placeholder="you@example.com"
             className="w-full bg-transparent text-sm text-slate-700 outline-none"
           />
         </div>
-        {"Email" in errors && (
-          <ErrorText message={errors["Email"]?.message as string} />
+        {"email" in errors && (
+          <ErrorText message={errors["email"]?.message as string} />
         )}
       </motion.div>
 
@@ -192,14 +211,14 @@ needs and prepare a tailored proposal.
         <div className="flex items-center gap-2 border border-slate-200 px-2 py-2">
           <Phone className="text-slate-400" />
           <input
-            {...register("Phone", { required: "Phone number is required" })}
+            {...register("phone", { required: "Phone number is required" })}
             type="tel"
             placeholder="+233 000 000 000"
             className="w-full bg-transparent text-sm text-slate-700 outline-none"
           />
         </div>
         {"Phone" in errors && (
-          <ErrorText message={errors["Phone"]?.message as string} />
+          <ErrorText message={errors["phone"]?.message as string} />
         )}
       </motion.div>
 
@@ -211,14 +230,14 @@ needs and prepare a tailored proposal.
         <div className="flex items-center gap-2 border border-slate-200 px-2 py-2">
           <LockKeyhole className="text-slate-400" />
           <input
-            {...register("Password", { required: "Password is required" })}
+            {...register("password", { required: "Password is required" })}
             type="password"
             placeholder="***************"
             className="w-full bg-transparent text-sm text-slate-700 outline-none"
           />
         </div>
-        {"Password" in errors && (
-          <ErrorText message={errors["Password"]?.message as string} />
+        {"password" in errors && (
+          <ErrorText message={errors["password"]?.message as string} />
         )}
       </motion.div>
 
@@ -229,7 +248,7 @@ needs and prepare a tailored proposal.
         </label>
         <div className="flex items-center gap-2 border border-slate-200 px-2 py-2">
           <select
-            {...register("Country", { required: "Country is required" })}
+            {...register("country", { required: "Country is required" })}
             className="w-full bg-transparent text-sm text-slate-700 outline-none"
           >
             <option value="">Select Country</option>
@@ -240,8 +259,8 @@ needs and prepare a tailored proposal.
             ))}
           </select>
         </div>
-        {"Country" in errors && (
-          <ErrorText message={errors["Country"]?.message as string} />
+        {"country" in errors && (
+          <ErrorText message={errors["country"]?.message as string} />
         )}
       </motion.div>
     </motion.div>
@@ -249,12 +268,12 @@ needs and prepare a tailored proposal.
     <div className="flex justify-center mt-10">
       <motion.button
         type="submit"
-        className="flex w-60 items-center justify-center gap-2 bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-[0_15px_40px_rgba(16,185,129,0.4)] hover:bg-emerald-500 cursor-pointer"
+        className="flex w-60 items-center justify-center gap-2 bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-[0_15px_40px_rgba(16,185,129,0.4)] hover:bg-emerald-500 cursor-pointer "
       >
         <ArrowRight />
         Submit Registration
       </motion.button>
-    </div>
+  </div>
   </motion.div>
 ) : (
     <motion.div

@@ -12,6 +12,7 @@
   "dependencies": {
     "@mui/x-data-grid": "^8.27.1",
     "@tailwindcss/vite": "^4.1.18",
+    "axios": "^1.13.6",
     "framer-motion": "^12.34.3",
     "lucide-react": "^0.563.0",
     "react": "^19.2.0",

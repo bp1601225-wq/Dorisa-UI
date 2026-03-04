@@ -1,24 +1,24 @@
-// GlobalTypes.ts
-
-// Type for Individual Registration
-export interface IndividualForm {
-  "Full Name": string;
-  Email: string;
-  Phone: string;
-  Password: string;
-  Country: string;
+interface BaseForm {
+  id?: string;
+  country: string;
+  type: "INDIVIDUAL" | "CORPORATE";
 }
 
-// Type for Corporate Registration
-export interface CorporateForm {
-  "Company Name": string;
-  Industry: string;
-  "Business Phone": string;
-  "Contact Person": string;
-  "Business Email": string;
-  Country: string;
-  "Company Website"?: string; // optional
+export interface IndividualForm extends BaseForm {
+  fullName: string;
+  email: string;
+  phone: string;
+  password: string;
 }
 
-// Union type for registration
+export interface CorporateForm extends BaseForm {
+  companyName: string;
+  contactPerson: string;
+  industry: string;
+  email: string;
+  phone: string;
+  companyWebsite?: string;
+  password: string;
+}
+
 export type RegistrationForm = IndividualForm | CorporateForm;
