@@ -9,7 +9,7 @@ import {
 import { motion, type Variants } from "framer-motion";
 import { Arraycountries, ErrorText } from "../utils/utils";
 import type { RegistrationForm } from "../../../GlobalTypes";
-import type { FieldErrors, UseFormRegister } from "react-hook-form";
+import type { FieldErrors,  UseFormRegister } from "react-hook-form";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -31,9 +31,10 @@ const itemVariants: Variants = {
 type CorporateProps = {
   register: UseFormRegister<RegistrationForm>;
   errors: FieldErrors<RegistrationForm>;
+  isSubmitting:boolean
 };
 
-const Corporate = ({ register, errors }: CorporateProps) => {
+const Corporate = ({ register, errors, isSubmitting }: CorporateProps) => {
   return (
     <motion.div
       variants={containerVariants}
@@ -185,10 +186,12 @@ const Corporate = ({ register, errors }: CorporateProps) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
+            disabled={isSubmitting}
             className="flex items-center gap-2 rounded-sm bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-[0_15px_40px_rgba(16,185,129,0.4)] transition hover:bg-emerald-500 cursor-pointer"
           >
             <ArrowRight />
-            Submit Registration
+                   {isSubmitting ? "Submitting..." : "Submit Registration"}
+
           </motion.button>
         </motion.div>
       </motion.div>

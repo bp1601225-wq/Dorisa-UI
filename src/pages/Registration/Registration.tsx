@@ -1,7 +1,9 @@
 import {
 ArrowRight,
 Building2,
+Circle,
 LockKeyhole,
+LogIn,
 Mail,
 Phone,
 UserRoundPlus,
@@ -13,6 +15,7 @@ import { Arraycountries, ErrorText } from "../utils/utils";
 import { useForm } from "react-hook-form";
 import { type RegistrationForm } from "../../../GlobalTypes";
 import { useClientStore } from "../../ZustandShare/ClientsZuts";
+import { Link } from "react-router-dom";
 
 
 
@@ -66,18 +69,22 @@ const {
 register,
 handleSubmit,
 reset,
-formState: { errors },
-} = useForm<RegistrationForm>();
 
-function RegisterButton(data: RegistrationForm) {
+formState: { errors, isSubmitting },
+} = useForm<RegistrationForm>({
+    shouldUnregister: true,
+  mode: "onBlur"
+});
+
+async function RegisterButton(data: RegistrationForm) {
 
   if (selected === "Individual") {
-    addClient({
+   await addClient({
       ...data,
       type: "INDIVIDUAL"
     });
   } else {
-    addClient({
+   await addClient({
       ...data,
       type: "CORPORATE"
     });
@@ -217,9 +224,9 @@ needs and prepare a tailored proposal.
             className="w-full bg-transparent text-sm text-slate-700 outline-none"
           />
         </div>
-        {"Phone" in errors && (
-          <ErrorText message={errors["phone"]?.message as string} />
-        )}
+      {"phone" in errors && (
+  <ErrorText message={errors["phone"]?.message as string} />
+)}
       </motion.div>
 
       {/* PASSWORD */}
@@ -230,7 +237,13 @@ needs and prepare a tailored proposal.
         <div className="flex items-center gap-2 border border-slate-200 px-2 py-2">
           <LockKeyhole className="text-slate-400" />
           <input
-            {...register("password", { required: "Password is required" })}
+          {...register("password", {
+  required: "Password is required",
+  minLength: {
+    value: 8,
+    message: "Password must be at least 6 characters"
+  }
+})}
             type="password"
             placeholder="***************"
             className="w-full bg-transparent text-sm text-slate-700 outline-none"
@@ -267,11 +280,22 @@ needs and prepare a tailored proposal.
 
     <div className="flex justify-center mt-10">
       <motion.button
+        disabled = {isSubmitting}
         type="submit"
         className="flex w-60 items-center justify-center gap-2 bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-[0_15px_40px_rgba(16,185,129,0.4)] hover:bg-emerald-500 cursor-pointer "
       >
-        <ArrowRight />
-        Submit Registration
+        {/* <ArrowRight /> */}
+      {isSubmitting ? (
+  <>
+    <Circle className="animate-spin" />
+    Submitting...
+  </>
+) : (
+  <>
+    <ArrowRight />
+    Submit Registration
+  </>
+)}
       </motion.button>
   </div>
   </motion.div>
@@ -283,12 +307,27 @@ needs and prepare a tailored proposal.
       exit={{ opacity: 0, y: -30 }}
       transition={{ duration: 0.4 }}
     >
-      <Corporate register={register} errors={errors} />
-    </motion.div>
+      <Corporate register={register} errors={errors} isSubmitting={isSubmitting}/>
+    </motion.div> 
 )}
+
 </AnimatePresence>
+<p className="mt-4 text-center text-sm text-slate-600">
+  Already have an account?
+  <Link to="/login">
+    <motion.span
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="ml-2 inline-flex items-center gap-1 font-semibold text-emerald-600 transition hover:text-emerald-500 cursor-pointer"
+    >
+      <LogIn size={16} />
+      Login
+    </motion.span>
+  </Link>
+</p>
 </div>
 </motion.div>
+
 </form>
 );
 };

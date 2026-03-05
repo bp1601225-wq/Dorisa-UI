@@ -2,6 +2,7 @@ import type { InputHTMLAttributes, ReactElement, ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import React from "react";
 
+
 export const Arraycountries = [
   "United States",
   "United Kingdom",
@@ -32,34 +33,6 @@ type TextProps = {
 };
 
 
-// ........................ MOTION DIVS ...........................................
-export const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
-
-export const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 25 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
-
-export const slideUp: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
 
 function TextProps({ data, text, icon }: TextProps) {
   return (
@@ -132,3 +105,7 @@ export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
 InputField.displayName = "InputField";
 
 export default TextProps;
+
+// FRAMER MOTION PROPS
+
+

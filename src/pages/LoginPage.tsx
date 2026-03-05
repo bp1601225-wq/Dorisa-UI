@@ -1,75 +1,113 @@
-import { LockKeyhole, Mail } from "lucide-react";
+import { LockKeyhole, LogInIcon, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Authschema, type FormFields } from "../Zod_Schema/schemaValidations";
+import { useForm } from "react-hook-form";
+import { containerVariants, itemVariants } from "../helpers/FramerMotion";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 
 const LoginPage = () => {
+
+const {handleSubmit, register, formState:{errors}} = useForm<FormFields>({
+  resolver: zodResolver(Authschema)
+})
+
+const ClickOnLogin = (data:FormFields) => {
+  console.log(data)
+}
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-white px-4 py-10">
+
       <motion.section
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
         className="w-full max-w-[440px] rounded-[10px] bg-white px-8 py-10 shadow-[0_5px_20px_rgba(15,23,42,0.1)]"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-      >
-        <div className="flex justify-center">
+      > 
+
+        <motion.div variants={itemVariants} className="flex justify-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-[18px] bg-emerald-100/60">
             <LockKeyhole className="text-emerald-600" size={26} />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="mt-6 text-center">
+        <motion.div variants={itemVariants} className="mt-6 text-center">
           <h1 className="text-2xl font-semibold text-slate-900">Welcome Back</h1>
           <p className="text-sm text-slate-500">Login to access your dashboard</p>
-        </div>
+        </motion.div>
 
-        <form className="mt-8 space-y-4">
-          <div className="space-y-2">
+        <motion.form variants={containerVariants} className="mt-8 space-y-4"
+        onSubmit={handleSubmit(ClickOnLogin)}
+        >
+
+          <motion.div variants={itemVariants} className="space-y-2">
             <label className="text-sm font-semibold text-slate-600">Email Address</label>
             <div className="flex items-center gap-3 rounded-[18px] border border-slate-200 bg-[#fafbff] px-4 py-3">
               <Mail className="text-slate-400" />
               <input
+              {...register("email")}
                 type="email"
                 placeholder="name@company.com"
                 className="w-full bg-transparent text-sm font-medium text-slate-700 outline-none"
               />
             </div>
-          </div>
+          {errors.email && (
+  <p className="text-xs text-red-500">{errors.email.message}</p>
+)}
+          </motion.div>
 
-          <div className="space-y-2">
+          <motion.div variants={itemVariants} className="space-y-2">
             <label className="text-sm font-semibold text-slate-600">Password</label>
             <div className="flex items-center gap-3 rounded-[18px] border border-slate-200 bg-[#fafbff] px-4 py-3">
               <LockKeyhole className="text-slate-400" />
               <input
+              {...register("password")}
                 type="password"
                 placeholder="Enter your password"
                 className="w-full bg-transparent text-sm font-medium text-slate-700 outline-none"
               />
             </div>
-          </div>
+            {errors.password && (
+  <p className="text-xs text-red-500">{errors.password.message}</p>
+)}
+          </motion.div>
 
-          <div className="flex items-center justify-end text-xs font-semibold text-emerald-600">
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center justify-end text-xs font-semibold text-emerald-600"
+          >
             <Link to="/forgot-password">Forgot password?</Link>
-          </div>
+          </motion.div>
 
-          {/* Framer Motion Button */}
           <motion.button
+            variants={itemVariants}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            type="button"
-            className="w-full rounded-[18px] bg-emerald-500 px-4 py-3 text-sm font-semibold text-white shadow-[0_6px_15px_rgba(16,185,129,0.2)] transition-colors"
+            type="submit"
+            className="w-full rounded-[18px] bg-emerald-500 px-4 py-3 text-sm font-semibold text-white shadow-[0_6px_15px_rgba(16,185,129,0.2)] transition-colors flex items-center justify-center gap-2 cursor-pointer"
           >
+            <LogInIcon />
             Login
           </motion.button>
-        </form>
 
-        <p className="mt-6 text-center text-sm text-slate-500">
-          Don&apos;t have an account?{" "}
+        </motion.form>
+
+        <motion.p
+          variants={itemVariants}
+          className="mt-6 text-center text-sm text-slate-500"
+        >
+          Don&apos;t have an account{" "}
           <Link to="/register" className="font-semibold text-emerald-600">
             Create account
           </Link>
-        </p>
+        </motion.p>
+
       </motion.section>
+
     </div>
+
   );
 };
 

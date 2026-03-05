@@ -22,3 +22,4 @@ export interface CorporateForm extends BaseForm {
 }
 
 export type RegistrationForm = IndividualForm | CorporateForm;
+
