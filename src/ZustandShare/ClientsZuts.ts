@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { RegistrationForm } from "../../GlobalTypes";
 import axios from "axios";
+import { toast } from "sonner";
 
 interface ClientStoreTypes {
   clients: RegistrationForm[];
@@ -46,6 +47,7 @@ export const useClientStore = create<ClientStoreTypes>((set) => ({
 
 
     } catch (error:any) {
+      toast.error(error.message)
       console.error("Error creating client:", error);
     }
   },

@@ -1,6 +1,6 @@
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
-import LoginPage from './pages/LoginPage'
+import LoginPage from './pages/Auth/LoginPage'
 import Dashboard from './pages/Dashboard'
 import ProjectsPage from './pages/ProjectsPage'
 import CreateProjectPage from './pages/CreateProjectPage'

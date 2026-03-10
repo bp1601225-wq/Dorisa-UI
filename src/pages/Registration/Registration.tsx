@@ -72,8 +72,8 @@ reset,
 
 formState: { errors, isSubmitting },
 } = useForm<RegistrationForm>({
-    shouldUnregister: true,
-  mode: "onBlur"
+  mode: "onSubmit",
+  reValidateMode: "onChange",
 });
 
 async function RegisterButton(data: RegistrationForm) {
@@ -83,7 +83,7 @@ async function RegisterButton(data: RegistrationForm) {
       ...data,
       type: "INDIVIDUAL"
     });
-  } else {
+  } else {  
    await addClient({
       ...data,
       type: "CORPORATE"

@@ -1,64 +1,111 @@
-import { LogOut, Menu } from 'lucide-react'
-import { useState } from 'react'
-import { Link, Outlet } from 'react-router-dom'
-import Sidebar from '../components/Sidebar'
+import { LogOut, Menu } from "lucide-react";
+import { Link, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Sidebar from "../components/Sidebar";
 
 function MainLayout() {
-const [collapsed, setCollapsed] = useState(false)
-const [toggled, setToggled] = useState(false)
+  const [collapsed, setCollapsed] = useState(false);
+  const [toggled, setToggled] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
 
-return (
-<div className="min-h-screen bg-white text-slate-900 ">
-<div className="flex min-h-screen">
-<Sidebar
-collapsed={collapsed}
-onCloseMobile={() => setToggled(false)}
-onToggleCollapsed={() => setCollapsed((value) => !value)}
-toggled={toggled}
-/>
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (!mobile) setToggled(false);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-<div className="flex min-h-screen min-w-0 flex-1 flex-col">
-<header className="sticky top-0 z-20 border-b border-slate-200 bg-white/85 px-4 py-3 backdrop-blur-sm sm:px-6 lg:px-8">
-<div className="flex items-center justify-between gap-3">
-<div className="flex items-center gap-3">
-<button
-  aria-label="Open menu"
-  className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-700 transition hover:bg-slate-50 lg:hidden"
-  onClick={() => setToggled((value) => !value)}
-  type="button"
->
-  <Menu size={18} />
-</button>
-<div>
-  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-    Dorisa Consult
-  </p>
-  <h2 className="text-base font-semibold text-blue-900 sm:text-lg">
-    Bringing solutions closer to you
-  </h2>
-</div>
-</div>
+  return (
+    <div className="relative flex min-h-screen flex-col bg-gray-50">
 
-<Link
-className="rounded-xl border border-slate-300 bg-red-600 text-white border-none px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-red-700 flex gap-2 transition-all"
-onClick={() => setToggled(false)}
-to="/login"
->
-  <LogOut />
-Logout
-</Link>
+      {/* MOBILE SIDEBAR OVERLAY */}
+      {toggled && isMobile && (
+        <div className="fixed inset-0 z-30 flex">
+          <div className="h-full w-72 bg-white shadow-xl">
+            <Sidebar
+              collapsed={collapsed}
+              toggled={toggled}
+              onCloseMobile={() => setToggled(false)}
+              onToggleCollapsed={() => setCollapsed(!collapsed)}
+            />
+          </div>
 
+          <button
+            className="flex-1 bg-black/30"
+            onClick={() => setToggled(false)}
+            aria-label="Close sidebar"
+          />
+        </div>
+      )}
 
-</div>
-</header>
+      {/* HEADER */}
+      <header className="flex h-14 w-full items-center justify-between border-b bg-white px-4">
 
-<main className="flex-1 bg-white p-4 sm:p-6 lg:p-10 max-w-4xl">
-<Outlet />
-</main>
-</div>
-</div>
-</div>
-)
+        {/* LEFT */}
+        <div className="flex items-center gap-2">
+          <button
+            className="md:hidden text-gray-600"
+            onClick={() => setToggled((value) => !value)}
+          >
+            <Menu size={18} />
+          </button>
+
+          <h1 className="text-sm font-semibold text-gray-900">
+            Dorisa Consult
+          </h1>
+        </div>
+
+        {/* RIGHT */}
+        <div className="flex items-center gap-3">
+
+          <span className="rounded bg-green-100 px-2 py-[2px] text-xs text-green-600">
+            Active
+          </span>
+
+          <Link
+            to="/login"
+            className="flex items-center gap-1 text-sm text-gray-600 hover:text-black"
+          >
+            <LogOut size={14} />
+            Logout
+          </Link>
+
+        </div>
+
+      </header>
+
+      {/* BODY */}
+      <div className="flex flex-1 overflow-hidden">
+
+        {/* SIDEBAR */}
+        <aside className={`hidden w-60 bg-[#179b481] md:block ${isMobile ? "" : ""}`}>
+          <div className="sticky top-0 h-[calc(100vh-56px)] overflow-hidden">
+            <Sidebar
+              collapsed={collapsed}
+              toggled={toggled}
+              onCloseMobile={() => setToggled(false)}
+              onToggleCollapsed={() => setCollapsed(!collapsed)}
+            />
+          </div>
+        </aside>
+
+        {/* MAIN CONTENT */}
+        <main className="flex-1 overflow-y-auto p-4">
+
+          <div className="rounded-md bg-white p-4 shadow-sm">
+            <Outlet />
+          </div>
+
+        </main>
+
+      </div>
+
+    </div>
+  );
 }
 
-export default MainLayout
+export default MainLayout;

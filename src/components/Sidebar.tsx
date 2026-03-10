@@ -123,6 +123,17 @@ const navGroups: NavGroup[] = [
 // ],
 // },
 
+// {
+//   id: "users",
+//   label: "Users",
+//   icon: Users,
+//   children: [
+//     { to: "/users/create", label: "Create user", icon: UserPlus },
+//     { to: "/users", label: "All users", icon: Users },
+  
+//   ],
+// },
+
 {
   id: "users",
   label: "Users",
@@ -136,15 +147,16 @@ const navGroups: NavGroup[] = [
 
 
 
-// {
-// id: "consulting",
-// label: "Consulting",
-// icon: Sparkles,
-// children: [
-// { to: "/settings", label: "Settings", icon: Settings },
+
+{
+id: "Generals",
+label: "Generals",
+icon: Sparkles,
+children: [
+{ to: "/settings", label: "Settings", icon: Settings },
 // { to: "/consulting", label: "Consulting", icon: Briefcase },
-// ],
-// },
+],
+},
 ];
 
 /* ================= COMPONENT ================= */
@@ -175,22 +187,22 @@ setOpenGroups((current) => ({
 
 return (
 <ProSidebar
-backgroundColor="#1b1818"
+backgroundColor="#00e658"
 breakPoint="lg"
 collapsed={collapsed}
 collapsedWidth="88px"
 onBackdropClick={onCloseMobile}
 toggled={toggled}
-width="280px"
+width="250px"
 
 rootStyles={{
-borderRight: "1px solid #e2e8f0",
+borderRight: "1px solid #2d9229",
 height: "100dvh",
 position: "sticky",
 top: 0,
 [`& .${sidebarClasses.container}`]: {
 background:
-  "linear-gradient(180deg, #ffffff 0%, #f8fafc 55%, #eff6ff 100%)",
+  "linear-gradient(180deg, #54d71771 0%, #26d076b1 55%, #179b2481 100%)",
 },
 }}
 >
@@ -251,22 +263,23 @@ menuItemStyles={{
 margin: level === 0 ? "2px 10px" : "3px 5px 3px 3px",
 
     height: level === 0 ? "46px" : "40px",
-    borderRadius: "12px",
-    color: active ? "#0f172a" : "#334155",
-    backgroundColor: active ? "#dbeafe" : "transparent",
+    // borderRadius: "12px",
+    color: active ? "#343a46" : "#334155",
+    backgroundColor: active ? "#2993523e" : "transparent",
     "&:hover": {
-      backgroundColor: active ? "#bfdbfe" : "#f1f5f9",
+      backgroundColor: active ? "#15570629" : "#15570629",
     },
   }),
   icon: ({ active }) => ({
-    color: active ? "#1d4ed8" : "#c1c9d4",
+    color: active ? "#ffffff" : "white",
   }),
   label: {
     fontWeight: 600,
     fontSize: "0.9rem",
+    color: "white"
   },
   subMenuContent: {
-    backgroundColor: "#eae6e635",
+    backgroundColor: "#06cd241a",
     margin: "0 12px",
   },
 }}
@@ -319,14 +332,7 @@ rootStyles={{
 </Menu>
 
 {/* ===== FOOTER ===== */}
-<div className="mt-auto px-4 pb-4">
-<div
-  className="sticky bottom-4 rounded-2xl border border-slate-200 bg-white/95 p-3 text-sm font-semibold text-slate-500 shadow-sm"
-  style={{ backdropFilter: "blur(12px)" }}
->
-  {collapsed ? "v1" : "Version 1.0.0"}
-</div>
-</div>
+
 </div>
 </ProSidebar>
 );

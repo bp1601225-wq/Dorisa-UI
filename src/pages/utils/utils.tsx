@@ -36,12 +36,36 @@ type TextProps = {
 
 function TextProps({ data, text, icon }: TextProps) {
   return (
-    <div className="rounded-2xl border-l-4 border-slate-300 bg-slate-50 p-4 shadow-sm">
-      <div className="flex items-center gap-3">
-        {icon}
-        <h1 className="text-3xl font-bold tracking-wide text-slate-900">{data}</h1>
+    <div className="relative overflow-hidden border-gray-200 bg-white p-5 shadow-sm">
+
+      {/* subtle accent background */}
+      <div className="absolute inset-0 bg-gradient-to-r from-green-50 via-white to-white opacity-70 pointer-events-none" />
+
+      <div className="relative flex items-start gap-4">
+
+        {icon && (
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100 text-green-600">
+            {icon}
+          </div>
+        )}
+
+        <div>
+          <h1 className="text-xl font-semibold text-gray-900 tracking-tight">
+            {data}
+          </h1>
+
+          {text && (
+            <p className="mt-1 text-sm text-gray-500">
+              {text}
+            </p>
+          )}
+        </div>
+
       </div>
-      {text && <p className="mt-2 text-sm text-slate-500">{text}</p>}
+
+      <p className="text-sm text-gray-500">
+          Add a new team member and assign the correct role and permissions.
+        </p>
     </div>
   );
 }

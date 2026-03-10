@@ -1,5 +1,6 @@
 import {
   ArrowRight,
+  Circle,
   Globe,
   LockKeyhole,
   Mail,
@@ -157,12 +158,15 @@ const Corporate = ({ register, errors, isSubmitting }: CorporateProps) => {
           <label className="text-xs font-semibold tracking-[0.2em] text-slate-500">Account Password</label>
           <div className="flex items-center gap-2 border border-slate-200 px-2 py-2">
             <LockKeyhole className="text-slate-400" />
-          <input
-  {...register("password", { minLength: { value: 8, message: "Password must be at least 8 characters" } })}
-  type="password"
-  placeholder="***************"
-  className="w-full border-none bg-transparent text-sm text-slate-700 outline-none"
-/>
+            <input
+              {...register("password", {
+                required: "Password is required",
+                minLength: { value: 8, message: "Password must be at least 8 characters" },
+              })}
+              type="password"
+              placeholder="***************"
+              className="w-full border-none bg-transparent text-sm text-slate-700 outline-none"
+            />
           </div>
           {"password" in errors && <ErrorText message={errors["password"]?.message as string} />}
         </motion.div>
@@ -189,8 +193,17 @@ const Corporate = ({ register, errors, isSubmitting }: CorporateProps) => {
             disabled={isSubmitting}
             className="flex items-center gap-2 rounded-sm bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-[0_15px_40px_rgba(16,185,129,0.4)] transition hover:bg-emerald-500 cursor-pointer"
           >
-            <ArrowRight />
-                   {isSubmitting ? "Submitting..." : "Submit Registration"}
+               {isSubmitting ? (
+  <>
+    <Circle className="animate-spin" />
+    Submitting...
+  </>
+) : (
+  <>
+    <ArrowRight />
+    Submit Registration
+  </>
+)}
 
           </motion.button>
         </motion.div>
