@@ -1,54 +1,75 @@
-import { Settings, Shield, TrendingUp } from "lucide-react"
-import TextProps from "./utils/utils"
+import { Check, CircleCheck, Settings, Shield, TrendingUp, X } from "lucide-react";
+import TextProps from "./utils/utils";
+import { useState } from "react";
+import { formControlClassName } from "../components/templates/formControlClassName";
+import SettingsModal from "./utils/Modal";
 
-const settings = [
-  { label: 'Notifications', description: 'Team updates, client messages, and automations' },
-  { label: 'Integrations', description: 'Linked workspaces and productivity syncs' },
-  { label: 'Access & permissions', description: 'Invite collaborators and grant clearance' },
-]
+export default function SettingsPage() {
+  const [isOpen, setIsOpen] = useState(false);
 
-const SettingsPage = () => {
   return (
     <section className="space-y-6">
-      {/* <header className="space-y-1">
-        <p className="text-xs uppercase tracking-[0.4em] text-slate-500">Settings</p>
-        <h1 className="text-3xl font-semibold text-slate-900">Workspace controls</h1>
-        <p className="text-sm text-slate-500">
-          Tune reminders, security, and visibility so the team works the way you expect.
-        </p>
-      </header> */}
+      {/* Page Header */}
+      <TextProps
+        data="Configure Settings"
+        icon={<Settings size={24} className="text-green-600" />}
+        text="Manage roles, permissions, notifications, and integrations for your team."
+      />
 
-           <TextProps 
-  data="Configure Settings "
-  icon={<Settings size={20} />}
-/>
-    
-        <div className="grid gap-4 md:grid-cols-2">
+      {/* Roles & Permissions Card */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between border rounded border-gray-200 p-3 bg-white shadow-sm">
+            <h2 className="flex items-center gap-2 text-yellow-900 font-semibold text-sm">
+              <Shield className="text-yellow-700 " />
+              Set Up Roles & Permissions
+            </h2>
 
-          <div className="flex flex-col">
-
-   <div className="border p-2 border-gray-200 flex gap-2">
-<h1 className=" tracking-widest flex items-center gap-2 text-yellow-900 text-sm">
-  <Shield />
-  Set Up and Establish Roles and Permission</h1>
-
-  <button className="bg-green-500 p-1 text-white rounded flex gap-2 cursor hover:bg-green-700 transition active:scale-105 cursor-pointer">
-    <TrendingUp />
-    Establish</button>
-
-    
-   </div>
-
-   asdassaas
+            <button
+              className="flex items-center gap-1 bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition active:scale-95 cursor-pointer"
+              onClick={() => setIsOpen(true)}
+            >
+              <TrendingUp size={16} />
+              Establish
+            </button>
           </div>
-
-
-      <div>
-    sadas
-   </div>
+        </div>
       </div>
-    </section>
-  )
-}
 
-export default SettingsPage
+      {/* Modal */}
+      <SettingsModal isOpen={isOpen} onClose={() => setIsOpen(false)} className="bg-white max-w-lg p-2 mt-3 rounded-lg">
+        <h2 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2 text-sm">
+              <Shield className="text-yellow-700" />
+          
+          Roles & Permissions 
+
+          <span className="ml-15">
+          <X className="text-red-700 cursor-pointer active:scale-105" onClick={()=>setIsOpen(false)}/>
+          </span>
+
+          </h2>
+          <hr className="mt-[-2] text-gray-300"/>
+        <p className="text-gray-700 mb-2 text-sm">
+         Add a new role or permission for your team:
+        </p>
+        <input
+          type="text"
+          placeholder="e.g., Designer"
+          className={formControlClassName} />
+
+<div className="flex  justify-center p-1">
+
+        <button
+          className="flex  items-center justify-center mt-1 w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition gap-2 cursor-pointer
+          active:scale-105
+          "
+        >
+          <CircleCheck />
+          Save
+        </button>
+</div>
+
+      </SettingsModal>
+    </section>
+  );
+}
