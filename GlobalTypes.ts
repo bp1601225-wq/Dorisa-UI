@@ -24,17 +24,22 @@ roleId:string | "client"
 }
 
 
-//  Role
-export interface Role {
-  id:string,
+// Roles and Permissions
+
+export interface RoleType {
+  id?:string,
   name: string
+  status: "Active | In Active"
+  created_at?:string
 }
+
+
 export type RegistrationForm = IndividualForm | CorporateForm;
 
 // // Auth
 
 export interface AuthContextTypes {
-  currentUser: UserType | null
-  Login: (data: {}) => Promise<UserType | null>
-  Logout: () => void
+currentUser:UserType | null
+Login: (data:{}) => void
+Logout: () => void
 }
