@@ -41,7 +41,6 @@ const response = await axios.post(`${BASE_URL}/create-roles`, role)
 toast.success(response.data.message)
 
 console.log(response)
-get().fetchRoles()
 
 
 set((sate)=>({

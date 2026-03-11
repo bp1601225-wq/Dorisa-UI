@@ -27,10 +27,15 @@ roleId:string | "client"
 // Roles and Permissions
 
 export interface RoleType {
-  id?:string,
+  id?: string
   name: string
-  status: "Active | In Active"
-  created_at?:string
+  status: "Active" | "In Active"
+  created_at?: string
+  createdAt?: string
+}
+export interface OptionType {
+  label: string,
+  value:string
 }
 
 

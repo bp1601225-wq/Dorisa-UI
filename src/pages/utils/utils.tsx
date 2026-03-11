@@ -2,7 +2,6 @@ import type { InputHTMLAttributes, ReactElement, ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import React from "react";
 
-
 export const Arraycountries = [
   "United States",
   "United Kingdom",
@@ -31,6 +30,8 @@ type TextProps = {
   text?: string;
   icon?: ReactNode;
 };
+
+
 
 
 
