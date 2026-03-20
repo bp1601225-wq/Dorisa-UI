@@ -18,11 +18,9 @@ industry: string;
 companyWebsite?: string;
 }
 
-export interface UserType {
-user: IndividualForm | CorporateForm
-roleId:string | "client"
-}
-
+export type UserType = {
+  roleId?: string 
+} & (IndividualForm | CorporateForm);
 
 // Roles and Permissions
 
@@ -33,6 +31,7 @@ export interface RoleType {
   created_at?: string
   createdAt?: string
 }
+
 export interface OptionType {
   label: string,
   value:string

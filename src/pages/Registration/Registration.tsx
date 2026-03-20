@@ -13,9 +13,10 @@ import { motion, AnimatePresence, type Variants } from "framer-motion";
 import Corporate from "./Corporate";
 import { Arraycountries, ErrorText } from "../utils/utils";
 import { useForm } from "react-hook-form";
-import { type RegistrationForm } from "../../../GlobalTypes";
-import { useClientStore } from "../../ZustandShare/ClientsZuts";
+import { type RegistrationForm, type UserType } from "../../../GlobalTypes";
+// import { useClientStore } from "../../ZustandShare/ClientsZuts";
 import { Link } from "react-router-dom";
+import { useUsersStore } from "../../ZustandShare/usersZuts";
 
 
 
@@ -54,8 +55,8 @@ const [selected, setSelected] = useState<"Individual" | "Corporate">(
 const [formData, setFormData] = useState<RegistrationForm | null>(null);
 
 
-const {fetchClients, addClient} = useClientStore()
-
+// const {fetchClients, addClient} = useClientStore()
+const {fetchUsers, AddUsers} = useUsersStore()
 
 
 const buttonStyles = (active: boolean) =>
@@ -76,20 +77,23 @@ formState: { errors, isSubmitting },
   reValidateMode: "onChange",
 });
 
-async function RegisterButton(data: RegistrationForm) {
+async function RegisterButton(data: UserType) {
 
   if (selected === "Individual") {
-   await addClient({
+   await AddUsers({
       ...data,
-      type: "INDIVIDUAL"
+      type: "INDIVIDUAL",
+      // roleId: "client"
     });
   } else {  
-   await addClient({
+   await AddUsers({
       ...data,
-      type: "CORPORATE"
+      type: "CORPORATE",
+      // roleId: "client"
     });
   }
 
+  console.log(data)
   reset();
 }
 
@@ -287,7 +291,7 @@ needs and prepare a tailored proposal.
         {/* <ArrowRight /> */}
       {isSubmitting ? (
   <>
-    <Circle className="animate-spin" />
+    <Circle className="animate-spin text-yellow-300 w-6 h-6" />
     Submitting...
   </>
 ) : (

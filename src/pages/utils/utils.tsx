@@ -1,6 +1,7 @@
 import type { InputHTMLAttributes, ReactElement, ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import React from "react";
+import { DataGrid } from "@mui/x-data-grid";
 
 export const Arraycountries = [
   "United States",
@@ -128,6 +129,33 @@ export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
 );
 
 InputField.displayName = "InputField";
+
+
+
+export function DataGridUiTable({rows, columns}:any){
+  return (
+    <>
+     <div style={{ height: 300, width: '100%' }}>
+<DataGrid rows={rows} columns={columns} 
+density="compact"
+  pageSizeOptions={[5, 10, 20, 30, 40]}
+      initialState={{
+        pagination: {
+          paginationModel: {
+            pageSize: 5, page: 0
+          }
+        }
+      }}
+/>
+    </div>
+    </>
+
+  )
+}
+
+
+
+
 
 export default TextProps;
 

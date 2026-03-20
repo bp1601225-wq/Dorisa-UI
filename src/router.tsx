@@ -20,6 +20,7 @@ import LandingPage from './pages/starter/landingPage'
 import ServicesPage from './pages/starter/ServicesPage'
 import NotFoundPage from './pages/NotFoundPage'
 import Registration from './pages/Registration/Registration'
+import PricingDetails from './pages/settings/PricingDetails'
 
 export const router = createBrowserRouter([
   {
@@ -137,6 +138,10 @@ export const router = createBrowserRouter([
       {
         path: 'settings',
         element: <SettingsPage />,
+      },
+      {
+        path: 'settings/pricing/:pricingId',
+        element: <PricingDetails />,
       },
       {
         path: 'consulting',

@@ -1,142 +1,172 @@
-import { Phone, Users, User, UserCheck, Users2, UserRoundPlus } from "lucide-react";
+import { Phone, User, Users, UserRoundPlus } from "lucide-react";
 import FormField from "../components/ui/FormField";
 import { formControlClassName } from "../components/templates/formControlClassName";
-import TextProps from "./utils/utils";
-import {useForm} from "react-hook-form"
+import TextProps, { Arraycountries } from "./utils/utils";
+import { useForm, Controller } from "react-hook-form";
 import { useRolesStore } from "../ZustandShare/RolesZuts";
 import { useEffect } from "react";
 import type { RoleType } from "../../GlobalTypes";
-import Select from "react-select"
-
-
+import Select from "react-select";
 
 const CreateUserPage = () => {
+  const fetchEveryRoles = useRolesStore((r: any) => r.fetchRoles);
+  const AllRoles = useRolesStore((r: any) => r.roles);
 
+  useEffect(() => {
+    fetchEveryRoles();
+  }, []);
 
-const fetchEveryRoles = useRolesStore((r:any)=>r.fetchRoles)
-const AllRoles = useRolesStore((r:any)=>r.roles)
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { isSubmitting },
+  } = useForm<any>();
 
-useEffect(()=>{
-fetchEveryRoles()
-console.log(AllRoles)
-}, [] )
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
 
+  const roleOptions = AllRoles.map((role: RoleType) => ({
+    value: role.id,
+    label: role.name,
+  }));
 
-// Hook Form 
-const {register, handleSubmit, reset, formState:{errors, isSubmitting}} = useForm<RoleType>()
+  return (
+    <section className="min-h-screen bg-slate-50 p-6">
 
+      {/* 🔹 Header */}
+      <header className="flex items-center justify-between mb-6">
+        <div>
+          <TextProps data="Create User" icon={<UserRoundPlus size={20} />} />
+          <p className="text-sm text-slate-500 mt-1">
+            Add a new user to your platform
+          </p>
+        </div>
+      </header>
 
-return (
-<section className="max-w-5xl space-y-6">
+      <div className="max-w-5xl mx-auto bg-white border border-slate-200  shadow-sm">
 
-{/* Header */}
-<header className="space-y-2">
-<TextProps 
-data="Create User"
-icon={<UserRoundPlus size={20} />}
-/>
+        {/* Card Header */}
+        <div className="border-b border-slate-200 px-8 py-5">
+          <h3 className="text-lg font-semibold text-slate-900">
+            User Information
+          </h3>
+        </div>
 
-<hr className="text-emerald-500 font-bold mt-4"/>
+        {/* Form */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="p-8 space-y-6"
+        >
 
+          {/* 🔹 Name Section */}
+          <div>
+            <h4 className="text-sm font-medium text-slate-500 mb-4">
+              Personal Details
+            </h4>
 
-</header>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <FormField id="firstName" label="First Name" icon={User}>
+                <input
+                  {...register("firstName")}
+                  className={formControlClassName}
+                  placeholder="Alex"
+                />
+              </FormField>
 
-{/* Card */}
-<div className="rounded-lg  bg-white shadow-sm " >
+              <FormField id="middleName" label="Middle Name" icon={User}>
+                <input
+                  {...register("middleName")}
+                  className={formControlClassName}
+                  placeholder="Rivera"
+                />
+              </FormField>
 
-{/* Card Header */}
-<div className="border-b border-gray-300  px-8 py-4">
-<h3 className="text-sm font-semibold text-gray-900">
-  User Information
-</h3>
-</div>
+              <FormField id="lastName" label="Last Name" icon={User}>
+                <input
+                  {...register("lastName")}
+                  className={formControlClassName}
+                  placeholder="Diaz"
+                />
+              </FormField>
+            </div>
+          </div>
 
-{/* Form */}
-<form className="grid grid-cols-1 gap-5 p-6 md:grid-cols-3">
+          {/* 🔹 Contact Section */}
+          <div>
+            <h4 className="text-sm font-medium text-slate-500 mb-4">
+              Contact Info
+            </h4>
 
-<FormField id="firstName" label="First Name" icon={User}>
-  <input
-    className={formControlClassName}
-    id="firstName"
-    name="firstName"
-    placeholder="Alex"
-    type="text"
-  />
-</FormField>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <FormField id="phone" label="Phone Number" icon={Phone}>
+                <input
+                  {...register("phone")}
+                  className={formControlClassName}
+                  placeholder="+1 555 123 4567"
+                />
+              </FormField>
 
-<FormField id="middleName" label="Middle Name" icon={User}>
-  <input
-    className={formControlClassName}
-    id="middleName"
-    name="middleName"
-    placeholder="Rivera"
-    type="text"
-  />
-</FormField>
-
-<FormField id="lastName" label="Last Name" icon={User}>
-  <input
-    className={formControlClassName}
-    id="lastName"
-    name="lastName"
-    placeholder="Diaz"
-    type="text"
-  />
-</FormField>
-
-<FormField id="phone" label="Phone Number" icon={Phone}>
-  <input
-    className={formControlClassName}
-    id="phone"
-    name="phone"
-    placeholder="(555) 123-4567"
-    type="tel"
-  />
-</FormField>
-
-
-
-<FormField id="role" label="Role" icon={Users}>
+              <FormField id="role" label="Role" icon={Users}>
+                <Controller
+                  control={control}
+                  name="roleId"
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={roleOptions}
+                      placeholder="Select role"
+                      className="text-sm"
+                    />
+                  )}
+                />
+              </FormField>
+              
+         <FormField id="country" label="Country" icon={User}>
 <select
+  {...register("country")}
   className={formControlClassName}
-  id="role"
-  name="role"
   defaultValue=""
-  style={{ overflowY: "scroll" }}
 >
-  <option value="">Select role</option>
-  {AllRoles.map((role: RoleType) => (
-    <option key={role.id} value={role.id}>
-      {role.name}
+  <option value="" disabled>
+    Select country
+  </option>
+
+  {Arraycountries.map((country: string) => (
+    <option key={country} value={country}>
+      {country}
     </option>
   ))}
 </select>
 </FormField>
+            </div>
+          </div>
 
-{/* Actions */}
-<div className="mt-4 flex justify-end gap-3 pt-2 items-center bg">
-<div className="flex gap-3 justify-end">
-  <button
-    type="button"
-    className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-1 transition cursor-pointer"
-  >
-    Reset
-  </button>
+          {/* 🔹 Actions */}
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
+            <button
+              type="button"
+              onClick={() => reset()}
+              className="rounded-xl border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 transition"
+            >
+              Reset
+            </button>
 
-  <button
-    type="submit"
-    className="rounded-md bg-green-600 px-5 py-2 text-sm font-medium text-white hover:bg-green-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-transform cursor-pointer"
-  >
-    Create User
-  </button>
-</div>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="rounded-xl bg-black px-5 py-2 text-sm text-white hover:opacity-90 active:scale-95 transition"
+            >
+              {isSubmitting ? "Creating..." : "Create User"}
+            </button>
+          </div>
 
-</div>
-
-</form>
-</div>
-</section>
-);
+        </form>
+      </div>
+    </section>
+  );
 };
 
 export default CreateUserPage;
