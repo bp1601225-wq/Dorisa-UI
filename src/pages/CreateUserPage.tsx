@@ -1,17 +1,19 @@
-import { Phone, User, Users, UserRoundPlus } from "lucide-react";
+import { Phone, User, Users, UserRoundPlus, Lock, Mail } from "lucide-react";
 import FormField from "../components/ui/FormField";
 import { formControlClassName } from "../components/templates/formControlClassName";
 import TextProps, { Arraycountries } from "./utils/utils";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useRolesStore } from "../ZustandShare/RolesZuts";
 import { useEffect } from "react";
-import type { RoleType } from "../../GlobalTypes";
-import Select from "react-select";
+import type { UserType } from "../../GlobalTypes";
+import { useUsersStore } from "../ZustandShare/usersZuts";
+
 
 const CreateUserPage = () => {
   const fetchEveryRoles = useRolesStore((r: any) => r.fetchRoles);
   const AllRoles = useRolesStore((r: any) => r.roles);
 
+  const {AddUsers} = useUsersStore()
   useEffect(() => {
     fetchEveryRoles();
   }, []);
@@ -22,16 +24,13 @@ const CreateUserPage = () => {
     reset,
     control,
     formState: { isSubmitting },
-  } = useForm<any>();
+  } = useForm<UserType>();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: UserType) => {
+await AddUsers(data)
     console.log(data);
   };
 
-  const roleOptions = AllRoles.map((role: RoleType) => ({
-    value: role.id,
-    label: role.name,
-  }));
 
   return (
     <section className="min-h-screen bg-slate-50 p-6">
@@ -67,7 +66,7 @@ const CreateUserPage = () => {
               Personal Details
             </h4>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <FormField id="firstName" label="First Name" icon={User}>
                 <input
                   {...register("firstName")}
@@ -93,13 +92,10 @@ const CreateUserPage = () => {
               </FormField>
             </div>
           </div>
-
-          {/* 🔹 Contact Section */}
-          <div>
+   <div>
             <h4 className="text-sm font-medium text-slate-500 mb-4">
               Contact Info
             </h4>
-
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <FormField id="phone" label="Phone Number" icon={Phone}>
                 <input
@@ -110,18 +106,14 @@ const CreateUserPage = () => {
               </FormField>
 
               <FormField id="role" label="Role" icon={Users}>
-                <Controller
-                  control={control}
-                  name="roleId"
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={roleOptions}
-                      placeholder="Select role"
-                      className="text-sm"
-                    />
-                  )}
-                />
+                <select
+                {...register("roleId")}
+                className="border w-full p-1">
+<option value="client">client(default)</option>
+{AllRoles.map((value:any, index:number)=>(
+  <option value={value.id} key={index}>{value.name}</option>
+))}
+               </select>
               </FormField>
               
          <FormField id="country" label="Country" icon={User}>
@@ -144,6 +136,39 @@ const CreateUserPage = () => {
             </div>
           </div>
 
+        {/* 🔹 Account */} 
+          <div>
+            <h4 className="text-sm font-medium text-slate-500 mb-4">
+              Account Credentials
+            </h4>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <FormField id="email" label="Email" icon={Mail}>
+                <input
+                  {...register("email")}
+                  type="email"
+                  className={formControlClassName}
+                  placeholder="user@example.com"
+                />
+              </FormField>
+
+              <FormField id="password" label="Password" icon={Lock}>
+                <input
+                  {...register("password")}
+                  type="password"
+                  className={formControlClassName}
+                  placeholder="Enter a password"
+                />
+              </FormField>
+
+              {/* keep placeholders to align grid */}
+              <div />
+              <div />
+            </div>
+          </div>
+
+          {/* 🔹 ss Section */}
+       
           {/* 🔹 Actions */}
           <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
             <button

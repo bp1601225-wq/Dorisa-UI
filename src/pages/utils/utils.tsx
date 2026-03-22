@@ -1,7 +1,7 @@
 import type { InputHTMLAttributes, ReactElement, ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
 export const Arraycountries = [
   "United States",
@@ -132,20 +132,22 @@ InputField.displayName = "InputField";
 
 
 
-export function DataGridUiTable({rows, columns}:any){
+export function DataGridUiTable({rows, columns, height}:any){
   return (
     <>
-     <div style={{ height: 300, width: '100%' }}>
+     <div style={{ height: 400, width: '100%' }}>
 <DataGrid rows={rows} columns={columns} 
 density="compact"
-  pageSizeOptions={[5, 10, 20, 30, 40]}
+  pageSizeOptions={[20, 30, 40, 50, 60]}
       initialState={{
         pagination: {
           paginationModel: {
-            pageSize: 5, page: 0
+            pageSize: 15, page: 0
           }
         }
       }}
+      showToolbar
+         slots={{ toolbar: GridToolbar }}
 />
     </div>
     </>

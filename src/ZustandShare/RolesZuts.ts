@@ -29,8 +29,12 @@ set({
     roles: response.data.data
 })
     } catch (err:any){
-    toast.error(err)
+        set({
+    roles: []
+})
+    toast.error(err.message)
 console.error(err)
+
     }
 },
 

@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { ArrowRight, Briefcase, BarChart3, Users, TrendingUp, Calendar, Code2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import HeaderPage from "./header";
-import { useState } from "react";
+import { getPersistedUser, useAuth } from "../../context/AuthContext";
+import type { ServiceType } from "../../../GlobalTypes";
 
 const services = [
 {
@@ -49,18 +50,48 @@ const stats = [
 ];
 
 const ServicesPage = () => {
+const { currentUser } = useAuth();
 const navigate = useNavigate();
 
-const [serviceClicked, setServiceClicked] = useState<string | null>(null)
+const handleServiceRequest = (serviceName: string) => {
+  const activeUser = currentUser ?? getPersistedUser();
 
-function ClickOnService(services:any){
-setServiceClicked(services)
+  // ❌ No user → go to login
+  if (!activeUser) {
+    console.log("No current user is logged in");
+    return navigate("/login");
+  }
 
-if (serviceClicked) {
-    navigate("/login")
-}
+  // ✅ Debug logs
+  const source = currentUser ? "context" : "localStorage";
+  console.log(
+    `current user is logged in (source: ${source})`,
+    activeUser
+  );
 
-}
+  if (!currentUser) {
+    console.log(
+      "context was empty but user data lives in localStorage",
+      activeUser
+    );
+  }
+
+  // ⚠️ Safety check (TypeScript fix)
+  if (!activeUser.id) {
+    return navigate("/login");
+  }
+
+  // ✅ Create request object
+  const newRequestObject: ServiceType = {
+    userId: activeUser.id,
+    serviceName
+  };
+
+  console.log("New Request:", newRequestObject);
+
+  // 👉 continue flow
+  navigate("/dashboard");
+};
 
 return (
 <div className="min-h-screen bg-white text-slate-900">
@@ -174,8 +205,8 @@ return (
     </p>
 
     <button
-        onClick={() => ClickOnService(service)}
-        className="mt-6 flex items-center gap-2 text-green-600 font-medium hover:translate-x-1 transition"
+      onClick={() => handleServiceRequest(service.title)}
+        className="cursor-pointer mt-6 flex items-center gap-2 text-green-600 font-medium hover:translate-x-1 transition"
     >
         Request Service
         <ArrowRight size={16} />

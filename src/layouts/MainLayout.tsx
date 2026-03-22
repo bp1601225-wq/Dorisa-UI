@@ -1,12 +1,21 @@
 import { LogOut, Menu } from "lucide-react";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
+import { useAuth } from "../context/AuthContext";
 
 function MainLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
+
+  const navigate = useNavigate();
+  const { Logout } = useAuth();
+
+  const handleLogout = () => {
+    Logout();
+    navigate("/login");
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,13 +72,13 @@ function MainLayout() {
             Active
           </span>
 
-          <Link
-            to="/login"
+          <button
+            onClick={handleLogout}
             className="flex items-center gap-1 text-sm text-gray-600 hover:text-black"
           >
             <LogOut size={14} />
             Logout
-          </Link>
+          </button>
         </div>
       </header>
 
