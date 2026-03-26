@@ -5,7 +5,10 @@ import HeaderPage from "./header";
 import { getPersistedUser, useAuth } from "../../context/AuthContext";
 import type { ServiceType } from "../../../GlobalTypes";
 
-const services = [
+import { useServiceStore } from "../../ZustandShare/serviceZuts";
+import { useEffect } from "react";
+
+const dummyServices = [
 {
 id: 1,
 title: "Counselling",
@@ -50,10 +53,27 @@ const stats = [
 ];
 
 const ServicesPage = () => {
+
+
+const {fetchServices, services} = useServiceStore()
+
+
+useEffect(()=>{
+fetchServices()
+console.log(services)
+}, [])
+
+
+
+
+
+
 const { currentUser } = useAuth();
 const navigate = useNavigate();
 
 const handleServiceRequest = (serviceName: string) => {
+
+
   const activeUser = currentUser ?? getPersistedUser();
 
   // ❌ No user → go to login
@@ -184,7 +204,7 @@ Comprehensive solutions tailored to your business needs.
 </div>
 
 <div className="mt-16 grid md:grid-cols-3 gap-10">
-{services.map((service) => {
+{dummyServices.map((service) => {
 const Icon = service.icon;
 return (
     <motion.div

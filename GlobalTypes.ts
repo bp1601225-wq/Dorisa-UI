@@ -37,7 +37,7 @@ export interface ServiceType {
   id?:string
   userId:string
   serviceName:string
-  date_created:string
+  date_created?:string
 }
 
 
@@ -49,6 +49,19 @@ export interface RoleType {
   status: "Active" | "In Active"
   created_at?: string
   createdAt?: string
+}
+
+// Services type
+
+
+ type condtionalServiceStatus = "REQUESTED" | "IN_PROGRESS"  | "COMPLETED" | "CANCELLED"
+
+
+export interface ServicesType {
+  id?: string
+  clientId:string,
+  status: condtionalServiceStatus
+  ServiceName:string,
 }
 
 export interface OptionType {

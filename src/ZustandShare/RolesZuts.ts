@@ -71,18 +71,28 @@ EditRoles: async (UpdatedRole: RoleType): Promise<void> => {
       role.id === UpdatedRole.id ? response.data : role 
     ),
   }));
-    } catch (error:any) {
-        toast.error
 
+
+
+    } catch (error:any) {
+        toast.error(`failed to update role`)
+        console.error(error)
     }
 },
 
 DeleteRoles: async (id: string): Promise<void> => {
- await axios.delete(`${BASE_URL}/delete-roles/${id}`,);
+    try {
+ await axios.delete(`${BASE_URL}/delete-roles/${id}`);
 
   set((state) => ({
     roles: state.roles.filter((role) => role.id !== id), // filter out the deleted role
   }));
+
+    } catch (error:any) {
+        toast.error(error.message)
+        console.error(error)
+    }
+
 },
 
 
