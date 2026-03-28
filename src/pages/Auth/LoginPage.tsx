@@ -1,4 +1,4 @@
-import { Circle, LockKeyhole, LogInIcon, Mail, Sparkles, TrendingUp, TrendingUpDown } from "lucide-react";
+import { Circle, Loader2, LockKeyhole, LogInIcon, Mail, Sparkles, TrendingUp, TrendingUpDown } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
@@ -8,7 +8,6 @@ import { containerVariants, itemVariants } from "../../helpers/FramerMotion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../context/AuthContext";
 import consultingHero from "../../assets/consulting-hero.jpg";
-import Logo from "../../assets/Logo.png";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -156,7 +155,7 @@ const LoginPage = () => {
             >
               {isSubmitting ? (
                 <>
-                  <Circle className="animate-spin" />
+                  <Loader2 className="animate-spin" />
                   Logging In...
                 </>
               ) : (

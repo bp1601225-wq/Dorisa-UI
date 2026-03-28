@@ -3,7 +3,7 @@ import { ArrowRight, Briefcase, BarChart3, Users, TrendingUp, Calendar, Code2 } 
 import { useNavigate } from "react-router-dom";
 import HeaderPage from "./header";
 import { getPersistedUser, useAuth } from "../../context/AuthContext";
-import type { ServiceType } from "../../../GlobalTypes";
+import type { ServiceRequest } from "../../../GlobalTypes";
 
 import { useServiceStore } from "../../ZustandShare/serviceZuts";
 import { useEffect } from "react";
@@ -102,7 +102,7 @@ const handleServiceRequest = (serviceName: string) => {
   }
 
   // ✅ Create request object
-  const newRequestObject: ServiceType = {
+  const newRequestObject: ServiceRequest = {
     userId: activeUser.id,
     serviceName
   };

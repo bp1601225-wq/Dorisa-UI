@@ -18,19 +18,22 @@ import SettingsPage from './pages/settings/SettingsPage'
 import ConsultingPage from './pages/ConsultingPage'
 import LandingPage from './pages/starter/landingPage'
 import ServicesPage from './pages/starter/ServicesPage'
+import ServiceRequestPage from './pages/starter/ServiceRequestPage'
+import AddServicePage from './pages/starter/AddServicePage'
 import NotFoundPage from './pages/NotFoundPage'
 import Registration from './pages/Registration/Registration'
 import PricingDetails from './pages/settings/PricingDetails'
+import ServiceListPage from './pages/starter/ServiceListPage'
 
 export const router = createBrowserRouter([
   {
     path: '/welcome',
     element: <LandingPage />,
-  },
-  {
-    path: '/all-services',
-    element: <ServicesPage />,
-  },
+  },{
+  path: `/all-services`,
+  element: <ServicesPage />,
+},
+ 
   {
     path: '/login',
     element: <LoginPage />,
@@ -42,6 +45,10 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
+
+
+    // MAIN LAYOUT SERVICES
+
     children: [
       {
         index: true,
@@ -132,6 +139,25 @@ export const router = createBrowserRouter([
           {
             path: 'create',
             element: <CreateClientPage />,
+          },
+        ],
+      },
+      {
+        path: 'services',
+        element: <Outlet />,
+        children: [
+          
+          {
+            path: 'create',
+            element: <AddServicePage />,
+          },
+          {
+            path: 'list',
+            element: <ServiceListPage />,
+          },
+          {
+            path: 'request',
+            element: <ServiceRequestPage />,
           },
         ],
       },

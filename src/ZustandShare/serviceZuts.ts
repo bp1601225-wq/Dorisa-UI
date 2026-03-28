@@ -1,14 +1,14 @@
 import {create} from "zustand"
-import {type ServiceType } from "../../GlobalTypes"
+import {type ServiceCatalog } from "../../GlobalTypes"
 import axios from "axios"
 import { toast } from "sonner"
 
 
 type ServiceZutsType = {
-    services: ServiceType[]
+    services: ServiceCatalog []
     fetchServices: () => Promise<void>,
-    AddServices: (service:ServiceType) => Promise<void>
-    EditServices: (service:ServiceType) => Promise<void>
+    AddServices: (service:ServiceCatalog ) => Promise<void>
+    EditServices: (service:ServiceCatalog ) => Promise<void>
     DeleteServices: (id:string) => Promise<void>
 }
 
@@ -23,9 +23,17 @@ services: [],
 
 fetchServices: async () => {
 try {
+
 const response = await axios.get(`${BASE_URL}/get-all-services`)
+
 toast.success(response.data.message)
-console.log(response.data)
+
+console.log(response.data.data)
+
+set({
+    services: response.data.data
+})
+
 } catch (error:any){
 set({
     services: []
@@ -37,13 +45,9 @@ console.error(error)
 
 },
 
-AddServices: async (service:ServiceType): Promise<void> => {
-// API CALL
+AddServices: async (service:ServiceCatalog): Promise<void> => {
+    try {
 const response = await axios.post(`${BASE_URL}/create-services`, service)
-
-
-
-
 
 
 // COME BACK LATER
@@ -51,15 +55,24 @@ const response = await axios.post(`${BASE_URL}/create-services`, service)
 set((state)=>({
     services: [...state.services, response.data]
 }))
+
+toast.success(response.data.message)
+
+    } catch (error:any){
+console.error(error)
+toast.error(error.message)
+    }
+// API CALL
+
 },
 
-EditServices: async (updatedservices:ServiceType): Promise<void> => {
+EditServices: async (updatedservices:ServiceCatalog): Promise<void> => {
     try {
  const response = await axios.put(`${BASE_URL}/update-services/${updatedservices.id}`, updatedservices)
 
 
  set ((state) => ({
-    services: state.services.map((service:ServiceType)=>
+    services: state.services.map((service:ServiceCatalog)=>
     service.id === updatedservices.id ? response.data : service   
     )
  })) 

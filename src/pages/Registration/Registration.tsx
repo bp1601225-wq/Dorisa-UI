@@ -2,6 +2,7 @@ import {
 ArrowRight,
 Building2,
 Circle,
+Loader2,
 LockKeyhole,
 LogIn,
 Mail,
@@ -291,7 +292,7 @@ needs and prepare a tailored proposal.
         {/* <ArrowRight /> */}
       {isSubmitting ? (
   <>
-    <Circle className="animate-spin text-yellow-300 w-6 h-6" />
+    <Loader2 className="animate-spin text-yellow-300 w-6 h-6" />
     Submitting...
   </>
 ) : (

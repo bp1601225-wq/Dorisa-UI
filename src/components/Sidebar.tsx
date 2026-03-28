@@ -355,6 +355,7 @@ import {
   ClipboardList,
   Currency,
   LayoutDashboard,
+  List,
   PanelLeftClose,
   PanelLeftOpen,
   PlusCircle,
@@ -427,9 +428,15 @@ const navGroups: NavGroup[] = [
   },
   {
     id: "services",
-    label: "Services Request",
+    label: "Service Inquires",
     icon: Users,
-    children: [{ to: "/projects", label: "Projects", icon: UserPlus }],
+    children: [
+      { to: "/services/create", label: "create services", icon: UserPlus },
+      { to: "/services/list", label: "service list", icon: List },
+
+      { to: "/projects", label: "Projects", icon: Sparkles },
+
+    ],
   },
   {
     id: "generals",

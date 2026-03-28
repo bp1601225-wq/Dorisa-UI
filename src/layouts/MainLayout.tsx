@@ -1,21 +1,28 @@
-import { LogOut, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import {  Divide, Loader2, LogOut, LogOutIcon, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import { useAuth } from "../context/AuthContext";
-import { SIDEBAR_WIDTHS } from "../constants/sidebar";
+import SettingsModal from "../pages/utils/Modal";
+
 
 function MainLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
 
+  const [isConfirmLogout, setIsConfirmLogout] = useState<boolean>(false)
+const [isLoading,  setIsLoading] = useState<boolean>(false)
+
+
+
   const navigate = useNavigate();
   const { Logout } = useAuth();
 
   const handleLogout = () => {
-    Logout();
-    navigate("/login");
+
+  setIsConfirmLogout(true)
+
   };
 
   useEffect(() => {
@@ -79,7 +86,7 @@ function MainLayout() {
           <h1 className="text-sm font-semibold text-gray-900">Dorisa Consult</h1>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-5">
           <span className="rounded bg-green-100 px-2 py-[2px] text-xs text-green-600">
             Active
           </span>
@@ -100,9 +107,15 @@ function MainLayout() {
     active:scale-105
   "
 >
-  <LogOut size={16} />
+<LogOut />  
   Logout
 </button>
+
+{/*  Modal appears before Logout fix */}
+
+
+
+
         </div>
       </header>
       {/* BODY */}
@@ -133,6 +146,77 @@ function MainLayout() {
           </div>
         </main>
       </div>
+
+{isConfirmLogout && (
+  <SettingsModal
+    isOpen={isConfirmLogout}
+    onClose={() => setIsConfirmLogout(false)}
+    className="bg-white"
+  >
+    <div className="p-6 w-[320px]">
+      
+      {/* Title */}
+      <h2 className="text-lg font-semibold text-gray-900 mb-2">
+        Confirm Logout
+      </h2>
+
+      {/* Message */}
+      <p className="text-sm text-gray-500 mb-6">
+        Are you sure you want to log out of your account?
+      </p>
+
+      {/* Buttons */}
+      <div className="flex justify-end gap-2">
+        
+        {/* Cancel */}
+        <button
+          onClick={() => setIsConfirmLogout(false)}
+          className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
+        >
+          Cancel
+        </button>
+
+        {/* Logout */}
+   <button
+  onClick={async () => {
+    setIsLoading(true);
+
+    const delay = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
+    await delay(3000); // 3 seconds
+
+    Logout();
+    navigate("/login");
+  }}
+  disabled={isLoading}
+  className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-60 disabled:cursor-not-allowed transition"
+>
+  {isLoading ? (
+    <>
+      <Loader2 size={18} className="animate-spin text-white" />
+      <span>Please wait...</span>
+    </>
+  ) : (
+    <>
+      <LogOutIcon size={18} />
+      <span>Log out</span>
+    </>
+  )}
+</button>
+
+      </div>
+    </div>
+  </SettingsModal>
+)}
+
+
+{isLoading && <>
+<div className="bg-red-500">
+  <Loader2 className="animate-spin text-red-800"/>
+</div>
+</>}
+
     </div>
   );
 }

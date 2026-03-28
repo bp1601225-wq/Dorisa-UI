@@ -33,11 +33,11 @@ export type PublicUser = Omit<UserType, "password">;
 
 
 //  Request type 
-export interface ServiceType {
-  id?:string
-  userId:string
-  serviceName:string
-  date_created?:string
+export interface ServiceRequest {
+  id?: string
+  userId: string
+  serviceName: string
+  date_created?: string
 }
 
 
@@ -54,20 +54,7 @@ export interface RoleType {
 // Services type
 
 
- type condtionalServiceStatus = "REQUESTED" | "IN_PROGRESS"  | "COMPLETED" | "CANCELLED"
 
-
-export interface ServicesType {
-  id?: string
-  clientId:string,
-  status: condtionalServiceStatus
-  ServiceName:string,
-}
-
-export interface OptionType {
-  label: string,
-  value:string
-}
 
 //  TYPES FOR CREATING A USER FOR ADMIN
 
@@ -81,3 +68,28 @@ export interface AuthContextTypes {
   Login: (data: Record<string, unknown>) => Promise<PublicUser | null>
   Logout: () => void
 }
+
+export const ServiceStatus = {
+  ACTIVE: "ACTIVE",
+  INACTIVE: "INACTIVE",
+  REQUESTED: "PENDING",
+  IN_PROGRESS: "IN_PROGRESS",
+  COMPLETED: "COMPLETED",
+  CANCELLED: "CANCELLED",
+} as const;
+
+// Service Name
+export interface ServiceCatalog {
+  id?: string
+  clientId?: string
+  ServiceName: string
+  Description: string
+  status?: typeof ServiceStatus[keyof typeof ServiceStatus];
+  category?: string
+  DateCreated?:string 
+  deliverySpeed?: string
+  suggestedPrice?: string
+  estimatedTeamSize?: string
+  pulseFrequency?: string
+}
+
