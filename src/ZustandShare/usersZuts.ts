@@ -16,9 +16,14 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 export const useUsersStore = create<UsersZutstype>((set, get) => ({
   users: [],
 
-  fetchUsers: async () => {
+  fetchUsers: async (page = 1, pageSize = 10) => {
     try {
-      const response = await axios.get(`${BASE_URL}/get-all-user`);
+      const response = await axios.get(`${BASE_URL}/get-all-user`, {
+        params: {
+          page,
+          pageSize
+        }
+      });
       toast.success(response.data.message);
 
       set({

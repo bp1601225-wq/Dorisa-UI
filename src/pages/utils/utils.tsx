@@ -132,7 +132,7 @@ InputField.displayName = "InputField";
 
 
 
-export function DataGridUiTable({rows, columns, height}:any){
+export function DataGridUiTable({rows, columns, row}:any){
   return (
     <>
      <div style={{ height: 400, width: '100%' }}>

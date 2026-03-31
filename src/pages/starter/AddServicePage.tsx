@@ -25,6 +25,9 @@ const SaveService = async (data: ServiceField) => {
     status: ServiceStatus.ACTIVE, // ✅ FIX
   };
 
+// console.log(payload);
+
+
   await AddServices(payload);
   reset();
 };

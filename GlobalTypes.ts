@@ -86,7 +86,7 @@ export interface ServiceCatalog {
   Description: string
   status?: typeof ServiceStatus[keyof typeof ServiceStatus];
   category?: string
-  DateCreated?:string 
+  DateCreated?: Date 
   deliverySpeed?: string
   suggestedPrice?: string
   estimatedTeamSize?: string

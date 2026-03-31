@@ -4,7 +4,7 @@ import { DataGridUiTable } from "./utils/utils";
 import { Building2, TrendingUpDown, Users2 } from "lucide-react";
 
 const UsersPage = () => {
-  const { fetchUsers, users } = useUsersStore();
+const { fetchUsers, users } = useUsersStore();
 
   useEffect(() => {
     fetchUsers();

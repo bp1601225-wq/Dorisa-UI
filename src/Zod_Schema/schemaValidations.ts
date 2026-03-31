@@ -25,9 +25,7 @@ export const ServiceSchemaZod = z.object({
     .string()
     .min(1, { message: "Description is required" })
     .min(10, { message: "Description must be at least 10 characters" }),
-  status: z
-    .enum(Object.values(ServiceStatus) as [string, ...string[]])
-    .optional(),
+status: z.nativeEnum(ServiceStatus).optional(),
   category: z.string().optional(),
   deliverySpeed: z.string().optional(),
   suggestedPrice: z.string().optional(),
