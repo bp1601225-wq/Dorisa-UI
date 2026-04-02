@@ -2,26 +2,13 @@ import { Briefcase, Clipboard, Flag, DollarSign } from 'lucide-react'
 import FormField from '../components/ui/FormField'
 import { formControlClassName } from '../components/templates/formControlClassName'
 import TextProps from './utils/utils'
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 const projectStages = ['Planning', 'Approved', 'In Progress', 'On Hold', 'Review', 'Completed', 'Delivered', 'Cancelled']
 
 const CreateProjectPage = () => {
 
-  const demoProject = {
-  id: 101,
-  title: "Dorisa Design Website",
-  budget: 3000,
-  client: 2,          // client id
-  stages: 3,          // index from projectStages array
-  description: "Build a modern landing page and dashboard UI."
-};
+  const { register, handleSubmit } = useForm()
 
-  const {register, handleSubmit, watch, formState: {errors}} = useForm()
-
-
-const clientSelected = watch("client");
-
-  
 const clients = [ 
   { id: 1, clientName: "Acme Corporation" },
   { id: 2, clientName: "Bright Future Ltd" },
@@ -74,10 +61,10 @@ console.log(data)
         {...register("client")}
       className = {formControlClassName} >
           <option value="">Select Client</option>
-        {clients.map((clients)=>{
+        {clients.map((client)=>{
           return (
-            <option key={clients.id} value={clients.id}>
-              {clients.clientName}
+            <option key={client.id} value={client.id}>
+              {client.clientName}
             </option>
           )
         })}

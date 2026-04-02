@@ -2,7 +2,6 @@ import {create} from "zustand"
 import {type ServiceCatalog } from "../../GlobalTypes"
 import axios from "axios"
 import { toast } from "sonner"
-import { useState } from "react"
 
 type ServiceZutsType = {
     services: ServiceCatalog []
@@ -21,8 +20,6 @@ const BASE_URL = import.meta.env.VITE_API_URL
 
 export const useServiceStore = create<ServiceZutsType>((set, get)=>({
     
-
-
 
 
     

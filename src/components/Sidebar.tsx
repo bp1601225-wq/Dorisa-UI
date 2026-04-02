@@ -351,31 +351,25 @@
 // export default Sidebar;
 
 import {
-  Briefcase,
-  ClipboardList,
-  Currency,
   LayoutDashboard,
   List,
   PanelLeftClose,
   PanelLeftOpen,
-  PlusCircle,
-  PlusSquare,
-  Receipt,
   Settings,
   Sparkles,
-  Ticket,
-  UserCheck,
+  Star,
   UserPlus,
   Users,
   X,
   type LucideIcon,
 } from "lucide-react";
 
-import Logo from "../assets/Logo.png";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 import { SIDEBAR_WIDTHS } from "../constants/sidebar";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Menu,
@@ -426,6 +420,9 @@ const navGroups: NavGroup[] = [
       { to: "/users", label: "All users", icon: Users },
     ],
   },
+
+
+
   {
     id: "services",
     label: "Service Inquires",
@@ -434,16 +431,36 @@ const navGroups: NavGroup[] = [
       { to: "/services/create", label: "create services", icon: UserPlus },
       { to: "/services/list", label: "service list", icon: List },
 
-      { to: "/projects", label: "Projects", icon: Sparkles },
+      { to: "/reviews", label: "reviews", icon: Star },
 
     ],
   },
+
+
+    {
+    id: "projects",
+    label: "Outcome",
+    icon: LayoutDashboard,
+    children: [
+      { to: "/services/create", label: "Projects", icon: Sparkles },
+   
+
+    ],
+  },
+
+
+
+
+
+
   {
     id: "generals",
     label: "Generals",
     icon: Sparkles,
     children: [{ to: "/settings", label: "Settings", icon: Settings }],
   },
+
+  
 ];
 
 /* ================= COMPONENT ================= */
@@ -455,6 +472,18 @@ function Sidebar({
   onCloseMobile,
 }: SidebarProps) {
   const { pathname } = useLocation();
+  const handleNavItemClick = () => {
+    NProgress.start();
+    onCloseMobile();
+  };
+
+  useEffect(() => {
+    NProgress.configure({ showSpinner: false });
+  }, []);
+
+  useEffect(() => {
+    NProgress.done();
+  }, [pathname]);
 
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     users: true,
@@ -487,7 +516,7 @@ function Sidebar({
         },
       }}
     >
-      <div className="flex h-full flex-col py-4">
+      <div className="flex h-full flex-col pb-12" >
         {/* ===== LOGO ===== */}
         <div className="px-4 mb-4">
           <div className="rounded-2xl border border-gray-200 bg-white p-3 shadow-sm">
@@ -525,11 +554,12 @@ function Sidebar({
         </div>
 
         {/* ===== MENU ===== */}
-        <Menu
-          className="mt-4"
-          menuItemStyles={{
-            button: ({ active, level }) => ({
-              margin: level === 0 ? "2px 10px" : "3px 5px 3px 3px",
+        <div className="mt-4 flex-1 overflow-y-auto px-4">
+          <Menu
+            className="max-h-full"
+            menuItemStyles={{
+              button: ({ active, level }) => ({
+              margin: level === 0 ? "1px 1px" : "1px 1px 1px 1px",
               height: level === 0 ? "46px" : "40px",
               color: active ? "#1f2937" : "#4b5563",
               backgroundColor: active ? "#f3f4f6" : "transparent",
@@ -547,7 +577,7 @@ function Sidebar({
             },
             subMenuContent: {
               backgroundColor: "#f9fafb",
-              margin: "0 12px",
+              margin: "0 8px",
             },
           }}
           rootStyles={{
@@ -561,7 +591,7 @@ function Sidebar({
             active={pathname === standaloneNavItem.to}
             component={<NavLink to={standaloneNavItem.to} />}
             icon={<standaloneNavItem.icon size={18} />}
-            onClick={onCloseMobile}
+            onClick={handleNavItemClick}
           >
             {standaloneNavItem.label}
           </MenuItem>
@@ -582,7 +612,7 @@ function Sidebar({
                   active={pathname === item.to}
                   component={<NavLink to={item.to} />}
                   icon={<item.icon size={16} />}
-                  onClick={onCloseMobile}
+                  onClick={handleNavItemClick}
                 >
                   {item.label}
                 </MenuItem>
@@ -591,7 +621,8 @@ function Sidebar({
           ))}
         </Menu>
       </div>
-    </ProSidebar>
+    </div>
+  </ProSidebar>
   );
 }
 

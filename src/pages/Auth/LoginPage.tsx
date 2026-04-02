@@ -1,4 +1,4 @@
-import { Circle, Loader2, LockKeyhole, LogInIcon, Mail, Sparkles, TrendingUp, TrendingUpDown } from "lucide-react";
+import { Loader2, LockKeyhole, LogInIcon, Mail, Sparkles, TrendingUp } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useEffect } from "react";

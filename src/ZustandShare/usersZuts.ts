@@ -13,7 +13,7 @@ type UsersZutstype = {
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const useUsersStore = create<UsersZutstype>((set, get) => ({
+export const useUsersStore = create<UsersZutstype>((set) => ({
   users: [],
 
   fetchUsers: async (page = 1, pageSize = 10) => {

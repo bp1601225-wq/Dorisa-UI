@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Briefcase, Search } from "lucide-react";
+import { Briefcase, Search, Sparkles, Wrench } from "lucide-react";
 import { useProposalStore } from "../ZustandShare/ProposalZuts";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { Link } from "react-router-dom";
 
 const statusStyles = {
 Pending: "bg-yellow-100 text-yellow-700 border-yellow-200",
@@ -170,7 +171,7 @@ return (
 
   <tbody>
     {currentItems.map((s: any) => {
-      const { service, client } = s;
+      const { id, service, client } = s;
 
   const fullName =
 
@@ -180,7 +181,7 @@ return (
 
       return (
         <tr
-          key={s.id}
+          key={id}
           className="border-t hover:bg-slate-50 transition"
         >
           {/* Client */}
@@ -219,12 +220,24 @@ return (
           {/* Actions */}
           <td className="px-4 py-3">
             <div className="flex gap-2">
-              <button className="text-xs font-medium text-slate-600 hover:text-black">
+              {/* <button className="text-xs font-medium text-slate-600 hover:text-black">
                 View
-              </button>
-              <button className="text-xs font-semibold text-white bg-black px-3 py-1 rounded-full">
+              </button> */}
+
+
+              {/* Access url Parameters */}
+<Link to={`/reviews/${id}`}>
+
+              <button className="flex gap-2 items-center text-xs 
+              font-semibold text-white bg-black px-3 py-2 rounded-full
+              active:scale-105 cursor-pointer hover:bg-black/80 transition-all">
+               <Wrench size={18} 
+               />
                 Manage
               </button>
+</Link>
+
+
             </div>
           </td>
         </tr>

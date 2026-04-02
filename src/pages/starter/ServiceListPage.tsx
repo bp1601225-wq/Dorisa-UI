@@ -26,8 +26,6 @@ const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
 const [isLoading, setIsLoading] = useState(true);
 
-const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(true)
-
 
 const [searchTerm, setSearchTerm] = useState("")
 
@@ -377,7 +375,7 @@ onClose={() => setDeleteModalOpen(false)}
     <Trash2 size={20} />
   </div>
 </div>
-
+  
 <p className="text-sm text-slate-700">
   Are you sure you want to delete
 </p>
@@ -400,12 +398,10 @@ onClose={() => setDeleteModalOpen(false)}
   <X size={14} />
   Cancel
 </button>
-
-<button
+      <button
   onClick={async () => {
 
 if (!serviceToDelete?.id) return;
-setIsDeleteLoading(true)
 await DeleteServices(serviceToDelete.id)
     setDeleteModalOpen(false);
   }}

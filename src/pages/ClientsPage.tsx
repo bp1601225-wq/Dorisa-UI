@@ -20,7 +20,7 @@ const clientSpotlights = [
 
 const ClientsPage = () => {
 
-const {handleSubmit, register, reset} = useForm()
+const { register, reset } = useForm()
 
 
 

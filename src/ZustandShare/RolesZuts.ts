@@ -15,7 +15,7 @@ type RolesZutstype = {
 
 const BASE_URL = import.meta.env.VITE_API_URL
 
-export const useRolesStore = create<RolesZutstype>((set, get)=>({
+export const useRolesStore = create<RolesZutstype>((set)=>({
 
 roles: [],
 

@@ -1,8 +1,4 @@
-import FormField from '../components/ui/FormField'
-import { formControlClassName } from '../components/templates/formControlClassName'
 import { ArrowUpRight, Rocket, Ticket, UserCheck } from 'lucide-react'
-
-const industries = ['Technology', 'Finance', 'Healthcare', 'Education', 'Operations']
 
 const Dashboard = () => {
   return (

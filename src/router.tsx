@@ -2,7 +2,6 @@ import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
 import LoginPage from './pages/Auth/LoginPage'
 import Dashboard from './pages/Dashboard'
-import ProjectsPage from './pages/ProjectsPage'
 import CreateProjectPage from './pages/CreateProjectPage'
 import TicketsPage from './pages/TicketsPage'
 import CreateTicketPage from './pages/CreateTicketPage'
@@ -24,6 +23,8 @@ import NotFoundPage from './pages/NotFoundPage'
 import Registration from './pages/Registration/Registration'
 import PricingDetails from './pages/settings/PricingDetails'
 import ServiceListPage from './pages/starter/ServiceListPage'
+import ReviewsPage from './pages/ReviewsPage'
+import ReviewDetailsPage from './pages/ReviewDetailsPage'
 
 export const router = createBrowserRouter([
   {
@@ -58,20 +59,66 @@ export const router = createBrowserRouter([
         path: 'dashboard',
         element: <Dashboard />,
       },
-      {
-        path: 'projects',
+
+
+
+
+      // {
+      //   path: 'projects',
+      //   element: <Outlet />,
+      //   children: [
+      //     // {
+      //     //   index: true,
+      //     //   element: <ProjectsPage />,
+      //     // },
+      //     {
+      //       path: 'create',
+      //       element: <CreateProjectPage />,
+      //     },
+      //   ],
+      // },
+
+
+
+        {
+        path: 'reviews',
         element: <Outlet />,
         children: [
           {
             index: true,
-            element: <ProjectsPage />,
+            element: <ReviewsPage />,
           },
+
           {
-            path: 'create',
-            element: <CreateProjectPage />,
+            index: true,
+            element: <ReviewsPage />,
           },
+
+          {
+          path: `:id`,
+          element: <ReviewDetailsPage />
+
+          }
+
+          // {
+          //   path: 'create',
+          //   element: <CreateProjectPage />,
+          // },
+
+
         ],
       },
+
+
+
+
+
+
+
+
+
+
+
       {
         path: 'tickets',
         element: <Outlet />,

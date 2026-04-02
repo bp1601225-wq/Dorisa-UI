@@ -72,9 +72,11 @@ function TextProps({ data, text, icon }: TextProps) {
   );
 }
 
+type IconElement = ReactElement<{ className?: string; size?: number | string }>;
+
 type InputFieldProps = {
   label: string;
-  icon: ReactElement;
+  icon: IconElement;
   error?: string;
   itemVariants?: Variants;
   helperText?: string;
@@ -132,7 +134,7 @@ InputField.displayName = "InputField";
 
 
 
-export function DataGridUiTable({rows, columns, row}:any){
+export function DataGridUiTable({rows, columns}:any){
   return (
     <>
      <div style={{ height: 400, width: '100%' }}>
@@ -162,5 +164,4 @@ density="compact"
 export default TextProps;
 
 // FRAMER MOTION PROPS
-
 

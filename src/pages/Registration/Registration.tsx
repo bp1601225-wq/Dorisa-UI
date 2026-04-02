@@ -1,7 +1,6 @@
 import {
 ArrowRight,
 Building2,
-Circle,
 Loader2,
 LockKeyhole,
 LogIn,
@@ -53,11 +52,8 @@ const Registration = () => {
 const [selected, setSelected] = useState<"Individual" | "Corporate">(
 "Individual"
 );
-const [formData, setFormData] = useState<RegistrationForm | null>(null);
-
-
 // const {fetchClients, addClient} = useClientStore()
-const {fetchUsers, AddUsers} = useUsersStore()
+const { AddUsers } = useUsersStore()
 
 
 const buttonStyles = (active: boolean) =>

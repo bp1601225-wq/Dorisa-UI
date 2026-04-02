@@ -1,7 +1,14 @@
 import FormField from '../components/ui/FormField'
 import { formControlClassName } from '../components/templates/formControlClassName'
 import { useForm } from 'react-hook-form'
-import { type FirstTemplate } from '../../GlobalTypes'
+
+type FirstTemplate = {
+  FullName: string
+  Email: string
+  Subject: string
+  Phone: string
+  Message: string
+}
 
 const TemplateThreePage = () => {
   const { register, handleSubmit } = useForm<FirstTemplate>()

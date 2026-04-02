@@ -93,3 +93,18 @@ export interface ServiceCatalog {
   pulseFrequency?: string
 }
 
+
+// Proposal Catalog
+export type ProposalStatus =
+  | "DRAFT"
+  | "SENT"
+  | "ACCEPTED"
+  | "DECLINED";
+
+export interface ProposalCatalog {
+  id?:string
+  clientId:string,
+  serviceId:string
+ proposal_status: ProposalStatus
+}
+

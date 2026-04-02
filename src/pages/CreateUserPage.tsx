@@ -22,7 +22,6 @@ const CreateUserPage = () => {
     register,
     handleSubmit,
     reset,
-    control,
     formState: { isSubmitting },
   } = useForm<UserType>();
 

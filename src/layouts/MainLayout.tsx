@@ -1,4 +1,4 @@
-import {  Divide, Loader2, LogOut, LogOutIcon, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { Loader2, LogOut, LogOutIcon, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
@@ -123,10 +123,10 @@ const [isLoading,  setIsLoading] = useState<boolean>(false)
 
         {/* SIDEBAR */}
         <aside
-          className="hidden md:flex flex-shrink-0 transition-all duration-300 ease-out"
+          className="hidden md:flex flex-shrink-0 transition-all duration-300 ease-out "
         
         >
-          <div className="sticky top-14 h-[calc(100vh-56px)] w-full">
+          <div className="sticky top-14 h-[calc(100vh-56px)] w-full ">
             <Sidebar
               collapsed={collapsed}
               toggled={toggled}
