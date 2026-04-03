@@ -111,7 +111,7 @@ export interface ProposalCatalog {
 }
 
 
-// Proposal to be sent to client for review
+// Proposal to be sen t to client for review
 export interface ProjectReview {
   id: string;
   service_id: string;
