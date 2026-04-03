@@ -76,7 +76,7 @@ function ReviewDetailsPage() {
         </div>
 
         {/* CARD */}
-        <div className="bg-white rounded-2xl shadow-sm border border-green-300 p-6 space-y-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-greegitrn-300 p-6 space-y-6">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
 
 
