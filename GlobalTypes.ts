@@ -101,6 +101,8 @@ export type ProposalStatus =
   | "ACCEPTED"
   | "DECLINED";
 
+
+  // Client Adding proposals
 export interface ProposalCatalog {
   id?:string
   clientId:string,
@@ -108,3 +110,18 @@ export interface ProposalCatalog {
  proposal_status: ProposalStatus
 }
 
+
+// Proposal to be sent to client for review
+export interface ProjectReview {
+  id: string;
+  service_id: string;
+  client_id: string;
+  contract_id?: string;
+
+  scope: string;
+  deliverables: string;
+  timeline: string;
+  pricing: number;
+  termsAndConditions: string;
+  status: "Pending" | "Approved" | "Rejected" | "Negotiating";
+}
