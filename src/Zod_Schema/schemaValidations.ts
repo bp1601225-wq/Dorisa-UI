@@ -34,3 +34,22 @@ status: z.nativeEnum(ServiceStatus).optional(),
 });
 
 export type ServiceField = z.infer<typeof ServiceSchemaZod>;
+
+
+//  Review Details Schema Page
+export const ProposalReviewSchema = z.object({
+  id: z.string().optional(),
+  service_id: z.string().optional(),
+  client_id: z.string().optional(),
+  contract_id: z.string().optional(),
+
+  scope: z.string().min(1, "Scope is required"),
+  deliverables: z.string().min(1, "Deliverables is required"),
+  timeline: z.string().min(1, "Timeline is required, (eg. 2 weeks)"),
+  pricing: z.number().nonnegative("Pricing must be a positive number"),
+  termsAndConditions: z.string().min(1, "Terms and Conditions is required"),
+
+status: z.enum(["PENDING", "APPROVED", "REJECTED", "NEGOTIATING"]),
+});
+
+export type ReviewField = z.infer<typeof ProposalReviewSchema>

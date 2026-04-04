@@ -442,7 +442,7 @@ const navGroups: NavGroup[] = [
     label: "Outcome",
     icon: LayoutDashboard,
     children: [
-      { to: "/services/create", label: "Projects", icon: Sparkles },
+      { to: "/reviews/projects-outcome", label: "Projects", icon: Sparkles },
    
 
     ],

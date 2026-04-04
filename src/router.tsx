@@ -4,7 +4,7 @@ import LoginPage from './pages/Auth/LoginPage'
 import Dashboard from './pages/Dashboard'
 import CreateProjectPage from './pages/CreateProjectPage'
 import TicketsPage from './pages/TicketsPage'
-import CreateTicketPage from './pages/CreateTicketPage'
+import ProjectList from './pages/AllProjectReviews'
 import InvoicesPage from './pages/InvoicesPage'
 import CreateInvoicePage from './pages/CreateInvoicePage'
 import PaymentsPage from './pages/PaymentsPage'
@@ -89,21 +89,26 @@ export const router = createBrowserRouter([
             element: <ReviewsPage />,
           },
 
-          {
-            index: true,
-            element: <ReviewsPage />,
+         
+
+             {
+          path:'projects-outcome',
+          element: <ProjectList />
+
           },
 
           {
           path: `:id`,
           element: <ReviewDetailsPage />
+          }, 
 
-          }
+       
+
 
           // {
           //   path: 'create',
           //   element: <CreateProjectPage />,
-          // },
+          // }, 
 
 
         ],
@@ -118,21 +123,6 @@ export const router = createBrowserRouter([
 
 
 
-
-      {
-        path: 'tickets',
-        element: <Outlet />,
-        children: [
-          {
-            index: true,
-            element: <TicketsPage />,
-          },
-          {
-            path: 'create',
-            element: <CreateTicketPage />,
-          },
-        ],
-      },
       {
         path: 'invoices',
         element: <Outlet />,

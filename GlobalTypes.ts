@@ -111,11 +111,11 @@ export interface ProposalCatalog {
 }
 
 
-// Proposal to be sen t to client for review
-export interface ProjectReview {
-  id: string;
-  service_id: string;
-  client_id: string;
+// Proposal to be sent to client for review
+export interface ProjectProposal {
+  id?: string;
+  service_id?: string;
+  client_id?: string;
   contract_id?: string;
 
   scope: string;
@@ -123,5 +123,6 @@ export interface ProjectReview {
   timeline: string;
   pricing: number;
   termsAndConditions: string;
-  status: "Pending" | "Approved" | "Rejected" | "Negotiating";
+  status: "PENDING" | "APPROVED" | "REJECTED" | "NEGOTIATING";
 }
+

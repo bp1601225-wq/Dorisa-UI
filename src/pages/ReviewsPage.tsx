@@ -6,11 +6,11 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
 
-const statusStyles = {
-Pending: "bg-yellow-100 text-yellow-700 border-yellow-200",
-Approved: "bg-green-100 text-green-700 border-green-200",
-Rejected: "bg-red-100 text-red-700 border-red-200",
-} as const;
+// const statusStyles = {
+// Pending: "bg-yellow-100 text-yellow-700 border-yellow-200",
+// Approved: "bg-green-100 text-green-700 border-green-200",
+// Rejected: "bg-red-100 text-red-700 border-red-200",
+// } as const;
 
 
 
@@ -191,7 +191,7 @@ return (
           </td>
 
           {/* Service */}
-          <td className="px-4 py-3">
+          <td className="px-4 py-3">          
             <p className="font-medium text-slate-800">
               {service.ServiceName}
             </p>
