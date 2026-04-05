@@ -1,14 +1,13 @@
-import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom'
+import {
+  Navigate,
+  Outlet,
+  createBrowserRouter,
+} from 'react-router-dom'
+
 import MainLayout from './layouts/MainLayout'
 import LoginPage from './pages/Auth/LoginPage'
 import Dashboard from './pages/Dashboard'
-import CreateProjectPage from './pages/CreateProjectPage'
-import TicketsPage from './pages/TicketsPage'
 import ProjectList from './pages/AllProjectReviews'
-import InvoicesPage from './pages/InvoicesPage'
-import CreateInvoicePage from './pages/CreateInvoicePage'
-import PaymentsPage from './pages/PaymentsPage'
-import RecordPaymentPage from './pages/RecordPaymentPage'
 import UsersPage from './pages/UsersPage'
 import CreateUserPage from './pages/CreateUserPage'
 import ClientsPage from './pages/ClientsPage'
@@ -27,60 +26,44 @@ import ReviewsPage from './pages/ReviewsPage'
 import ReviewDetailsPage from './pages/ReviewDetailsPage'
 
 export const router = createBrowserRouter([
+  // ✅ ROOT → directly go to welcome (no flash)
+  {
+    path: '/',
+    element: <Navigate replace to="/welcome" />,
+  },
+
   {
     path: '/welcome',
     element: <LandingPage />,
-  },{
-  path: `/all-services`,
-  element: <ServicesPage />,
-},
- 
+  },
+
+  {
+    path: '/all-services',
+    element: <ServicesPage />,
+  },
+
   {
     path: '/login',
     element: <LoginPage />,
   },
+
   {
     path: '/register',
     element: <Registration />,
   },
+
+  // ✅ MAIN APP (protected layout area)
   {
     path: '/',
     element: <MainLayout />,
-
-
-    // MAIN LAYOUT SERVICES
-
     children: [
-      {
-        index: true,
-        element: <Navigate replace to="dashboard" />,
-      },
       {
         path: 'dashboard',
         element: <Dashboard />,
       },
 
-
-
-
-      // {
-      //   path: 'projects',
-      //   element: <Outlet />,
-      //   children: [
-      //     // {
-      //     //   index: true,
-      //     //   element: <ProjectsPage />,
-      //     // },
-      //     {
-      //       path: 'create',
-      //       element: <CreateProjectPage />,
-      //     },
-      //   ],
-      // },
-
-
-
-        {
+      // REVIEWS
+      {
         path: 'reviews',
         element: <Outlet />,
         children: [
@@ -88,69 +71,19 @@ export const router = createBrowserRouter([
             index: true,
             element: <ReviewsPage />,
           },
-
-         
-
-             {
-          path:'projects-outcome',
-          element: <ProjectList />
-
-          },
-
           {
-          path: `:id`,
-          element: <ReviewDetailsPage />
-          }, 
-
-       
-
-
-          // {
-          //   path: 'create',
-          //   element: <CreateProjectPage />,
-          // }, 
-
-
-        ],
-      },
-
-
-
-
-
-
-
-
-
-
-      {
-        path: 'invoices',
-        element: <Outlet />,
-        children: [
-          {
-            index: true,
-            element: <InvoicesPage />,
+            path: 'projects-outcome',
+            element: <ProjectList />,
           },
           {
-            path: 'create',
-            element: <CreateInvoicePage />,
+            path: ':id',
+            element: <ReviewDetailsPage />,
           },
         ],
       },
-      {
-        path: 'payments',
-        element: <Outlet />,
-        children: [
-          {
-            index: true,
-            element: <PaymentsPage />,
-          },
-          {
-            path: 'record',
-            element: <RecordPaymentPage />,
-          },
-        ],
-      },
+
+      
+      // USERS
       {
         path: 'users',
         element: <Outlet />,
@@ -159,12 +92,15 @@ export const router = createBrowserRouter([
             index: true,
             element: <UsersPage />,
           },
+          
           {
             path: 'create',
             element: <CreateUserPage />,
           },
         ],
       },
+
+      // CLIENTS
       {
         path: 'clients',
         element: <Outlet />,
@@ -179,11 +115,12 @@ export const router = createBrowserRouter([
           },
         ],
       },
+
+      // SERVICES
       {
         path: 'services',
         element: <Outlet />,
         children: [
-          
           {
             path: 'create',
             element: <AddServicePage />,
@@ -198,6 +135,8 @@ export const router = createBrowserRouter([
           },
         ],
       },
+
+      // SETTINGS
       {
         path: 'settings',
         element: <SettingsPage />,
@@ -206,12 +145,15 @@ export const router = createBrowserRouter([
         path: 'settings/pricing/:pricingId',
         element: <PricingDetails />,
       },
+
+      // CONSULTING
       {
         path: 'consulting',
         element: <ConsultingPage />,
       },
     ],
   },
+
   {
     path: '*',
     element: <NotFoundPage />,

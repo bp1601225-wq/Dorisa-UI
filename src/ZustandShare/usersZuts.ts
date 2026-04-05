@@ -36,18 +36,29 @@ export const useUsersStore = create<UsersZutstype>((set) => ({
     }
   },
 
-  AddUsers: async (user: UserType): Promise<void> => {
-    try {
-      const response = await axios.post(`${BASE_URL}/create-users`, user);
-      toast.success(response.data.message);
-      set((state) => ({
-        users: [...state.users, response.data.data],
-      }));
-    } catch (error: any) {
-      console.error(`User Error is ${error.message}`);
-      toast.error(error.message);
-    }
-  },
+ AddUsers: async (user: UserType): Promise<void> => {
+  try {
+    const response = await axios.post(`${BASE_URL}/create-users`, user);
+
+    toast.success(response.data.message);
+
+    set((state) => ({
+      users: [...state.users, response.data.data],
+    }));
+
+  } catch (error: any) {
+    console.log("FULL ERROR:", error); 
+
+    const message =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Something went wrong";
+
+    console.log("ERROR MESSAGE:", message);
+
+    toast.error(message);
+  }
+},
 
   EditUsers: async (updatedUser: UserType): Promise<void> => {
     try {

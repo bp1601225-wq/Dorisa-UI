@@ -130,7 +130,7 @@ const ServicesPage = () => {
     await delay(0);
     await delay(1500);
 
-    navigate("/reviews");
+    navigate("/dashboard");
   } catch (error) {
     console.error(error);
   } finally {

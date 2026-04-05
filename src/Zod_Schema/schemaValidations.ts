@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { email, z } from "zod";
 import { ServiceStatus } from "../../GlobalTypes";
 
 export const Authschema = z.object({
@@ -53,3 +53,23 @@ status: z.enum(["PENDING", "APPROVED", "REJECTED", "NEGOTIATING"]),
 });
 
 export type ReviewField = z.infer<typeof ProposalReviewSchema>
+
+// Users Zod Schema
+export const UserSchema = z.object({
+   id: z.string().optional(),
+   fullName:z.string().optional(),
+  country: z.string().min(5, "country is required "),
+  firstName: z.string().min(5, "first Name is required and must be of more than 5 letters"),
+  middleName: z.string().optional(),
+  lastName: z.string().min(3, "last Name is required"),
+  email:z.string().email().min(10, "Email is required" ),
+  password:z.string().min(8, "Password is required"),
+phone: z
+  .string()
+  .min(10, "Phone must be at least 10 digits")
+  .regex(/^\+?[0-9\s-]{10,20}$/, "Invalid phone number format"),
+  roleId: z.string().optional()
+
+})
+
+export type UserField = z.infer<typeof UserSchema>

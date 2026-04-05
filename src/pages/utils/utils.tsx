@@ -165,3 +165,17 @@ export default TextProps;
 
 // FRAMER MOTION PROPS
 
+export const DetailRow = ({ icon, label, value }: any) => {
+  return (
+    <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200">
+      <div className="flex items-center gap-2 text-slate-600">
+        {icon}
+        <span>{label}</span>
+      </div>
+
+      <span className="font-medium text-slate-900">
+        {value}
+      </span>
+    </div>
+  );
+};

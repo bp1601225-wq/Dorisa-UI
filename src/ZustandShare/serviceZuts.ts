@@ -44,8 +44,16 @@ set({
     services: []
 })
 
-toast.error(error.message)
-console.error(error)
+console.log("FULL ERROR:", error); 
+
+    const message =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Something went wrong";
+
+    console.log("ERROR MESSAGE:", message);
+
+    toast.error(message);
 }
 
 },
@@ -65,8 +73,16 @@ toast.success(response.data.message)
 get().fetchServices()
 
     } catch (error:any){
-console.error(error)
-toast.error(error.message)
+console.log("FULL ERROR:", error); 
+
+    const message =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Something went wrong";
+
+    console.log("ERROR MESSAGE:", message);
+
+    toast.error(message);
     }
 // API CALL
 
@@ -88,8 +104,16 @@ EditServices: async (updatedservices:ServiceCatalog): Promise<void> => {
  get().fetchServices()
 
     } catch (error:any) {
-        toast.error(error)
-        console.error(error)
+     console.log("FULL ERROR:", error); 
+
+    const message =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Something went wrong";
+
+    console.log("ERROR MESSAGE:", message);
+
+    toast.error(message);
     }
     
     },
@@ -107,9 +131,16 @@ DeleteServices: async (id:string): Promise<void> => {
 
       toast.success(`service deleted succesfully`)
     } catch (error:any) {
+console.log("FULL ERROR:", error); 
 
-        toast.error(error.message)
-        console.error(error)
+    const message =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Something went wrong";
+
+    console.log("ERROR MESSAGE:", message);
+
+    toast.error(message);
     }
 }
 

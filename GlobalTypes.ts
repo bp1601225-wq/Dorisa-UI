@@ -10,7 +10,7 @@ type?: "INDIVIDUAL" | "CORPORATE";
 
 
 export interface IndividualForm extends BaseForm {
-fullName: string;
+fullName?: string;
   id?: string
   firstName?: string
   middleName?:string
