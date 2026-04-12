@@ -27,6 +27,7 @@ companyWebsite?: string;
 export type UserType = {
   id?:string
   roleId?: string 
+  role?:string
 } & (IndividualForm | CorporateForm);
 
 export type PublicUser = Omit<UserType, "password">;
@@ -67,6 +68,8 @@ export interface AuthContextTypes {
   currentUser: PublicUser | null
   Login: (data: Record<string, unknown>) => Promise<PublicUser | null>
   Logout: () => void
+  isAuthReady: any
+  token: string | null
 }
 
 export const ServiceStatus = {
@@ -96,13 +99,23 @@ export interface ServiceCatalog {
 
 // Proposal Catalog
 export type ProposalStatus =
-  | "DRAFT"
-  | "SENT"
-  | "ACCEPTED"
-  | "DECLINED";
 
 
-  // Client Adding proposals
+  | "DRAFT"  // Client create
+  | "PENDING" // proposal created by admin
+
+
+
+
+
+  | "SENT"  // 
+  | "ACCEPTED" // clients accepts
+  | "NEGOTIATING"  // wants negotiation
+  | "DECLINED";  // declines proposal by admin or client
+  
+
+
+  // Client Adding services to create a proposal
 export interface ProposalCatalog {
   id?:string
   clientId:string,
@@ -111,7 +124,7 @@ export interface ProposalCatalog {
 }
 
 
-// Proposal to be sent to client for review
+// Admin prepres a proposal to be sent to client for review
 export interface ProjectProposal {
   id?: string;
   service_id?: string;
@@ -123,6 +136,6 @@ export interface ProjectProposal {
   timeline: string;
   pricing: number;
   termsAndConditions: string;
-  status: "PENDING" | "APPROVED" | "REJECTED" | "NEGOTIATING";
+  status: ProposalStatus
 }
 

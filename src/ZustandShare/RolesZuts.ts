@@ -1,6 +1,6 @@
 import {create} from "zustand"
 import {type RoleType } from "../../GlobalTypes"
-import axios from "axios"
+import api from "../api"
 import { toast } from "sonner"
 
 
@@ -13,15 +13,13 @@ type RolesZutstype = {
 }
 
 
-const BASE_URL = import.meta.env.VITE_API_URL
-
 export const useRolesStore = create<RolesZutstype>((set)=>({
 
 roles: [],
 
 fetchRoles: async () => {
     try {
-const response = await axios.get(`${BASE_URL}/get-all-roles`)
+const response = await api.get("/get-all-roles")
 toast.success(response.data.message)
 console.log(response.data.data)
 
@@ -41,7 +39,7 @@ console.error(err)
 AddRoles: async (role:RoleType): Promise<void> => {
     try {
 
-const response = await axios.post(`${BASE_URL}/create-roles`, role)
+const response = await api.post("/create-roles", role)
 toast.success(response.data.message)
 
 console.log(response)
@@ -61,8 +59,8 @@ set((sate)=>({
 EditRoles: async (UpdatedRole: RoleType): Promise<void> => {
     try {
 
-  const response = await axios.put(
-    `${BASE_URL}/update-roles/${UpdatedRole.id}`,
+  const response = await api.put(
+    `/update-roles/${UpdatedRole.id}`,
     UpdatedRole
   );
 
@@ -82,7 +80,7 @@ EditRoles: async (UpdatedRole: RoleType): Promise<void> => {
 
 DeleteRoles: async (id: string): Promise<void> => {
     try {
- await axios.delete(`${BASE_URL}/delete-roles/${id}`);
+ await api.delete(`/delete-roles/${id}`);
 
   set((state) => ({
     roles: state.roles.filter((role) => role.id !== id), // filter out the deleted role

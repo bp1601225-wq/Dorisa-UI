@@ -1,6 +1,6 @@
 import { create } from "zustand"
 import { type ProposalCatalog } from "../../GlobalTypes"
-import axios from "axios"
+import api from "../api"
 import { toast } from "sonner"
 
 type ProposalStoreType = {
@@ -9,16 +9,16 @@ type ProposalStoreType = {
   addProposal: (proposal: ProposalCatalog) => Promise<void>
   updateProposal: (proposal: ProposalCatalog) => Promise<void>
   deleteProposal: (id: string) => Promise<void>
-}
+  ChangeStatus: (id:string, Proposalstatus: string) => Promise<void>
 
-const BASE_URL = import.meta.env.VITE_API_URL
+}
 
 export const useProposalStore = create<ProposalStoreType>((set) => ({
   proposals: [],
 
   fetchProposals: async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/get-all-proposals`)
+      const response = await api.get("/get-all-proposals")
 
       set({
         proposals: response.data.data,
@@ -33,10 +33,7 @@ export const useProposalStore = create<ProposalStoreType>((set) => ({
 
   addProposal: async (proposal) => {
     try {
-      const response = await axios.post(
-        `${BASE_URL}/create-proposal`,
-        proposal
-      )
+      const response = await api.post("/create-proposal", proposal)
 
       set((state) => ({
         proposals: [...state.proposals, response.data],
@@ -45,14 +42,21 @@ export const useProposalStore = create<ProposalStoreType>((set) => ({
       toast.success(response.data.message)
 
     } catch (error: any) {
-      toast.error(error.message)
+      const message =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Something went wrong";
+
+    console.log("ERROR MESSAGE:", message);
+
+    toast.error(message)
     }
   },
 
   updateProposal: async (updatedProposal) => {
     try {
-      const response = await axios.put(
-        `${BASE_URL}/update-proposal/${updatedProposal.id}`,
+      const response = await api.put(
+        `/update-proposal/${updatedProposal.id}`,
         updatedProposal
       )
 
@@ -71,7 +75,7 @@ export const useProposalStore = create<ProposalStoreType>((set) => ({
 
   deleteProposal: async (id) => {
     try {
-      await axios.delete(`${BASE_URL}/delete-proposal/${id}`)
+      await api.delete(`/delete-proposal/${id}`)
 
       set((state) => ({
         proposals: state.proposals.filter((proposal) => proposal.id !== id),
@@ -83,4 +87,38 @@ export const useProposalStore = create<ProposalStoreType>((set) => ({
       toast.error(error.message)
     }
   },
+
+  // Change status
+ ChangeStatus: async (id: string, proposalStatus: string) => {
+  try {
+    const response = await api.patch(`/proposal/${id}/status`, {
+        proposal_status: proposalStatus
+    })
+
+   set((state) => ({
+  proposals: state.proposals.map((proposal) =>
+    proposal.id === id
+      ? {
+          ...proposal, // ✅ keep old data
+          proposal_status: response.data.data.proposal_status // ✅ update only this
+        }
+      : proposal
+  ),
+}))
+
+    toast.success(response.data.message)
+
+  } catch (error: any) {
+ 
+    const message =
+      error?.response?.data.error ||
+      "Something went wrong";
+
+    console.log("ERROR MESSAGE:", message);
+
+    toast.error( error?.response?.data.message)
+  }
+}
+
+
 }))

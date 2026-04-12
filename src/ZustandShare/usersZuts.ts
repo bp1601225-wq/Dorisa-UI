@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { UserType } from "../../GlobalTypes";
-import axios from "axios";
+import api from "../api";
 import { toast } from "sonner";
 
 type UsersZutstype = {
@@ -11,20 +11,20 @@ type UsersZutstype = {
   DeleteUsers: (id: string) => Promise<void>;
 };
 
-const BASE_URL = import.meta.env.VITE_API_URL;
-
-export const useUsersStore = create<UsersZutstype>((set) => ({
+export const useUsersStore = create<UsersZutstype>((set, get) => ({
   users: [],
 
   fetchUsers: async (page = 1, pageSize = 10) => {
     try {
-      const response = await axios.get(`${BASE_URL}/get-all-user`, {
+      const response = await api.get("/get-all-user", {
         params: {
           page,
           pageSize
         }
       });
       toast.success(response.data.message);
+
+      
 
       set({
         users: response.data.data,
@@ -38,7 +38,7 @@ export const useUsersStore = create<UsersZutstype>((set) => ({
 
  AddUsers: async (user: UserType): Promise<void> => {
   try {
-    const response = await axios.post(`${BASE_URL}/create-users`, user);
+    const response = await api.post("/create-users", user);
 
     toast.success(response.data.message);
 
@@ -62,23 +62,35 @@ export const useUsersStore = create<UsersZutstype>((set) => ({
 
   EditUsers: async (updatedUser: UserType): Promise<void> => {
     try {
-      const response = await axios.put(
-        `${BASE_URL}/update-users/${updatedUser.id}`,
+      const response = await api.put(
+        `/update-users/${updatedUser.id}`,
         updatedUser
       );
 
+      const returnedUser = response.data?.data ?? response.data;
+
+
       set((state) => ({
         users: state.users.map((user: UserType) =>
-          user.id === updatedUser.id ? response.data : user
+          user.id === updatedUser.id ? returnedUser : user
         ),
-      }));
+
+
+      })
+    
+    );
+
+    toast.success("user edited succesfully")
+    // get().fetchUsers()
+
+
     } catch (error: any) {
       toast.error(error.message);
     }
   },
 
   DeleteUsers: async (id: string): Promise<void> => {
-    await axios.delete(`${BASE_URL}/delete-users/${id}`);
+    await api.delete(`/delete-users/${id}`);
 
     set((state) => ({
       users: state.users.filter((user) => user.id !== id),

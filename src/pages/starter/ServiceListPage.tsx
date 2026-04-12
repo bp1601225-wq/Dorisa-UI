@@ -91,7 +91,7 @@ setDeleteModalOpen(true);
 
 return (
 <main className="min-h-screen bg-white text-slate-900 p-6">
-<div className="max-w-6xl mx-auto space-y-6">
+<div className="max-w-6xl space-y-6">
 
 {/* Header */}
 <header className="rounded-2xl border border-green-200 bg-green-50 px-6 py-5 shadow-sm">

@@ -48,10 +48,17 @@ const LoginPage = () => {
               Dorisa Consult builds steady roadmaps and trusted advice so every meeting feels
               calm, clear, and in line with your team’s style.
             </p>
+
+
+{/* <p className="bg-red-600">Dorisa Consult</p> */}
+
 <div className="mt-24 flex justify-center">
+
+
   <div className="flex items-center gap-3 rounded-full bg-white/10 px-5 py-2 backdrop-blur-sm border border-white/20 text-white font-semibold tracking-wide shadow-lg">
     
     <Sparkles className="h-5 w-5 text-yellow-300 animate-pulse" />
+
 
     <span className="text-sm md:text-base">
       Best in Consulting Service
@@ -111,9 +118,11 @@ const LoginPage = () => {
             onSubmit={handleSubmit(ClickOnLogin)}
           >
             <motion.div variants={itemVariants} className="space-y-2">
-              <label className="text-sm font-semibold text-slate-600">Email Address</label>
-              <div className="flex items-center gap-3 rounded-[18px] border border-slate-200 bg-[#fafbff] px-4 py-3">
-                <Mail className="text-slate-400" />
+              <label className="text-sm font-semibold text-slate-600 ">Email Address</label>
+
+              
+              <div className="flex items-center gap-3  border border-slate-200 bg-[#fafbff] px-2 py-2">
+                <Mail className="text-slate-400" size={18}/>
                 <input
                   {...register("email")}
                   type="email"
@@ -124,15 +133,15 @@ const LoginPage = () => {
               {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
             </motion.div>
 
-            <motion.div variants={itemVariants} className="space-y-2">
+            <motion.div variants={itemVariants} className="space-y-2 ">
               <label className="text-sm font-semibold text-slate-600">Password</label>
-              <div className="flex items-center gap-3 rounded-[18px] border border-slate-200 bg-[#fafbff] px-4 py-3">
-                <LockKeyhole className="text-slate-400" />
+              <div className="flex items-center gap-3  border border-slate-200 bg-[#fafbff] px-3 py-2">
+                <LockKeyhole className="text-slate-400" size={18}/>
                 <input
                   {...register("password")}
                   type="password"
                   placeholder="Enter your password"
-                  className="w-full bg-transparent text-sm font-medium text-slate-700 outline-none"
+                  className="w-full bg-transparent text-sm font-medium text-slate-700 outline-none pt-1"
                 />
               </div>
               {errors.password && <p className="text-xs text-red-500">{errors.password.message}</p>}

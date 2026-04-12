@@ -5,7 +5,6 @@ import TextProps, { Arraycountries } from "./utils/utils";
 import { useForm } from "react-hook-form";
 import { useRolesStore } from "../ZustandShare/RolesZuts";
 import { useEffect, useState } from "react";
-import type { UserType } from "../../GlobalTypes";
 import { useUsersStore } from "../ZustandShare/usersZuts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserSchema, type UserField } from "../Zod_Schema/schemaValidations";
@@ -39,17 +38,12 @@ const CreateUserPage = () => {
     reset,
     formState: { isSubmitting, errors },
   } = useForm<UserField>({
-    resolver: zodResolver(UserSchema)
+    resolver: zodResolver(UserSchema),
   });
-
-  const onSubmit = async (data: UserType) => {
-await AddUsers(data)
-    console.log(data);
-  };
 
 
   return (
-    <section className="min-h-screen bg-slate-50 p-6">
+    <section className="min-h-screen p-6">
 
       {/* 🔹 Header */}
       <header className="flex items-center justify-between mb-6">
@@ -61,7 +55,7 @@ await AddUsers(data)
         </div>
       </header>
 
-      <div className="max-w-5xl mx-auto bg-white border border-slate-200  shadow-sm">
+      <div className="max-w-5xl  bg-white border border-slate-200  shadow-sm">
 
         {/* Card Header */}
         <div className="border-b border-slate-200 px-8 py-5">
@@ -233,10 +227,11 @@ className="p-8 space-y-6"
 
             <button
               type="submit"
-              className=" flex items-center gap-2 cursor-pointer rounded-xl bg-black px-5 py-2 text-sm text-white hover:opacity-90 active:scale-95 transition"
+              disabled={isSubmitting}
+              className="flex items-center gap-2 cursor-pointer rounded-xl bg-black px-5 py-2 text-sm text-white hover:opacity-90 active:scale-95 transition disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <CheckCircle />
-              create user
+              {isSubmitting ? "Creating..." : "create user"}
             </button>
           </div>
 

@@ -1,6 +1,6 @@
 import {create} from "zustand"
 import {type ServiceCatalog } from "../../GlobalTypes"
-import axios from "axios"
+import api from "../api"
 import { toast } from "sonner"
 
 type ServiceZutsType = {
@@ -10,9 +10,6 @@ type ServiceZutsType = {
     EditServices: (service:ServiceCatalog ) => Promise<void>
     DeleteServices: (id:string) => Promise<void>
 }
-
-const BASE_URL = import.meta.env.VITE_API_URL
-
 
 
 
@@ -28,7 +25,7 @@ services: [],
 fetchServices: async () => {
 try {
 
-const response = await axios.get(`${BASE_URL}/get-all-services`)
+const response = await api.get("/get-all-services")
 
 // toast.success(response.data.message)
 
@@ -60,7 +57,7 @@ console.log("FULL ERROR:", error);
 
 AddServices: async (service:ServiceCatalog): Promise<void> => {
     try {
-const response = await axios.post(`${BASE_URL}/create-services`, service)
+const response = await api.post("/create-services", service)
 
 
 // COME BACK LATER
@@ -90,7 +87,7 @@ console.log("FULL ERROR:", error);
 
 EditServices: async (updatedservices:ServiceCatalog): Promise<void> => {
     try {
- const response = await axios.put(`${BASE_URL}/update-services/${updatedservices.id}`, updatedservices)
+ const response = await api.put(`/update-services/${updatedservices.id}`, updatedservices)
 
 
  set ((state) => ({
@@ -121,7 +118,7 @@ EditServices: async (updatedservices:ServiceCatalog): Promise<void> => {
 
 DeleteServices: async (id:string): Promise<void> => {
     try {
-    await axios.delete(`${BASE_URL}/delete-services/${id}`)
+    await api.delete(`/delete-services/${id}`)
 
       set((state)=>({
         services: state.services.filter((service)=>service.id !== id)

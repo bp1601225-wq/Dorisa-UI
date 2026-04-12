@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Briefcase, Search, Sparkles, Wrench } from "lucide-react";
+import { Briefcase, Loader2, Search, Sparkles, Wrench } from "lucide-react";
 import { useProposalStore } from "../ZustandShare/ProposalZuts";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { Link } from "react-router-dom";
-
-// const statusStyles = {
-// Pending: "bg-yellow-100 text-yellow-700 border-yellow-200",
-// Approved: "bg-green-100 text-green-700 border-green-200",
-// Rejected: "bg-red-100 text-red-700 border-red-200",
-// } as const;
-
-
+import {  useNavigate } from "react-router-dom";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+import { useAuth } from "../context/AuthContext";
 
 
 const stats = [
@@ -22,9 +16,27 @@ const stats = [
 { label: "Rejected", value: "3" },
 ];
 
-export default function ReviewsPage() {
 
-const {fetchProposals, proposals} = useProposalStore()
+const statusStyles: any = {
+  pending: "bg-green-500 p-1 border-green-500 text-green-200",
+  Draft: "bg-black p-1 border-slate-200"
+}
+
+
+
+
+export default function ReviewsPage() {
+const navigate = useNavigate()
+const {currentUser} = useAuth()
+
+
+
+  // click on manage
+
+const [loadingId, setLoadingId] = useState<string | null>(null);
+
+
+const {fetchProposals, proposals, ChangeStatus} = useProposalStore()
 
 useEffect(() => {
 fetchProposals();
@@ -41,9 +53,297 @@ const itemsPerPage = 5;
 const start = (page - 1) * itemsPerPage;
 const currentItems = proposals.slice(start, start + itemsPerPage);
 
+const waitForNextFrame = () =>
+  new Promise<void>((resolve) => {
+    // Check if we're in the browser and requestAnimationFrame exists
+    if (typeof window !== "undefined" && "requestAnimationFrame" in window) {
+      
+      // Wait until the browser is about to repaint the screen
+      window.requestAnimationFrame(() => resolve());
+    
+    } else {
+      // If requestAnimationFrame is not available (older environments)
+      // just resolve immediately after a tiny delay
+      setTimeout(resolve, 0);
+    }
+  });
+
+const handleManageClick = async (proposal: any) => {
+  const proposalId = proposal?.id;
+  if (!proposalId) return;
+
+  try {
+    setLoadingId(proposalId);
+    NProgress.start();
+
+    if (proposal.proposal_status !== "PENDING") {
+      await ChangeStatus(proposalId, "PENDING");
+    }
+
+    await waitForNextFrame();
+    navigate(`/reviews/${proposalId}`);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    NProgress.done();
+    setLoadingId(null);
+  }
+};
+
+
+
+//  Tabular functions based on roles 
+function TableRoles (){
+if (!currentUser) return
+
+
+if (currentUser.role === "Client"){
+  return (
+    
+<table className="min-w-full text-sm">
+  <thead className="bg-slate-100 text-left text-slate-600">
+<tr>
+  <th className="px-4 py-3">My Details</th>
+
+  {/* Hide on small screens */}
+  <th className="px-4 py-3 hidden md:table-cell">Requested Service</th>
+
+  <th className="px-4 py-3">Status</th>
+
+  {/* Hide on small screens */}
+  <th className="px-4 py-3 hidden md:table-cell">My Country</th>
+
+  {/* Hide on small screens */}
+  <th className="px-4 py-3 hidden lg:table-cell">Created</th>
+
+  {/* <th className="px-4 py-3">Action</th> */}
+</tr>
+</thead>
+
+  <tbody>
+    {currentItems.map((s: any) => {
+// Destructure components separately
+
+      const { id, service, client } = s;
+
+  const fullName =
+
+[client.firstName, client.middleName, client.lastName]
+  .filter(Boolean)
+  .join(" ") || "N/A";
+
+      return (
+        <tr
+          key={id}
+          className="border-t hover:bg-slate-50 transition"
+        >
+          {/* Client */}
+          <td className="px-4 py-3">
+            <p className="font-semibold text-slate-900">{fullName}</p>
+            <p className="text-xs text-slate-500">{client.email}</p>
+          </td>
+
+          {/* Service */}
+          <td className="px-4 py-3">          
+            <p className="font-medium text-slate-800">
+              {service.ServiceName}
+            </p>
+            <p className="text-xs text-slate-500">
+              {service.Description.slice(0, 10)}
+            </p>
+          </td>
+
+          {/* Status */}
+   <td className="px-4 py-3">
+  <span
+    className={`text-xs font-semibold uppercase tracking-wide rounded-full border px-3 py-1 
+    ${statusStyles[s.proposal_status.toLowerCase()] || "bg-gray-200 text-gray-700 border-gray-200"}`}
+  >
+    {s.proposal_status}
+  </span>
+</td>
+
+          {/* Country */}
+          <td className="px-4 py-3 text-slate-700">
+            {client.country}
+          </td>
+
+          {/* Date */}
+          <td className="px-4 py-3 text-slate-600">
+            {new Date(s.createdAt).toLocaleDateString()}
+          </td>
+
+          {/* Actions */}
+          <td className="px-4 py-3">
+            <div className="flex gap-2">
+              
+              {/* <button className="text-xs font-medium text-slate-600 hover:text-black">
+                View
+              </button> */}
+
+
+              {/* Access url Parameters */}
+{/* <Link to={`/reviews/${id}`}> */}
+{/* 
+          <button
+            disabled={loadingId === id}
+            className={`flex gap-2 items-center text-xs font-semibold text-white 
+  bg-black px-3 py-2 rounded-full transition-all
+  ${loadingId === id ? "opacity-70 cursor-not-allowed" : "hover:bg-black/80"}`}
+            onClick={() => handleManageClick(s)}
+          >
+              {loadingId === id ? (
+    <>
+      <Loader2 className="animate-spin" size={18} />
+      Loading...
+    </>
+  ) : (
+    <>
+      <Wrench size={18} />
+      Manage
+    </>
+  )}
+              </button> */}
+{/* </Link> */}
+
+
+            </div>
+          </td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
+
+  )
+
+  // OtherWise show this 
+
+} else {
+  return <table className="min-w-full text-sm">
+  <thead className="bg-slate-100 text-left text-slate-600">
+<tr>
+  <th className="px-4 py-3">Client</th>
+
+  {/* Hide on small screens */}
+  <th className="px-4 py-3 hidden md:table-cell">Service</th>
+
+  <th className="px-4 py-3">Status</th>
+
+  {/* Hide on small screens */}
+  <th className="px-4 py-3 hidden md:table-cell">Country</th>
+
+  {/* Hide on small screens */}
+  <th className="px-4 py-3 hidden lg:table-cell">Created</th>
+
+  <th className="px-4 py-3">Action</th>
+</tr>
+</thead>
+
+  <tbody>
+    {currentItems.map((s: any) => {
+// Destructure components separately
+
+      const { id, service, client } = s;
+
+  const fullName =
+
+[client.firstName, client.middleName, client.lastName]
+  .filter(Boolean)
+  .join(" ") || "N/A";
+
+      return (
+        <tr
+          key={id}
+          className="border-t hover:bg-slate-50 transition"
+        >
+          {/* Client */}
+          <td className="px-4 py-3">
+            <p className="font-semibold text-slate-900">{fullName}</p>
+            <p className="text-xs text-slate-500">{client.email}</p>
+          </td>
+
+          {/* Service */}
+          <td className="px-4 py-3">          
+            <p className="font-medium text-slate-800">
+              {service.ServiceName}
+            </p>
+            <p className="text-xs text-slate-500">
+              {service.Description}
+            </p>
+          </td>
+
+          {/* Status */}
+   <td className="px-4 py-3">
+  <span
+    className={`text-xs font-semibold uppercase tracking-wide rounded-full border px-3 py-1 
+    ${statusStyles[s.proposal_status.toLowerCase()] || "bg-gray-200 text-gray-700 border-gray-200"}`}
+  >
+    {s.proposal_status}
+  </span>
+</td>
+
+          {/* Country */}
+          <td className="px-4 py-3 text-slate-700">
+            {client.country}
+          </td>
+
+          {/* Date */}
+          <td className="px-4 py-3 text-slate-600">
+            {new Date(s.createdAt).toLocaleDateString()}
+          </td>
+
+          {/* Actions */}
+          <td className="px-4 py-3">
+            <div className="flex gap-2">
+              {/* <button className="text-xs font-medium text-slate-600 hover:text-black">
+                View
+              </button> */}
+
+
+              {/* Access url Parameters */}
+{/* <Link to={`/reviews/${id}`}> */}
+
+{ 
+          <button
+            disabled={loadingId === id}
+            className={`flex gap-2 items-center text-xs font-semibold text-white 
+  bg-black px-3 py-2 rounded-full transition-all
+  ${loadingId === id ? "opacity-70 cursor-not-allowed" : "hover:bg-black/80"}`}
+            onClick={() => handleManageClick(s)}
+          >
+              {loadingId === id ? (
+    <>
+      <Loader2 className="animate-spin" size={18} />
+      Loading...
+    </>
+  ) : (
+    <>
+      <Wrench size={18} />
+      Manage
+    </>
+  )}
+              </button> 
+              
+              } 
+{/* </Link> */}
+
+
+            </div>
+          </td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
+}
+
+
+  
+}
 return (
-  <main className="min-h-screen bg-slate-50 ">
-    <div className="max-w-6xl mx-auto px-4">
+  <main className="min-h-screen  ">
+    <div className="max-w-6xl ml-4 px-4">
       <section className="rounded-[28px] border border-slate-200 bg-gradient-to-b from-white/90 via-white to-slate-50 p-6 shadow-lg mb-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div>
@@ -149,102 +449,17 @@ return (
 </div>
         {/* Proposal Display */}
 <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-lg">
-<table className="min-w-full text-sm">
-  <thead className="bg-slate-100 text-left text-slate-600">
-<tr>
-  <th className="px-4 py-3">Client</th>
 
-  {/* Hide on small screens */}
-  <th className="px-4 py-3 hidden md:table-cell">Service</th>
+{/*  Hide based on roles */}
 
-  <th className="px-4 py-3">Status</th>
-
-  {/* Hide on small screens */}
-  <th className="px-4 py-3 hidden md:table-cell">Country</th>
-
-  {/* Hide on small screens */}
-  <th className="px-4 py-3 hidden lg:table-cell">Created</th>
-
-  <th className="px-4 py-3">Action</th>
-</tr>
-</thead>
-
-  <tbody>
-    {currentItems.map((s: any) => {
-      const { id, service, client } = s;
-
-  const fullName =
-
-[client.firstName, client.middleName, client.lastName]
-  .filter(Boolean)
-  .join(" ") || "N/A";
-
-      return (
-        <tr
-          key={id}
-          className="border-t hover:bg-slate-50 transition"
-        >
-          {/* Client */}
-          <td className="px-4 py-3">
-            <p className="font-semibold text-slate-900">{fullName}</p>
-            <p className="text-xs text-slate-500">{client.email}</p>
-          </td>
-
-          {/* Service */}
-          <td className="px-4 py-3">          
-            <p className="font-medium text-slate-800">
-              {service.ServiceName}
-            </p>
-            <p className="text-xs text-slate-500">
-              {service.Description}
-            </p>
-          </td>
-
-          {/* Status */}
-          <td className="px-4 py-3">
-            <span className="text-xs font-semibold uppercase tracking-wide rounded-full border px-3 py-1 bg-slate-100 text-slate-700 border-slate-200">
-              {s.proposal_status}
-            </span>
-          </td>
-
-          {/* Country */}
-          <td className="px-4 py-3 text-slate-700">
-            {client.country}
-          </td>
-
-          {/* Date */}
-          <td className="px-4 py-3 text-slate-600">
-            {new Date(s.createdAt).toLocaleDateString()}
-          </td>
-
-          {/* Actions */}
-          <td className="px-4 py-3">
-            <div className="flex gap-2">
-              {/* <button className="text-xs font-medium text-slate-600 hover:text-black">
-                View
-              </button> */}
+{TableRoles()}
 
 
-              {/* Access url Parameters */}
-<Link to={`/reviews/${id}`}>
-
-              <button className="flex gap-2 items-center text-xs 
-              font-semibold text-white bg-black px-3 py-2 rounded-full
-              active:scale-105 cursor-pointer hover:bg-black/80 transition-all">
-               <Wrench size={18} 
-               />
-                Manage
-              </button>
-</Link>
 
 
-            </div>
-          </td>
-        </tr>
-      );
-    })}
-  </tbody>
-</table>
+
+
+
 </div>
         
 
@@ -253,7 +468,7 @@ return (
 <Pagination
 count={Math.ceil(proposals.length / itemsPerPage)}
 page={page}
-onChange={(e, value) => setPage(value)}
+onChange={(_e, value) => setPage(value)}
 shape="rounded"
 color="primary"
 />

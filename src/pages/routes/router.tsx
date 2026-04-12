@@ -4,26 +4,30 @@ import {
   createBrowserRouter,
 } from 'react-router-dom'
 
-import MainLayout from './layouts/MainLayout'
-import LoginPage from './pages/Auth/LoginPage'
-import Dashboard from './pages/Dashboard'
-import ProjectList from './pages/AllProjectReviews'
-import UsersPage from './pages/UsersPage'
-import CreateUserPage from './pages/CreateUserPage'
-import ClientsPage from './pages/ClientsPage'
-import CreateClientPage from './pages/CreateClientPage'
-import SettingsPage from './pages/settings/SettingsPage'
-import ConsultingPage from './pages/ConsultingPage'
-import LandingPage from './pages/starter/landingPage'
-import ServicesPage from './pages/starter/ServicesPage'
-import ServiceRequestPage from './pages/starter/ServiceRequestPage'
-import AddServicePage from './pages/starter/AddServicePage'
-import NotFoundPage from './pages/NotFoundPage'
-import Registration from './pages/Registration/Registration'
-import PricingDetails from './pages/settings/PricingDetails'
-import ServiceListPage from './pages/starter/ServiceListPage'
-import ReviewsPage from './pages/ReviewsPage'
-import ReviewDetailsPage from './pages/ReviewDetailsPage'
+import MainLayout from '../../layouts/MainLayout'
+import LoginPage from '../Auth/LoginPage'
+import Dashboard from '../Dashboard'
+import ProjectList from '../AllProjectReviews'
+import UsersPage from '../UsersPage'
+import CreateUserPage from '../CreateUserPage'
+import ClientsPage from '../ClientsPage'
+import CreateClientPage from '../CreateClientPage'
+import SettingsPage from '../settings/SettingsPage'
+import ConsultingPage from '../ConsultingPage'
+import LandingPage from '../starter/landingPage'
+import ServicesPage from '../starter/ServicesPage'
+import ServiceRequestPage from '../starter/ServiceRequestPage'
+import AddServicePage from '../starter/AddServicePage'
+import NotFoundPage from '../NotFoundPage'
+import Registration from '../Registration/Registration'
+import PricingDetails from '../settings/PricingDetails'
+import ServiceListPage from '../starter/ServiceListPage'
+import ReviewsPage from '../ReviewsPage'
+import ReviewDetailsPage from '../ReviewDetailsPage'
+
+
+// Protected Routes
+import ProtectedRoute from './protectedRoutes'
 
 export const router = createBrowserRouter([
   // ✅ ROOT → directly go to welcome (no flash)
@@ -55,7 +59,11 @@ export const router = createBrowserRouter([
   // ✅ MAIN APP (protected layout area)
   {
     path: '/',
-    element: <MainLayout />,
+    element: (
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: 'dashboard',
@@ -63,16 +71,22 @@ export const router = createBrowserRouter([
       },
 
       // REVIEWS
+   
       {
         path: 'reviews',
-        element: <Outlet />,
+        element: (
+        <ProtectedRoute>
+        <Outlet />
+        </ProtectedRoute>
+        
+        ),
         children: [
           {
             index: true,
             element: <ReviewsPage />,
           },
           {
-            path: 'projects-outcome',
+            path: 'pending-proposals',
             element: <ProjectList />,
           },
           {
@@ -86,7 +100,14 @@ export const router = createBrowserRouter([
       // USERS
       {
         path: 'users',
-        element: <Outlet />,
+       element: (
+
+        //  Protect routes Admin can see usewrs
+    <ProtectedRoute allowedRoles={["Admin"]}>
+      <Outlet />
+    </ProtectedRoute>
+  ),
+        
         children: [
           {
             index: true,
@@ -100,26 +121,16 @@ export const router = createBrowserRouter([
         ],
       },
 
-      // CLIENTS
-      {
-        path: 'clients',
-        element: <Outlet />,
-        children: [
-          {
-            index: true,
-            element: <ClientsPage />,
-          },
-          {
-            path: 'create',
-            element: <CreateClientPage />,
-          },
-        ],
-      },
-
+   
       // SERVICES
       {
         path: 'services',
-        element: <Outlet />,
+        element: (
+        <ProtectedRoute>
+        <Outlet />
+        </ProtectedRoute>
+        ),
+
         children: [
           {
             path: 'create',
@@ -139,18 +150,22 @@ export const router = createBrowserRouter([
       // SETTINGS
       {
         path: 'settings',
-        element: <SettingsPage />,
+        element: 
+        <ProtectedRoute>
+
+        <SettingsPage />
+        </ProtectedRoute>
+        ,
       },
       {
         path: 'settings/pricing/:pricingId',
-        element: <PricingDetails />,
+        element: 
+        <ProtectedRoute>
+        <PricingDetails />,
+        </ProtectedRoute>
       },
 
-      // CONSULTING
-      {
-        path: 'consulting',
-        element: <ConsultingPage />,
-      },
+     
     ],
   },
 

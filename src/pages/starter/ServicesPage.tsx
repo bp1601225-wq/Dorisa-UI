@@ -101,11 +101,7 @@ const ServicesPage = () => {
     }));
   }, [services]);
 
- const handleServiceRequest = async (
-  serviceId: string,
-  serviceName: string,
-  description: string
-) => {
+const handleServiceRequest = async (serviceId: string) => {
   try {
     setIsLoading(true);
     NProgress.start();
@@ -170,7 +166,7 @@ const ServicesPage = () => {
           variants={heroVariants}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => navigate("/request")}
+          onClick={() => navigate("/services/request")}
           className="mt-8 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full flex items-center gap-2 mx-auto shadow-lg"
         >
           Get Started <ArrowRight size={18} />
@@ -216,7 +212,7 @@ const ServicesPage = () => {
               {/* CTA */}
               <motion.button
                 whileHover={{ x: 5 }}
-onClick={() => handleServiceRequest(id, title, desc)}
+                onClick={() => handleServiceRequest(id)}
                 className="mt-5 flex items-center gap-2 text-green-600 font-medium cursor-pointer"
               >
                 Request Service <ArrowRight size={16} />

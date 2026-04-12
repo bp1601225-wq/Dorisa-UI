@@ -1,11 +1,11 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
-import axios from "axios";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import {
   type AuthContextTypes,
   type PublicUser,
   type UserType,
 } from "../../GlobalTypes";
+import api from "../api";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const STORAGE_KEY = "dorisa-auth-current-user";
@@ -56,42 +56,61 @@ export const AuthenticationContext = createContext<AuthContextTypes | undefined>
 /* ================= PROVIDER ================= */
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [currentUser, setCurrentUser] = useState<PublicUser | null>(getStoredUser);
+  const [currentUser, setCurrentUser] = useState<PublicUser | null>(null);
+  const [isAuthReady, setIsAuthReady] = useState(false);
+
+  useEffect(() => {
+    if (!isBrowser) {
+      setIsAuthReady(true);
+      return;
+    }
+
+    const stored = getStoredUser();
+    setCurrentUser(stored);
+    setIsAuthReady(true);
+  }, []);
 
   const persistUser = (user: PublicUser | null) => {
     setCurrentUser(user);
     setStoredUser(user);
   };
 
-  const Login = async (
-    data: Record<string, unknown>
-  ): Promise<PublicUser | null> => {
-    try {
-      const res = await axios.post(`${API_URL}/auth`, data);
-      const user = sanitizeUser(res.data as UserType);
 
-      if (!user) return null;
 
-      persistUser(user);
-      toast.success(`Welcome back ${user.email}`);
-      console.log("Login:", user);
 
-      return user;
-    } catch (err: any) {
-      const message =
-        err?.response?.data?.message || err.message || "Login failed";
+const Login = async (data: Record<string, unknown>) => {
+  try {
+    const res = await api.post(`/auth`, data);
 
-      console.error("Login error:", message);
-      toast.error(message);
+    const { token, ...userData } = res.data;
 
-      return null;
-    }
-  };
+    // ✅ store token
+    localStorage.setItem("token", token);
 
+    // ✅ sanitize user (even though it's already safe, keeps your pattern)
+    const user = sanitizeUser(userData as UserType);
+
+    if (!user) return null;
+
+    persistUser(user);
+
+    toast.success(`Welcome back ${user.email}`);
+
+    return user;
+  } catch (err: any) {
+    const message =
+      err?.response?.data?.message || err.message || "Login failed";
+
+    toast.error(message);
+    return null;
+  }
+};
   const Logout = () => persistUser(null);
 
   return (
-    <AuthenticationContext.Provider value={{ Login, Logout, currentUser }}>
+    <AuthenticationContext.Provider
+      value={{ Login, Logout, currentUser, isAuthReady }}
+    >
       {children}
     </AuthenticationContext.Provider>
   );

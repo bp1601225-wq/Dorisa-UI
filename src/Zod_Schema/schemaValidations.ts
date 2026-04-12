@@ -1,4 +1,4 @@
-import { email, z } from "zod";
+import { z } from "zod";
 import { ServiceStatus } from "../../GlobalTypes";
 
 export const Authschema = z.object({
@@ -49,7 +49,7 @@ export const ProposalReviewSchema = z.object({
   pricing: z.number().nonnegative("Pricing must be a positive number"),
   termsAndConditions: z.string().min(1, "Terms and Conditions is required"),
 
-status: z.enum(["PENDING", "APPROVED", "REJECTED", "NEGOTIATING"]),
+status: z.enum(["DRAFT","PENDING", "APPROVED", "REJECTED", "NEGOTIATING"]),
 });
 
 export type ReviewField = z.infer<typeof ProposalReviewSchema>

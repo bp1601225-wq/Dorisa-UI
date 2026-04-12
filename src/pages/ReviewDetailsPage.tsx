@@ -81,6 +81,7 @@ async function handleConfirm() {
   try {
     const payload: ProjectProposal = {
       ...pendingData,
+      status: "PENDING",
       service_id: matchingProposal.service.id,
       client_id: matchingProposal.client.id,
     };
@@ -169,12 +170,12 @@ Back to Review
           </span>
           <span className="text-xs text-slate-400 uppercase tracking-[0.4em]">
             {[
-              matchingProposal.client.firstName,
-              matchingProposal.client.middleName,
-              matchingProposal.client.lastName,
+              matchingProposal.client?.firstName,
+              matchingProposal.client?.middleName,
+              matchingProposal.client?.lastName,
             ]
               .filter(Boolean)
-              .join(" ")}
+              .join(" ") || "N/A"}
           </span>
         </h3>
 
@@ -272,9 +273,7 @@ Back to Review
 
 
 
-<p className="margin:0">
-Change the client status to be sent 
-</p>
+
 <div className=" flex mt-2 gap-5 flex-col">
 
 {errors.status && (
@@ -295,12 +294,9 @@ onChange={(e) => handleStatusChange(e.target.value)}
 className="px-6 py-2 rounded-lg border text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500"
 defaultValue=""
 >
-<option value="" disabled>
-change status
-</option>
-<option value="Approved">Approve</option>
-<option value="PENDING">Pending</option>
-<option value="Rejected">Reject</option>
+
+<option value="DRAFT">Draft</option>
+
 </select>
 
 <ArrowRight />

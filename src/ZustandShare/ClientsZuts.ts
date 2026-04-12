@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { RegistrationForm } from "../../GlobalTypes";
-import axios from "axios";
+import api from "../api";
 import { toast } from "sonner";
 
 interface ClientStoreTypes {
@@ -10,15 +10,13 @@ interface ClientStoreTypes {
   removeClient: (id: string) => void;
 }
 
-const CLIENT_URL = import.meta.env.VITE_API_URL;
-
 export const useClientStore = create<ClientStoreTypes>((set) => ({
   clients: [],
 
   //  FETCH (GET)
   fetchClients: async () => {
     try {
-      const response = await axios.get(`${CLIENT_URL}/all-clients`);
+      const response = await api.get("/all-clients");
 
       console.log(response)
 
@@ -34,10 +32,7 @@ export const useClientStore = create<ClientStoreTypes>((set) => ({
   // 🔹 CREATE (POST)
   addClient: async (client) => {
     try {
-      const response = await axios.post(
-        `${CLIENT_URL}/create-clients`,
-        client
-      );
+      const response = await api.post("/create-clients", client);
 
       console.log(response)
       

@@ -1,14 +1,16 @@
 import {create} from "zustand"
 import { type ProjectProposal } from "../../GlobalTypes"
-import { axisDeltaEquals } from "framer-motion"
-import axios from "axios"
+import api from "../api"
 import { toast } from "sonner"
 
 
-// This File is there to send to the client after admin revies
-// The client sees what is going on
-// A review just to be sent different from creating a proposal
 
+//  Admin will create a proposal and then send to
+//  the client for the client to approve or reject
+// the proposal
+
+
+// Projects array contain everything of client details
 
 
 // functions to infer from type
@@ -20,7 +22,7 @@ type ProjectProposalZutsType = {
     EditProjects: (Updateproposals:ProjectProposal) => Promise<void>
 }
 
-const BASE_URL = import.meta.env.VITE_API_URL
+
 //  Zustand Functions 
 
 
@@ -32,7 +34,7 @@ projects: [],
 
 fetchProjects: async () => {
 try {
-    const response = await axios.get(`${BASE_URL}/get-all-reviews`)
+    const response = await api.get("/get-all-reviews")
     console.log(response.data.data)
 
 set({
@@ -47,7 +49,7 @@ toast.success(response.data.message);
 set ({
 projects: []
 })
-    const response = await axios.get(`${BASE_URL}/get-all-reviews`)
+    const response = await api.get("/get-all-reviews")
     toast.error(response.data.error.message)
 console.error(error)
 
@@ -61,7 +63,7 @@ console.error(error)
 createProjects: async (proposals:ProjectProposal) => {
 
     try {
- const response = await axios.post(`${BASE_URL}/create-reviews`, proposals)
+ const response = await api.post("/create-reviews", proposals)
 
 
     set ((state)=>({
@@ -70,15 +72,18 @@ createProjects: async (proposals:ProjectProposal) => {
 
     toast.success(response.data.message)
 
+    get().fetchProjects()
+
 
     } catch (error:any) {
- const response = await axios.post(`${BASE_URL}/create-reviews`, proposals)
+ const message =
+      error?.response?.data?.message ||
+      error?.response.message ||
+      "Something went wrong";
 
+    console.log("ERROR MESSAGE:", message);
 
- toast.error(response.data.error.message)
-
-        console.log(error)
-
+    toast.error(message)
         
     }
 
@@ -90,7 +95,7 @@ createProjects: async (proposals:ProjectProposal) => {
 EditProjects: async (Updateproposals:ProjectProposal) => {
 
 try {
- const response = await axios.post(`${BASE_URL}/update-reviews`, Updateproposals)
+ const response = await api.post("/update-reviews", Updateproposals)
 
 set ((state)=>({
     projects: state.projects.map((payload:ProjectProposal)=>{
@@ -102,7 +107,7 @@ set ((state)=>({
 
 
 } catch (error:any) {
- const response = await axios.post(`${BASE_URL}/update-reviews`, Updateproposals)
+ const response = await api.post("/update-reviews", Updateproposals)
 
  toast.error(response.data.error)
 
