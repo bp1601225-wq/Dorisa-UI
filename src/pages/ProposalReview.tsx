@@ -14,17 +14,16 @@ import {
 } from "lucide-react"
 import { useAuth } from "../context/AuthContext"
 import SettingsModal from "./utils/Modal"
+import type { NegotiationType } from "../../GlobalTypes"
 
-const ProjectList = () => {
-
-
+const ProposalReviewList = () => {
   
   // Access shared project data and auth metadata
   const { proposalReviews, fetchProposalReviews } = useProposalReviewStore()
   const { currentUser } = useAuth()
 
   // Local UI state for selection and modal control
-  const [selectedProject, setSelectedProject] = useState<any>(null)
+  const [selectedProposalReview, setSelectedProposalReview] = useState<any>(null)
   const [openNegotiateModal, setOpenNegotiateModal] = useState(false)
   const [negotiationText, setNegotiationText] = useState("")
   const [openApproveModal, setOpenApproveModal] = useState(false)
@@ -122,27 +121,27 @@ const ProjectList = () => {
       <div className="space-y-4">
         <div>
           <h2 className="text-lg font-semibold text-slate-800">
-            {selectedProject?.clientName}
+            {selectedProposalReview?.clientName}
           </h2>
           <p className="text-sm text-slate-500">
-            {selectedProject?.clientEmail}
+            {selectedProposalReview?.clientEmail}
           </p>
         </div>
 
         <div>
           <p className="text-xs text-slate-400">Service</p>
-          <p className="text-slate-700">{selectedProject?.serviceName}</p>
+          <p className="text-slate-700">{selectedProposalReview?.serviceName}</p>
         </div>
 
         <div>
           <p className="text-xs text-slate-400">Scope</p>
-          <p className="text-sm text-slate-600">{selectedProject?.scope}</p>
+          <p className="text-sm text-slate-600">{selectedProposalReview?.scope}</p>
         </div>
 
         <div>
           <p className="text-xs text-slate-400">Price</p>
           <p className="text-lg font-semibold text-slate-800">
-            GHS {selectedProject?.pricing}
+            GHS {selectedProposalReview?.pricing}
           </p>
         </div>
 
@@ -151,18 +150,18 @@ const ProjectList = () => {
         <div className="flex gap-2 items-center text-sm">
           Status:
           <Chip
-            label={selectedProject?.status ?? "�"}
+            label={selectedProposalReview?.status ?? "�"}
             sx={{
               backgroundColor:
-                selectedProject?.status === "APPROVED"
+                selectedProposalReview?.status === "APPROVED"
                   ? "#dcfce7"
-                  : selectedProject?.status === "PENDING"
+                  : selectedProposalReview?.status === "PENDING"
                   ? "#dbeafe"
                   : "#fee2e2",
               color:
-                selectedProject?.status === "APPROVED"
+                selectedProposalReview?.status === "APPROVED"
                   ? "#166534"
-                  : selectedProject?.status === "PENDING"
+                  : selectedProposalReview?.status === "PENDING"
                   ? "#1e3a8a"
                   : "#991b1b",
             }}
@@ -174,7 +173,7 @@ const ProjectList = () => {
     if (currentUser.role === "Client") {
       return (
         <div className="col-span-12 md:col-span-4 bg-white rounded-2xl shadow p-5 border border-slate-100">
-          {!selectedProject ? (
+          {!selectedProposalReview ? (
             <div className="flex flex-col items-center justify-center h-full text-center text-slate-400 text-sm">
               <Briefcase className="text-green-300" />
               <p className="mb-2">Select a project</p>
@@ -194,17 +193,27 @@ const ProjectList = () => {
                     variant="contained"
                     sx={{ backgroundColor: "#16a34a" }}
                     onClick={() => setOpenApproveModal(true)}
-                    disabled={!selectedProject}
+                    disabled={!selectedProposalReview}
                   >
                     Approve
                   </Button>
-                  
+
+
+
+
                   <Button
                     fullWidth
                     variant="outlined"
                     color="error"
-                    onClick={() => setOpenNegotiateModal(true)}
-                    disabled={!selectedProject}
+                    onClick={
+                      
+                      () => 
+                      setOpenNegotiateModal(true)
+
+
+                    
+                    }
+                    disabled={!selectedProposalReview}
                   >
                     Negotiate
                   </Button>
@@ -218,7 +227,7 @@ const ProjectList = () => {
 
     return (
       <div className="col-span-12 md:col-span-4 bg-white rounded-2xl shadow p-5 border border-slate-100">
-        {!selectedProject ? (
+        {!selectedProposalReview ? (
           <div className="flex flex-col items-center justify-center h-full text-center text-slate-400 text-sm">
             <Briefcase className="text-green-300" />
             <p className="mb-2">Select a project</p>
@@ -289,14 +298,14 @@ const ProjectList = () => {
       </p>
 
       {/* Selected client identifier bar */}
-      {selectedProject && (
+      {selectedProposalReview && (
         <div className="mb-3 flex items-center justify-between bg-white border border-slate-200 rounded-xl px-4 py-2 shadow-sm">
           <div className="flex items-center gap-2">
             <Users2Icon size={16} className="text-blue-500" />
             <span className="text-xs text-slate-400">Client ID</span>
           </div>
           <span className="text-xs font-mono text-slate-700">
-            {selectedProject.clientId ?? "�"}
+            {selectedProposalReview.clientId ?? "�"}
           </span>
         </div>
       )}
@@ -307,7 +316,7 @@ const ProjectList = () => {
           <DataGrid
             rows={rows}
             columns={columns}
-            onRowClick={(params) => setSelectedProject(params.row)}
+            onRowClick={(params) => setSelectedProposalReview(params.row)}
             pageSizeOptions={[5, 10]}
             initialState={{
               pagination: { paginationModel: { pageSize: 8, page: 0 } },
@@ -328,29 +337,33 @@ const ProjectList = () => {
               <div className="p-2 rounded-full bg-green-100 text-green-600">
                 <CheckCircle size={20} />
               </div>
-              <h2 className="text-lg font-semibold text-slate-800">Approve Project</h2>
+              <h2 className="text-lg font-semibold text-slate-800">Approve Proposal</h2>
             </div>
 
+
+
+
             <p className="text-sm text-slate-600">
-              You are about to approve this project. This action will confirm the proposal and move it forward.
+              You are about to approve this proposal. This action will confirm the proposal and move it forward. 
+            
             </p>
 
-            {selectedProject && (
+            {selectedProposalReview && (
               <div className="bg-slate-50 border rounded-xl p-4 space-y-2 text-sm">
                 <p>
-                  <span className="text-slate-400">Client:</span> {selectedProject.clientName}
+                  <span className="text-slate-400">Client:</span> {selectedProposalReview.clientName}
                 </p>
                 <p>
-                  <span className="text-slate-400">Service:</span> {selectedProject.serviceName}
+                  <span className="text-slate-400">Service:</span> {selectedProposalReview.serviceName}
                 </p>
                 <p>
-                  <span className="text-slate-400">Price:</span> GHS {selectedProject.pricing}
+                  <span className="text-slate-400">Price:</span> GHS {selectedProposalReview.pricing}
                 </p>
                 <p>
-                  <span className="text-slate-400">Scope:</span> {selectedProject.scope}
+                  <span className="text-slate-400">Scope:</span> {selectedProposalReview.scope}
                 </p>
                 <p>
-                  <span className="text-slate-400">Deliverables:</span> {selectedProject.deliverables}
+                  <span className="text-slate-400">Deliverables:</span> {selectedProposalReview.deliverables}
                 </p>
               </div>
             )}
@@ -364,7 +377,7 @@ const ProjectList = () => {
                 sx={{ backgroundColor: "#16a34a" }}
                 startIcon={<CheckCircle size={16} />}
                 onClick={() => {
-                  console.log("Approved:", selectedProject)
+                  console.log("Approved:", selectedProposalReview)
                   setOpenApproveModal(false)
                 }}
               >
@@ -387,23 +400,23 @@ const ProjectList = () => {
                 <MessageSquareWarning size={22} />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-slate-800">Negotiate Project</h2>
+                <h2 className="text-lg font-semibold text-slate-800">Negotiate Proposal </h2>
                 <p className="text-sm text-slate-500">
                   Propose changes to pricing, scope, or timeline.
                 </p>
               </div>
             </div>
 
-            {selectedProject && (
+            {selectedProposalReview && (
               <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2">
                 <p className="text-sm font-medium text-slate-800">
-                  {selectedProject.clientName}
+                  {selectedProposalReview.clientName}
                 </p>
-                <p className="text-xs text-slate-500">{selectedProject.serviceName}</p>
+                <p className="text-xs text-slate-500">{selectedProposalReview.serviceName}</p>
                 <div className="flex justify-between items-center pt-2">
                   <span className="text-xs text-slate-400">Current Price</span>
                   <span className="text-sm font-semibold text-slate-700">
-                    GHS {selectedProject.pricing}
+                    GHS {selectedProposalReview.pricing}
                   </span>
                 </div>
               </div>
@@ -436,9 +449,31 @@ const ProjectList = () => {
                   px: 3,
                 }}
                 onClick={() => {
+
+
+
                   console.log("Negotiation:", negotiationText)
-                  console.log("Project:", selectedProject)
+
+
+                  // console.log("Project:", selectedProposalReview)
+
+
+                if (!selectedProposalReview) return
+                
+                const negotiatingApproval:NegotiationType = {
+                      clientId:selectedProposalReview.clientId,
+                      proposal_id:selectedProposalReview.id,
+                      NegotiationText:negotiationText,
+                    }
+
+
+
+                    console.log(`negotiating approval`,negotiatingApproval)
+
                   setOpenNegotiateModal(false)
+
+                  
+
                   setNegotiationText("")
                 }}
               >
@@ -452,4 +487,4 @@ const ProjectList = () => {
   )
 }
 
-export default ProjectList
+export default ProposalReviewList

@@ -7,7 +7,7 @@ import {
 import MainLayout from '../../layouts/MainLayout'
 import LoginPage from '../Auth/LoginPage'
 import Dashboard from '../Dashboard'
-import ProjectList from '../AllProjectReviews'
+import ProposalReviewList from '../ProposalReview'
 import UsersPage from '../UsersPage'
 import CreateUserPage from '../CreateUserPage'
 import ClientsPage from '../ClientsPage'
@@ -87,7 +87,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'pending-proposals',
-            element: <ProjectList />,
+            element: <ProposalReviewList />,
           },
           {
             path: ':id',

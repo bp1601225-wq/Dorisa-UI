@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Briefcase, Loader2, Search, Sparkles, Wrench } from "lucide-react";
-import { useProposalStore } from "../ZustandShare/ProposalZuts";
+import { Briefcase, Loader2, Search, Wrench } from "lucide-react";
+import { useClientsReviewStore } from "../ZustandShare/ClientsReviewZuts";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import {  useNavigate } from "react-router-dom";
@@ -8,6 +8,8 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { useAuth } from "../context/AuthContext";
 
+
+// Client requests board: services requested by clients and their review/status.
 
 const stats = [
 { label: "Open Requests", value: "24" },
@@ -25,7 +27,7 @@ const statusStyles: any = {
 
 
 
-export default function ReviewsPage() {
+export default function ClientServiceReview() {
 const navigate = useNavigate()
 const {currentUser} = useAuth()
 
@@ -36,22 +38,22 @@ const {currentUser} = useAuth()
 const [loadingId, setLoadingId] = useState<string | null>(null);
 
 
-const {fetchProposals, proposals, ChangeStatus} = useProposalStore()
+const {fetchClientReviews, clientReviews, changeReviewStatus} = useClientsReviewStore()
 
 useEffect(() => {
-fetchProposals();
-}, [fetchProposals]);
+fetchClientReviews();
+}, [fetchClientReviews]);
 
 useEffect(() => {
-console.log("All proposals:", proposals);
-}, [proposals]);
+console.log("All client reviews:", clientReviews);
+}, [clientReviews]);
 
 // Paginated
 const [page, setPage] = useState(1);
 const itemsPerPage = 5;
 
 const start = (page - 1) * itemsPerPage;
-const currentItems = proposals.slice(start, start + itemsPerPage);
+const currentItems = clientReviews.slice(start, start + itemsPerPage);
 
 const waitForNextFrame = () =>
   new Promise<void>((resolve) => {
@@ -77,7 +79,7 @@ const handleManageClick = async (proposal: any) => {
     NProgress.start();
 
     if (proposal.proposal_status !== "PENDING") {
-      await ChangeStatus(proposalId, "PENDING");
+      await changeReviewStatus(proposalId, "PENDING");
     }
 
     await waitForNextFrame();
@@ -466,7 +468,7 @@ return (
         {/* Paginated buttons */}
         <Stack spacing={2} className="mt-6 flex items-center">
 <Pagination
-count={Math.ceil(proposals.length / itemsPerPage)}
+count={Math.ceil(clientReviews.length / itemsPerPage)}
 page={page}
 onChange={(_e, value) => setPage(value)}
 shape="rounded"

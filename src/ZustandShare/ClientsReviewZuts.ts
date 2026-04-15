@@ -3,40 +3,43 @@ import { type ProposalCatalog } from "../../GlobalTypes"
 import api from "../api"
 import { toast } from "sonner"
 
-type ProposalStoreType = {
-  proposals: ProposalCatalog[]
-  fetchProposals: () => Promise<void>
-  addProposal: (proposal: ProposalCatalog) => Promise<void>
-  updateProposal: (proposal: ProposalCatalog) => Promise<void>
-  deleteProposal: (id: string) => Promise<void>
-  ChangeStatus: (id:string, Proposalstatus: string) => Promise<void>
+// Client review/request store:
+// Tracks services clients requested and the review/status lifecycle before it becomes a real proposal/project.
+
+type ClientsReviewStoreType = {
+  clientReviews: ProposalCatalog[]
+  fetchClientReviews: () => Promise<void>
+  addClientReview: (review: ProposalCatalog) => Promise<void>
+  updateClientReview: (review: ProposalCatalog) => Promise<void>
+  deleteClientReview: (id: string) => Promise<void>
+  changeReviewStatus: (id: string, status: string) => Promise<void>
 
 }
 
-export const useProposalStore = create<ProposalStoreType>((set) => ({
-  proposals: [],
+export const useClientsReviewStore = create<ClientsReviewStoreType>((set) => ({
+  clientReviews: [],
 
-  fetchProposals: async () => {
+  fetchClientReviews: async () => {
     try {
       const response = await api.get("/get-all-proposals")
 
       set({
-        proposals: response.data.data,
+        clientReviews: response.data.data,
       })
 
     } catch (error: any) {
-      set({ proposals: [] })
+      set({ clientReviews: [] })
       toast.error(error.message)
       console.error(error)
     }
   },
 
-  addProposal: async (proposal) => {
+  addClientReview: async (review) => {
     try {
-      const response = await api.post("/create-proposal", proposal)
+      const response = await api.post("/create-proposal", review)
 
       set((state) => ({
-        proposals: [...state.proposals, response.data],
+        clientReviews: [...state.clientReviews, response.data],
       }))
 
       toast.success(response.data.message)
@@ -53,16 +56,16 @@ export const useProposalStore = create<ProposalStoreType>((set) => ({
     }
   },
 
-  updateProposal: async (updatedProposal) => {
+  updateClientReview: async (updatedReview) => {
     try {
       const response = await api.put(
-        `/update-proposal/${updatedProposal.id}`,
-        updatedProposal
+        `/update-proposal/${updatedReview.id}`,
+        updatedReview
       )
 
       set((state) => ({
-        proposals: state.proposals.map((proposal) =>
-          proposal.id === updatedProposal.id ? response.data : proposal
+        clientReviews: state.clientReviews.map((review) =>
+          review.id === updatedReview.id ? response.data : review
         ),
       }))
 
@@ -73,12 +76,12 @@ export const useProposalStore = create<ProposalStoreType>((set) => ({
     }
   },
 
-  deleteProposal: async (id) => {
+  deleteClientReview: async (id) => {
     try {
       await api.delete(`/delete-proposal/${id}`)
 
       set((state) => ({
-        proposals: state.proposals.filter((proposal) => proposal.id !== id),
+        clientReviews: state.clientReviews.filter((review) => review.id !== id),
       }))
 
       toast.success("Proposal deleted successfully")
@@ -89,20 +92,20 @@ export const useProposalStore = create<ProposalStoreType>((set) => ({
   },
 
   // Change status
- ChangeStatus: async (id: string, proposalStatus: string) => {
+ changeReviewStatus: async (id: string, status: string) => {
   try {
     const response = await api.patch(`/proposal/${id}/status`, {
-        proposal_status: proposalStatus
+        proposal_status: status
     })
 
    set((state) => ({
-  proposals: state.proposals.map((proposal) =>
-    proposal.id === id
+  clientReviews: state.clientReviews.map((review) =>
+    review.id === id
       ? {
-          ...proposal, // ✅ keep old data
+          ...review, // keep old data
           proposal_status: response.data.data.proposal_status // ✅ update only this
         }
-      : proposal
+      : review
   ),
 }))
 

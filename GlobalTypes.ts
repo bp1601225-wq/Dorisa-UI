@@ -103,11 +103,6 @@ export type ProposalStatus =
 
   | "DRAFT"  // Client create
   | "PENDING" // proposal created by admin
-
-
-
-
-
   | "SENT"  // 
   | "ACCEPTED" // clients accepts
   | "NEGOTIATING"  // wants negotiation
@@ -124,7 +119,7 @@ export interface ProposalCatalog {
 }
 
 
-// Admin prepres a proposal to be sent to client for review
+// Admin prepares a proposal to be sent to client for review
 export interface ProjectProposal {
   id?: string;
   service_id?: string;
@@ -139,3 +134,10 @@ export interface ProjectProposal {
   status: ProposalStatus
 }
 
+export interface NegotiationType {
+  id?:string,
+  clientId:string,
+  proposal_id:string
+  negotiatingText:string
+  created_at?:string
+}

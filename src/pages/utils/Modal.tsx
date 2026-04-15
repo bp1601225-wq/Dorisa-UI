@@ -26,6 +26,7 @@ export default function SettingsModal({
            shouldCloseOnOverlayClick={true}
           className="fixed inset-0 flex justify-center items-start mt-20 outline-none"
           overlayClassName="fixed inset-0 bg-black/30 z-50"
+          ariaHideApp={false}
         >
           <motion.div
             initial={{ opacity: 0, y: 50, scale: 0.95 }}

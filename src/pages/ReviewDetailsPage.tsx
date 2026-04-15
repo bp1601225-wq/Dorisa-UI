@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import {  useState } from "react";
-import { useProposalStore } from "../ZustandShare/ProposalZuts";
+import { useClientsReviewStore } from "../ZustandShare/ClientsReviewZuts";
 import {
 CheckCircle,
 Clock,
@@ -23,15 +23,15 @@ import type { ProjectProposal } from "../../GlobalTypes";
 import { ProposalReviewSchema, type ReviewField } from "../Zod_Schema/schemaValidations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SettingsModal from "./utils/Modal";
-import { useProjectsStore } from "../ZustandShare/ProjectsZuts";
+import { useProposalReviewStore } from "../ZustandShare/ProposalReviewZuts";
 
 function ReviewDetailsPage() {
-const { proposals } = useProposalStore() as { proposals: any };
+const { clientReviews } = useClientsReviewStore() as { clientReviews: any };
 const { id } = useParams();
 
 // Zustand API shared update (This is to send to client for review)
 
-const {createProjects} = useProjectsStore() 
+const { createProposalReview } = useProposalReviewStore()
 
 // STATES 
 const [pendingData, setPendingData] = useState<ReviewField | null>(null);
@@ -50,7 +50,7 @@ const {handleSubmit, reset, register, formState:{errors, isSubmitting}} = useFor
   resolver:zodResolver(ProposalReviewSchema)
 })
 
-const matchingProposal = proposals.find((p: any) => p.id === id);
+const matchingProposal = clientReviews.find((p: any) => p.id === id);
 
 const [status, setStatus] = useState(
 matchingProposal?.proposal_status || "Pending"
@@ -87,7 +87,7 @@ async function handleConfirm() {
     };
 
     console.log(payload);
-    await createProjects(payload)
+    await createProposalReview(payload)
   
 
   } catch (error) {

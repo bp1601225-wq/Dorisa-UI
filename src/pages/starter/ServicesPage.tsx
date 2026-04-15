@@ -20,7 +20,7 @@ import { useServiceStore } from "../../ZustandShare/serviceZuts";
 import { useEffect, useMemo, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import type { ProposalCatalog } from "../../../GlobalTypes";
-import { useProposalStore } from "../../ZustandShare/ProposalZuts";
+import { useClientsReviewStore } from "../../ZustandShare/ClientsReviewZuts";
 
 /* ---------------- TYPES ---------------- */
 type DisplayService = {
@@ -84,7 +84,7 @@ const ServicesPage = () => {
 
 
   // Zustand share
-  const {addProposal} = useProposalStore();
+  const { addClientReview } = useClientsReviewStore();
 
   useEffect(() => {
     fetchServices();
@@ -121,7 +121,7 @@ const handleServiceRequest = async (serviceId: string) => {
       proposal_status: "DRAFT",
     };
 
-    addProposal(serviceReview)
+    addClientReview(serviceReview)
 
     await delay(0);
     await delay(1500);
