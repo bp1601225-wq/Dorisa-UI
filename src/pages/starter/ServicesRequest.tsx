@@ -19,8 +19,8 @@ import { getPersistedUser, useAuth } from "../../context/AuthContext";
 import { useServiceStore } from "../../ZustandShare/serviceZuts";
 import { useEffect, useMemo, useState } from "react";
 import type { LucideIcon } from "lucide-react";
-import type { ProposalCatalog } from "../../../GlobalTypes";
-import { useClientsReviewStore } from "../../ZustandShare/ClientsReviewZuts";
+import type { ClientServiceRequest } from "../../../GlobalTypes";
+import { useClientsRequestStore } from "../../ZustandShare/ClientsRequestZuts";
 
 /* ---------------- TYPES ---------------- */
 type DisplayService = {
@@ -75,7 +75,7 @@ const cardVariants = {
 };
 
 /* ---------------- COMPONENT ---------------- */
-const ServicesPage = () => {
+const ServicesRequestPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { fetchServices, services } = useServiceStore();
@@ -84,7 +84,7 @@ const ServicesPage = () => {
 
 
   // Zustand share
-  const { addClientReview } = useClientsReviewStore();
+  const { addClientRequest } = useClientsRequestStore();
 
   useEffect(() => {
     fetchServices();
@@ -115,13 +115,19 @@ const handleServiceRequest = async (serviceId: string) => {
       return;
     }
 
-    const serviceReview: ProposalCatalog = {
+    const serviceRequest: ClientServiceRequest= {
       clientId: user.id,
       serviceId: serviceId,
-      proposal_status: "DRAFT",
+      request_status: "DRAFT",
     };
 
-    addClientReview(serviceReview)
+    console.log(serviceRequest)
+
+    
+    addClientRequest(serviceRequest)
+
+    return
+
 
     await delay(0);
     await delay(1500);
@@ -250,4 +256,4 @@ const handleServiceRequest = async (serviceId: string) => {
   );
 };
 
-export default ServicesPage;
+export default ServicesRequestPage

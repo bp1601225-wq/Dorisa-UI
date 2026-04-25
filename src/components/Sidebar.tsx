@@ -115,6 +115,7 @@ function Sidebar({
 
 
    
+    
 
 
 
@@ -128,19 +129,19 @@ function Sidebar({
 
 
 
-    {
-      id: "projects",
-      label: "Pending Outcome ",
-      icon: LayoutDashboard,
-      roles: ["Admin", "Client"],
-      children: [
-        {
-          to: "/reviews/pending-proposals",
-          label: "pending",
-          icon: Sparkles,
-        },
-      ],
-    },
+    // {
+    //   id: "projects",
+    //   label: "Pending Outcome ",
+    //   icon: LayoutDashboard,
+    //   roles: ["Admin", "Client"],
+    //   children: [
+    //     {
+    //       to: "/reviews/pending-proposals",
+    //       label: "pending",
+    //       icon: Sparkles,
+    //     },
+    //   ],
+    // },
 
 
 

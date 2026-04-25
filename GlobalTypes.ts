@@ -98,46 +98,38 @@ export interface ServiceCatalog {
 
 
 // Proposal Catalog
-export type ProposalStatus =
-
-
-  | "DRAFT"  // Client create
-  | "PENDING" // proposal created by admin
-  | "SENT"  // 
-  | "ACCEPTED" // clients accepts
-  | "NEGOTIATING"  // wants negotiation
-  | "DECLINED";  // declines proposal by admin or client
-  
+export type ProposalStatus = "PENDING" | "APPROVED" | "DECLINED"
+| "NEGOTIATING" | "ACCEPTED"
 
 
   // Client Adding services to create a proposal
-export interface ProposalCatalog {
+export interface ClientServiceRequest {
   id?:string
   clientId:string,
   serviceId:string
- proposal_status: ProposalStatus
+request_status: ProposalStatus
 }
 
 
 // Admin prepares a proposal to be sent to client for review
-export interface ProjectProposal {
+export interface Proposal {
   id?: string;
-  service_id?: string;
-  client_id?: string;
+  service_id: string;
+  client_id: string;
   contract_id?: string;
 
   scope: string;
   deliverables: string;
   timeline: string;
   pricing: number;
-  termsAndConditions: string;
   status: ProposalStatus
+  termsAndConditions: string;
 }
 
 export interface NegotiationType {
   id?:string,
   clientId:string,
   proposal_id:string
-  negotiatingText:string
+  NegotiationText:string
   created_at?:string
 }

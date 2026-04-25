@@ -26,32 +26,7 @@ export default function SettingsPage() {
   const fetchEveryRoles = useRolesStore((r: any) => r.fetchRoles);
   const AllRoles = useRolesStore((r: any) => r.roles);
   const EditRoles = useRolesStore((r: any) => r.EditRoles);
-  const DeleteRoles = useRolesStore((r: any) => r.DeleteRoles);
-
-
-// const dummyPlans = [
-//   {
-//     id: "1",
-//     name: "Basic Consulting",
-//     price: 500,
-//     users: 2,
-//     features: "Initial consultation, summary report",
-//   },
-//   {
-//     id: "2",
-//     name: "Business Advisory",
-//     price: 1500,
-//     users: 5,
-//     features: "3 strategy sessions, advisory report",
-//   },
-//   {
-//     id: "3",
-//     name: "IT Infrastructure Audit",
-//     price: 3000,
-//     users: 10,
-//     features: "System audit, security report",
-//   },
-// ];
+  const DeleteRoles = useRolesStore((r: any) => r.DeleteRoles)
 
 
   useEffect(()=>{

@@ -140,7 +140,7 @@ export function DataGridUiTable({rows, columns}:any){
      <div style={{ height: 400, width: '100%' }}>
 <DataGrid rows={rows} columns={columns} 
 density="compact"
-  pageSizeOptions={[20, 30, 40, 50, 60]}
+  pageSizeOptions={[4, 30, 40, 50, 60]}
       initialState={{
         pagination: {
           paginationModel: {

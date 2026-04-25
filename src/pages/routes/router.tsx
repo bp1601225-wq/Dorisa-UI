@@ -7,27 +7,25 @@ import {
 import MainLayout from '../../layouts/MainLayout'
 import LoginPage from '../Auth/LoginPage'
 import Dashboard from '../Dashboard'
-import ProposalReviewList from '../ProposalReview'
-import UsersPage from '../UsersPage'
-import CreateUserPage from '../CreateUserPage'
-import ClientsPage from '../ClientsPage'
-import CreateClientPage from '../CreateClientPage'
+import CreateUserPage from '../AddUser'
 import SettingsPage from '../settings/SettingsPage'
-import ConsultingPage from '../ConsultingPage'
 import LandingPage from '../starter/landingPage'
-import ServicesPage from '../starter/ServicesPage'
-import ServiceRequestPage from '../starter/ServiceRequestPage'
-import AddServicePage from '../starter/AddServicePage'
+import ServicesPage from '../starter/ServicesRequest.tsx'
+import AddServicePage from '../starter/AddServicePage.tsx'
 import NotFoundPage from '../NotFoundPage'
 import Registration from '../Registration/Registration'
 import PricingDetails from '../settings/PricingDetails'
 import ServiceListPage from '../starter/ServiceListPage'
-import ReviewsPage from '../ReviewsPage'
-import ReviewDetailsPage from '../ReviewDetailsPage'
+import ServicesRequestPage from '../starter/ServicesRequest.tsx'
+import ClientRequestReview from '../RequestMother/ClientsRequestReview.tsx'
+// import ReviewsPage from '../ReviewsPage'
+// import ReviewDetailsPage from '../ReviewDetailsPage'
 
 
 // Protected Routes
 import ProtectedRoute from './protectedRoutes'
+import UsersList from '../UsersList.tsx'
+import ClientRequestDetailsId from '../RequestMother/ClientRequestReviewDetails.tsx'
 
 export const router = createBrowserRouter([
   // ✅ ROOT → directly go to welcome (no flash)
@@ -70,7 +68,6 @@ export const router = createBrowserRouter([
         element: <Dashboard />,
       },
 
-      // REVIEWS
    
       {
         path: 'reviews',
@@ -83,16 +80,18 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <ReviewsPage />,
+            element: <ClientRequestReview />,
           },
-          {
-            path: 'pending-proposals',
-            element: <ProposalReviewList />,
+
+           {
+            path: "request-details/:id",
+            element: <ClientRequestDetailsId/>,
           },
-          {
-            path: ':id',
-            element: <ReviewDetailsPage />,
-          },
+
+          // {
+          //   path: ':id',
+          //   element: <ClientRequestDetails />,
+          // },
         ],
       },
 
@@ -111,7 +110,7 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <UsersPage />,
+            element: <UsersList />,
           },
           
           {
@@ -142,7 +141,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'request',
-            element: <ServiceRequestPage />,
+            element: <ServicesRequestPage />,
           },
         ],
       },

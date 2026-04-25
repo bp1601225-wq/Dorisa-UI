@@ -28,3 +28,13 @@ export default function ExampleComponent() {
     </div>
   );
 }
+
+
+
+axios.get("URL", {
+  params: {
+    key: value
+  }
+});
+
+// req.query

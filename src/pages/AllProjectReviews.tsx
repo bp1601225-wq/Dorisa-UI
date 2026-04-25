@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useProposalReviewStore } from "../ZustandShare/ProposalReviewZuts"
+import { useProposalReviewStore } from "../ZustandShare/ProposalZuts"
 
 import { DataGrid, type GridColDef } from "@mui/x-data-grid"
 import { Button, Chip } from "@mui/material"

@@ -16,7 +16,7 @@ export const useUsersStore = create<UsersZutstype>((set, get) => ({
 
   fetchUsers: async (page = 1, pageSize = 10) => {
     try {
-      const response = await api.get("/get-all-user", {
+      const response = await api.get("/get-all-users", {
         params: {
           page,
           pageSize
@@ -86,6 +86,9 @@ export const useUsersStore = create<UsersZutstype>((set, get) => ({
 
     } catch (error: any) {
       toast.error(error.message);
+
+      const message = error.resposne.data.message
+      console.log(message)
     }
   },
 

@@ -1,45 +1,48 @@
 import { create } from "zustand"
-import { type ProposalCatalog } from "../../GlobalTypes"
+import { type ClientServiceRequest } from "../../GlobalTypes"
 import api from "../api"
 import { toast } from "sonner"
 
 // Client review/request store:
 // Tracks services clients requested and the review/status lifecycle before it becomes a real proposal/project.
 
-type ClientsReviewStoreType = {
-  clientReviews: ProposalCatalog[]
-  fetchClientReviews: () => Promise<void>
-  addClientReview: (review: ProposalCatalog) => Promise<void>
-  updateClientReview: (review: ProposalCatalog) => Promise<void>
-  deleteClientReview: (id: string) => Promise<void>
-  changeReviewStatus: (id: string, status: string) => Promise<void>
+type ClientsRequestStoreType = {
+  clientRequests: ClientServiceRequest[]
+  fetchClientRequest: () => Promise<void>
+  addClientRequest: (review: ClientServiceRequest) => Promise<void>
+  updateClientRequest: (review: ClientServiceRequest) => Promise<void>
+  deleteClientRequest: (id: string) => Promise<void>
+  changeRequestStatus: (id: string, status: string) => Promise<void>
 
 }
 
-export const useClientsReviewStore = create<ClientsReviewStoreType>((set) => ({
-  clientReviews: [],
 
-  fetchClientReviews: async () => {
+
+export const useClientsRequestStore = create<ClientsRequestStoreType>((set, get) => ({
+  clientRequests: [],
+
+  fetchClientRequest: async () => {
     try {
-      const response = await api.get("/get-all-proposals")
+      const response = await api.get("/get-all-client-requests")
 
       set({
-        clientReviews: response.data.data,
+        clientRequests: response.data.data,
       })
 
     } catch (error: any) {
-      set({ clientReviews: [] })
+      set({ clientRequests: [] })
       toast.error(error.message)
       console.error(error)
     }
   },
 
-  addClientReview: async (review) => {
+  addClientRequest: async (review) => {
     try {
-      const response = await api.post("/create-proposal", review)
+      const response =
+       await api.post("/create-client-request", review)
 
       set((state) => ({
-        clientReviews: [...state.clientReviews, response.data],
+        clientRequests: [...state.clientRequests, response.data],
       }))
 
       toast.success(response.data.message)
@@ -56,16 +59,16 @@ export const useClientsReviewStore = create<ClientsReviewStoreType>((set) => ({
     }
   },
 
-  updateClientReview: async (updatedReview) => {
+  updateClientRequest: async (updatedRequest) => {
     try {
       const response = await api.put(
-        `/update-proposal/${updatedReview.id}`,
-        updatedReview
+        `/update-proposal/${updatedRequest.id}`,
+        updatedRequest
       )
 
       set((state) => ({
-        clientReviews: state.clientReviews.map((review) =>
-          review.id === updatedReview.id ? response.data : review
+        clientRequests: state.clientRequests.map((review) =>
+          review.id === updatedRequest.id ? response.data : review
         ),
       }))
 
@@ -76,12 +79,12 @@ export const useClientsReviewStore = create<ClientsReviewStoreType>((set) => ({
     }
   },
 
-  deleteClientReview: async (id) => {
+  deleteClientRequest: async (id) => {
     try {
       await api.delete(`/delete-proposal/${id}`)
 
       set((state) => ({
-        clientReviews: state.clientReviews.filter((review) => review.id !== id),
+        clientRequests: state.clientRequests.filter((review) => review.id !== id),
       }))
 
       toast.success("Proposal deleted successfully")
@@ -91,15 +94,18 @@ export const useClientsReviewStore = create<ClientsReviewStoreType>((set) => ({
     }
   },
 
-  // Change status
- changeReviewStatus: async (id: string, status: string) => {
+
+
+  
+  // This will change proposal status with the id and status name ( from draft to pending)
+ changeRequestStatus: async (id: string, status: string) => {
   try {
     const response = await api.patch(`/proposal/${id}/status`, {
         proposal_status: status
     })
 
    set((state) => ({
-  clientReviews: state.clientReviews.map((review) =>
+  clientRequests: state.clientRequests.map((review) =>
     review.id === id
       ? {
           ...review, // keep old data
@@ -110,6 +116,8 @@ export const useClientsReviewStore = create<ClientsReviewStoreType>((set) => ({
 }))
 
     toast.success(response.data.message)
+
+    get().fetchClientRequest()
 
   } catch (error: any) {
  

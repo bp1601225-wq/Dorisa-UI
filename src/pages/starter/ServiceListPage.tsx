@@ -75,10 +75,20 @@ console.log(data);
 
 // ✅ Save changes
 function clickOnSaveChanges(data: ServiceCatalog) {
-console.log("SUBMITTED:", data);
+
+const dataToSubmit:ServiceCatalog = {
+  id:data.id,
+ServiceName: data.ServiceName,
+Description:data.Description,
+status:data.status
+}
+
+
+
+console.log("SUBMITTED:", dataToSubmit);
 
 // Example: send to backend/store
-EditServices(data);
+EditServices(dataToSubmit);
 
 setOpenModal(false);
 }
@@ -338,6 +348,8 @@ className="w-[250px] rounded-lg border border-slate-300 px-3 py-2 text-sm focus:
     "Save Changes"
   )}
 </button>
+
+
       </div>
     </form>
   </SettingsModal>

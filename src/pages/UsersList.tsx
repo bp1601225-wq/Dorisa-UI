@@ -8,7 +8,7 @@ import { Button } from "@mui/material";
 import { useRolesStore } from "../ZustandShare/RolesZuts";
 import type { UserType } from "../../GlobalTypes";
 
-const UsersPage = () => {
+const UsersList = () => {
 const { fetchUsers, users, EditUsers } = useUsersStore();
 
 const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -52,6 +52,7 @@ const onSubmit = async (data: UserType) => {
       role: selectedRole?.name ?? selectedUser.role,
     };
 
+    
 console.log(payload)
 
     await EditUsers(payload);
@@ -96,6 +97,9 @@ console.log(payload)
     setSelectedUser(updatedUser);
     reset(updatedUser);
   }, [roles, selectedUser, reset]);
+
+
+  // Material Ui data grid
   const columns = useMemo(() => [
     {
       field: "name",
@@ -104,7 +108,7 @@ console.log(payload)
       valueGetter: (_:any, row:any) => {
         if (!row) return "—";
 
-        if (row.fullName) return row.fullName;
+        // if (row.fullName) return row.fullName;
 
         return [row.firstName, row.middleName, row.lastName]
           .filter(Boolean)
@@ -387,4 +391,4 @@ console.log(payload)
   );
 };
 
-export default UsersPage;
+export default UsersList;

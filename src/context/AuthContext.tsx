@@ -25,13 +25,6 @@ const getStoredUser = (): PublicUser | null => {
   if (!isBrowser) return null;
 
   try {
-    // If there's no token, treat session as logged out.
-    const token = localStorage.getItem("token");
-    if (!token) {
-      localStorage.removeItem(STORAGE_KEY);
-      return null;
-    }
-
     const data = localStorage.getItem(STORAGE_KEY);
     return data ? (JSON.parse(data) as PublicUser) : null;
   } catch (err) {
@@ -64,7 +57,6 @@ export const AuthenticationContext = createContext<AuthContextTypes | undefined>
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<PublicUser | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   const [isAuthReady, setIsAuthReady] = useState(false);
 
   useEffect(() => {
@@ -73,7 +65,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    setToken(localStorage.getItem("token"));
     const stored = getStoredUser();
     setCurrentUser(stored);
     setIsAuthReady(true);
@@ -95,7 +86,6 @@ const Login = async (data: Record<string, unknown>) => {
 
     // ✅ store token
     localStorage.setItem("token", token);
-    setToken(token);
 
     // ✅ sanitize user (even though it's already safe, keeps your pattern)
     const user = sanitizeUser(userData as UserType);
@@ -103,7 +93,7 @@ const Login = async (data: Record<string, unknown>) => {
     if (!user) return null;
 
     persistUser(user);
-
+    
     toast.success(`Welcome back ${user.email}`);
 
     return user;
@@ -115,17 +105,11 @@ const Login = async (data: Record<string, unknown>) => {
     return null;
   }
 };
-  const Logout = () => {
-    if (isBrowser) {
-      localStorage.removeItem("token");
-    }
-    setToken(null);
-    persistUser(null);
-  };
+  const Logout = () => persistUser(null);
 
   return (
     <AuthenticationContext.Provider
-      value={{ Login, Logout, currentUser, isAuthReady, token }}
+      value={{ Login, Logout, currentUser, isAuthReady }}
     >
       {children}
     </AuthenticationContext.Provider>
