@@ -48,6 +48,10 @@ export const useClientsRequestStore = create<ClientsRequestStoreType>((set, get)
       toast.success(response.data.message)
 
     } catch (error: any) {
+
+console.log(error.response)
+
+
       const message =
       error?.response?.data?.message ||
       error?.message ||

@@ -2,8 +2,14 @@ import { useEffect, useState } from "react";
 import { useProposalStore } from "../../../ZustandShare/ProposalZuts";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { Box, Chip } from "@mui/material";
-import { Card, CardContent, Typography,  Divider, Button, Stack } from "@mui/material";
-import { Clock, DollarSign, FileText, ListCheck, ShieldCheck } from "lucide-react";
+import {   Divider, Button, } from "@mui/material";
+import { AlertTriangle, CheckCircle, Clock, DollarSign, FileText, ListCheck, ShieldCheck } from "lucide-react";
+import SettingsModal from "../../utils/Modal";
+import type { ProjectType } from "../../../../GlobalTypes";
+import { useAuth } from "../../../context/AuthContext";
+import { useProjectStore } from "../../../ZustandShare/ProjectZuts";
+
+
 type ProposalRow = {
   id: string;
   service?: string;
@@ -16,9 +22,22 @@ type ProposalRow = {
 
 export function ProposalReviewList() {
 
+
+
+
+  const {currentUser} = useAuth()
+
+  const {createProjects} = useProjectStore()
+
   const { fetchProposals, proposalReviews } = useProposalStore()
 
   const [selectedProposal, setSelectedProposal]= useState<ProposalRow | null>(null)
+
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+
+
+  // get the project store
+
 
   useEffect(() => {
     fetchProposals()
@@ -88,6 +107,33 @@ export function ProposalReviewList() {
   })) || [];
 
 
+
+  //  Function to create a project
+
+  function CreateProject(){
+if (!selectedProposal || !currentUser?.id) return;
+
+const serviceId = selectedProposal.raw?.service?.id;
+
+if (!serviceId) return;
+
+const project: ProjectType = {
+  service_id: serviceId,
+  proposal_id: selectedProposal.id,
+  client_id: currentUser.id,
+};
+
+
+console.log(project)
+createProjects(project)
+
+setIsOpenModal(false)
+
+  }
+
+
+
+
   return (
     <main className="w-full bg-gray-50 p-6">
 
@@ -131,6 +177,8 @@ export function ProposalReviewList() {
               columns={columns}
               pageSizeOptions={[5, 10]}
               onRowClick={(params) => {
+console.log(params.row)
+
                 setSelectedProposal(params.row as ProposalRow)
               }}
               sx={{
@@ -159,7 +207,8 @@ export function ProposalReviewList() {
               {selectedProposal.service || "Proposal"}
             </h2>
             <p className="text-xs text-gray-500">
-              ID: {selectedProposal.id}
+        PROPOSAL ID: <br />
+             {selectedProposal.id}
             </p>
           </div>
 
@@ -250,9 +299,13 @@ export function ProposalReviewList() {
 
         {/* ACTIONS */}
         <div className="flex gap-3 pt-1">
-          <Button variant="contained" color="success" fullWidth>
+          <Button
+          onClick={()=>setIsOpenModal(true)}
+          variant="contained" color="success" fullWidth>
             Approve
           </Button>
+
+
           <Button variant="outlined" color="error" fullWidth>
             Reject
           </Button>
@@ -263,6 +316,57 @@ export function ProposalReviewList() {
   </div>
 </aside>
       </div>
+
+      <SettingsModal isOpen={isOpenModal} onClose={()=>setIsOpenModal(false)}>
+<>
+<>
+    
+      
+      {/* Modal */}
+      <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-6">
+        
+        {/* Header */}
+        <div className="flex items-center gap-2">
+          <AlertTriangle className="text-yellow-500" />
+          <h2 className="text-lg font-semibold text-gray-800">
+            Confirm Approval
+          </h2>
+        </div>
+
+        {/* Message */}
+        <p className="text-gray-600 mt-3">
+          Are you sure you want to approve this request?
+        </p>
+
+        {/* Extra info */}
+        <div className="mt-4 p-3 rounded-lg bg-green-50 border border-green-200 flex gap-2 items-start">
+          <CheckCircle className="text-green-600 mt-0.5" size={18} />
+          <p className="text-sm text-green-700">
+            Once approved, your project will start immediately and move to the active development stage.
+          </p>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex justify-end gap-3 mt-6">
+          
+          {/* Cancel */}
+          <button className="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-100 cursor-pointer" 
+          onClick={()=>setIsOpenModal(false)}
+          >
+            Cancel
+          </button>
+
+          {/* Yes */}
+          <button className="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 cursor-pointer" onClick={CreateProject}>
+            Yes, Approve
+          </button>
+
+        </div>
+      </div>
+</>
+</>
+
+      </SettingsModal>
 
     </main>
   );

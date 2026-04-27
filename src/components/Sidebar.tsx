@@ -1,4 +1,5 @@
 import {
+  FolderKanban,
   LayoutDashboard,
   List,
   PanelLeftClose,
@@ -127,6 +128,15 @@ function Sidebar({
 },
 
 
+{
+  id: "projects",
+  label: "Projects",
+  icon: FolderKanban,
+  roles: ["Admin", "Client"],
+  children: [
+    { to: "/projects", label: "My Projects", icon: FolderKanban }
+  ],
+},
 
 
     // {

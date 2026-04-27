@@ -64,6 +64,7 @@ export const ProposalReviewSchema = z.object({
   id: z.string().optional(),
   service_id: z.string().optional(),
   client_id: z.string().optional(),
+  client_request_id:z.string().optional(),
   contract_id: z.string().optional(),
 
   scope: z.string().min(1, "Scope is required"),

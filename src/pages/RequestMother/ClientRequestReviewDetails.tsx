@@ -92,7 +92,9 @@ details?.client?.lastName
 
 return (
   <div className="min-h-screen p-3 ml-10">
-    <span>This is the {id}</span>
+    <span className="text-red-500">This is the Client Request table id 
+      
+      {id}</span>
 
     <div className="max-w-5xl space-y-6">
 
@@ -126,6 +128,7 @@ return (
 
     const finalData = {
       ...data,
+      client_request_id: details.id,
      service_id: details.service.id,
      client_id: details.client.id
     }
@@ -443,7 +446,7 @@ console.log(errors)
 
 
             // make an API call
-          // await createProposal(pendingData)
+          await createProposal(pendingData)
 
           setIsOpen(false)
           }}

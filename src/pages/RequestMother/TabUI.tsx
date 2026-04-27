@@ -31,21 +31,21 @@ export default function TabsUI({ activeTab, onChange }: TabsUIProps) {
 
 
 
-        <Button
+        {/* <Button
           variant={activeTab === "approved" ? "contained" : "outlined"}
           startIcon={<CheckCircle size={18} />}
           onClick={() => onChange("approved")}
         >
           Approved
-        </Button>
+        </Button> */}
 
-        <Button
+        {/* <Button
           variant={activeTab === "projects" ? "contained" : "outlined"}
           startIcon={<FolderKanban size={18} />}
           onClick={() => onChange("projects")}
         >
           Projects
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

@@ -102,18 +102,24 @@ export type ProposalStatus = "PENDING" | "APPROVED" | "DECLINED"
 | "NEGOTIATING" | "ACCEPTED"
 
 
+type ServiceRequestStatus = "DRAFT"
+
+
   // Client Adding services to create a proposal
 export interface ClientServiceRequest {
   id?:string
   clientId:string,
   serviceId:string
-request_status: ProposalStatus
+request_status: ServiceRequestStatus
 }
 
 
 // Admin prepares a proposal to be sent to client for review
 export interface Proposal {
   id?: string;
+
+client_request_id: string
+  
   service_id: string;
   client_id: string;
   contract_id?: string;
@@ -125,6 +131,26 @@ export interface Proposal {
   status: ProposalStatus
   termsAndConditions: string;
 }
+
+
+// Project
+export interface ProjectType {
+  id: string;
+
+  service_id?: string;
+  proposal_id?: string;
+  client_id: string;
+
+  title?: string;
+  progress?: number;
+
+  projectStatus: "PLANNING" | "ACTIVE" | "COMPLETED" | "IN_PROGRESS";
+
+  service?: ServiceCatalog;
+  client?: UserType;
+  proposal?: Proposal;
+}
+
 
 export interface NegotiationType {
   id?:string,

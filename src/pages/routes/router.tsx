@@ -26,6 +26,7 @@ import ClientRequestReview from '../RequestMother/ClientsRequestReview.tsx'
 import ProtectedRoute from './protectedRoutes'
 import UsersList from '../UsersList.tsx'
 import ClientRequestDetailsId from '../RequestMother/ClientRequestReviewDetails.tsx'
+import Projects from '../RequestMother/Projects/Project.tsx'
 
 export const router = createBrowserRouter([
   // ✅ ROOT → directly go to welcome (no flash)
@@ -156,6 +157,19 @@ export const router = createBrowserRouter([
         </ProtectedRoute>
         ,
       },
+
+
+      {
+        path: 'projects',
+        element: 
+        <ProtectedRoute>
+
+         <Projects />
+        </ProtectedRoute>
+        
+      },
+
+
       {
         path: 'settings/pricing/:pricingId',
         element: 
