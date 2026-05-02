@@ -9,7 +9,10 @@ import { useRolesStore } from "../ZustandShare/RolesZuts";
 import type { UserType } from "../../GlobalTypes";
 
 const UsersList = () => {
-const { fetchUsers, users, EditUsers } = useUsersStore();
+const { fetchUsers, users,  total,
+  loading,
+  paginationModel,
+  setPaginationModel, EditUsers } = useUsersStore();
 
 const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
@@ -18,7 +21,9 @@ const {fetchRoles, roles} = useRolesStore()
 
 
 //  REACT HOOK FORM
-const {register, reset, handleSubmit, formState:{isSubmitting, errors}} = useForm<UserType>()
+const {register, reset, handleSubmit, formState:{
+  isSubmitted, errors
+}} = useForm<UserType>()
 
   useEffect(() => {
     fetchUsers();
@@ -108,11 +113,15 @@ console.log(payload)
       valueGetter: (_:any, row:any) => {
         if (!row) return "—";
 
-        // if (row.fullName) return row.fullName;
+        if (row.fullName) return row.fullName;
+
+        else {
 
         return [row.firstName, row.middleName, row.lastName]
           .filter(Boolean)
           .join(" ") || "—";
+        }
+
       },
     },
     { field: "email", headerName: "Email", flex: 1.5 },
@@ -226,9 +235,18 @@ console.log(payload)
 
       {/* 🔹 Table */}
       <div className="bg-white mt-3">
-        <DataGridUiTable rows={users} columns={columns} 
         
-        />
+     <DataGridUiTable
+  rows={users}
+  columns={columns}
+  rowCount={total}
+  loading={loading}
+  paginationMode="server"
+  paginationModel={paginationModel}
+  onPaginationModelChange={setPaginationModel}
+
+ 
+/>
 
 
         {isModalOpen && 
@@ -264,47 +282,88 @@ console.log(payload)
     {/* First Name */}
     <div className="flex flex-col gap-1">
       <label className="text-xs text-slate-500">First Name</label>
-      <input
-        {...register("firstName")}
-        className="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-black"
-      />
+     <input
+    {...register("firstName", {
+      required: "First name is "
+    })}
+    className="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-black"
+  />
+
+  {errors.firstName && (
+    <p className="text-red-500 text-xs">
+      {errors.firstName.message}
+    </p>
+  )}
     </div>
 
     {/* Last Name */}
     <div className="flex flex-col gap-1">
       <label className="text-xs text-slate-500">Last Name</label>
       <input
-        {...register("lastName")}
+        {...register("lastName", {
+        required:true
+        } )}
         className="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-black"
       />
     </div>
+
+    
+  {errors.lastName && (
+    <p className="text-red-500 text-xs">
+      {errors.lastName.message}
+    </p>
+  )}
 
     {/* Email */}
     <div className="flex flex-col gap-1">
       <label className="text-xs text-slate-500">Email</label>
       <input
-        {...register("email")}
+        {...register("email", {
+        required:true})}
         className="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-black"
       />
     </div>
+
+        
+  {errors.email && (
+    <p className="text-red-500 text-xs">
+      {errors.email.message}
+    </p>
+  )}
+
 
     {/* Phone */}
     <div className="flex flex-col gap-1">
       <label className="text-xs text-slate-500">Phone</label>
       <input
-        {...register("phone")}
+        {...register("phone", {
+        required:true})}
         className="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-black"
       />
     </div>
+    
+  {errors.phone && (
+    <p className="text-red-500 text-xs">
+      {errors.phone.message}
+    </p>
+  )}
 
     {/* Country */}
     <div className="flex flex-col gap-1">
       <label className="text-xs text-slate-500">Country</label>
       <input
-        {...register("country")}
+        {...register("country", {
+        required:true})}
         className="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-black"
       />
     </div>
+        
+  {errors.country && (
+    <p className="text-red-500 text-xs">
+      {errors.country.message}
+    </p>
+  )}
+
 
     {/* Type */}
     <div className="flex flex-col gap-1">

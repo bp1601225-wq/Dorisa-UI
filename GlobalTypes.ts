@@ -18,6 +18,7 @@ fullName?: string;
 }
 
 export interface CorporateForm extends BaseForm {
+
 companyName: string;
 contactPerson: string;
 industry: string;
@@ -25,6 +26,10 @@ companyWebsite?: string;
 }
 
 export type UserType = {
+    firstName?: string
+  middleName?:string
+  lastName?:string
+
   id?:string
   roleId?: string 
   role?:string
@@ -135,10 +140,11 @@ client_request_id: string
 
 // Project
 export interface ProjectType {
-  id: string;
+  id?: string;
 
-  service_id?: string;
-  proposal_id?: string;
+  service_id: string;
+  proposal_id: string;
+   client_request_id:string
   client_id: string;
 
   title?: string;
@@ -154,8 +160,10 @@ export interface ProjectType {
 
 export interface NegotiationType {
   id?:string,
+  serviceId:string
   clientId:string,
+    client_request_id:string
   proposal_id:string
-  NegotiationText:string
+ NegotiatingText:string
   created_at?:string
 }

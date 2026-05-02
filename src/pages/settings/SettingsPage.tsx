@@ -141,6 +141,7 @@ const rows = AllRoles;
     <div style={{ height: 300, width: '100%' }}>
       <DataGrid rows={rows} columns={columns} 
       density="compact"
+       getRowId={(row) => row.id}
       pageSizeOptions={[5, 10, 20, 30, 40]}
       initialState={{
         pagination: {

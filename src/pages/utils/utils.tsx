@@ -140,16 +140,14 @@ export function DataGridUiTable({rows, columns}:any){
      <div style={{ height: 400, width: '100%' }}>
 <DataGrid rows={rows} columns={columns} 
 density="compact"
-  pageSizeOptions={[4, 30, 40, 50, 60]}
-      initialState={{
-        pagination: {
-          paginationModel: {
-            pageSize: 15, page: 0
-          }
-        }
-      }}
       showToolbar
          slots={{ toolbar: GridToolbar }}
+ sx={{
+    "--DataGrid-rowBorderColor": "transparent", // removes horizontal separators
+    "& .MuiDataGrid-cell": { borderBottom: "none" }, // fallback
+    "& .MuiDataGrid-columnHeaders": { borderBottom: "none" }, // optional (header line)
+  }}
+
 />
     </div>
     </>
@@ -179,3 +177,6 @@ export const DetailRow = ({ icon, label, value }: any) => {
     </div>
   );
 };
+
+
+

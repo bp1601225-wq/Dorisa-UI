@@ -172,7 +172,7 @@ const handleServiceRequest = async (serviceId: string) => {
           variants={heroVariants}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => navigate("/services/request")}
+          // onClick={() => navigate("/services/request")}
           className="mt-8 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full flex items-center gap-2 mx-auto shadow-lg"
         >
           Get Started <ArrowRight size={18} />
@@ -212,7 +212,7 @@ const handleServiceRequest = async (serviceId: string) => {
               <h3 className="mt-5 font-semibold text-lg">{title}</h3>
 
               <p className="mt-2 text-sm text-slate-600 leading-relaxed">
-                {desc}
+                {desc.substring(0, 100) + " " + "....."}
               </p>
 
               {/* CTA */}

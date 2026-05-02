@@ -3,14 +3,20 @@ import type { ProjectType } from "../../GlobalTypes";
 import api from "../api";
 import { toast } from "sonner";
 
+function normalizeProject(payload: any): ProjectType {
+  if (!payload) return payload;
+  const id = payload?.id ?? payload?._id ?? payload?.project_id ?? payload?.projectId;
+  return { ...payload, id };
+}
+
 type ProjectStoreType = {
   projects: ProjectType[];
 
   fetchProjects: () => Promise<void>;
-  createProjects: (project: ProjectType) =>  Promise<void>;
+  createProjects: (project: ProjectType) => Promise<ProjectType | undefined>;
   updateProjects: (project: ProjectType) => Promise<void>;
   deleteProjects: (id: string) => void;
-  updateProjectProgressAPI: (id:string, progress:number) => Promise<void>
+  updateProjectProgressAPI: (id: string, progress: number) => Promise<void>;
 };
 
 export const useProjectStore = create<ProjectStoreType>((set, get) => ({
@@ -42,6 +48,9 @@ export const useProjectStore = create<ProjectStoreType>((set, get) => ({
       }));
 
       toast.success(response.data.message);
+
+      get().fetchProjects()
+      
     } catch (error:any) {
       console.log(error.response.data);
       toast.error("Failed to create project");
@@ -69,7 +78,8 @@ updateProjectProgressAPI: async (projectId: string, progress: number) => {
 
     set((state) => ({
       projects: state.projects.map((project) =>
-        project.id === projectId ? { ...project, ...updatedProject } : project
+        project.id === projectId ?
+       { ...project, ...updatedProject } : project
       ),
     }));
 

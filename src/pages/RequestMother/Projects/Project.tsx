@@ -58,7 +58,7 @@ const {updateProjectProgressAPI} = useProjectStore()
     if (projects.length > 0) {
       setSelectedProjectId((prev) => {
         if (prev && projects.some((p) => p.id === prev)) return prev;
-        return projects[0].id;
+        return projects[0].id!;
       });
     } else {
       setSelectedProjectId(null);
@@ -155,7 +155,13 @@ function formatStatus(status: string) {
 
 
 function getStatusColor(status: string) {
+  if (!status) return
+
+
+
   switch (status) {
+
+
     case "PLANNING":
       return "bg-blue-50 text-blue-700 border-blue-200";
 
@@ -258,15 +264,18 @@ function getStatusColor(status: string) {
             projects.map((p) => (
               <div
                 key={p.id}
-                onClick={() => setSelectedProjectId(p.id)}
-                className={`p-4 cursor-pointer border-b border-gray-300 transition hover:bg-gray-50 ${
+              onClick={() => {
+  if (!p.id) return;
+  setSelectedProjectId(p.id);
+}}
+                className={`p-4 cursor-pointer border-gray-200 border-b transition hover:bg-gray-50 ${
                   selected?.id === p.id ? "bg-gray-100" : ""
                 }`}
               >
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="flex items-center gap-2">
-                      {/* <Briefcase size={14} className="text-gray-500" /> */}
+                      <Briefcase size={14} className="text-gray-500" />
                       <p className="text-sm font-medium text-gray-900">
                         {p.service?.ServiceName || "Untitled Project"}
                       </p>
@@ -278,7 +287,7 @@ function getStatusColor(status: string) {
                     </div>
 
                     <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
-                    ₵
+                      <DollarSign size={12} />
                       {p.proposal?.pricing}
                     </div>
                   </div>
@@ -366,11 +375,9 @@ function getStatusColor(status: string) {
                   </div>
                 </div>
 
-           <span
-  className={`text-xs px-3 py-1 rounded-full border ${getStatusColor(selected.projectStatus)}`}
->
-  {formatStatus(selected.projectStatus)}
-</span>
+                <span className="text-xs px-3 py-1 rounded-full bg-yellow-50 text-yellow-700 border border-yellow-100">
+                  {selected.projectStatus}
+                </span>
 
               </div>
 
@@ -378,10 +385,10 @@ function getStatusColor(status: string) {
               <div className="grid grid-cols-3 gap-3 mt-6">
 
                 <div className="p-4 bg-gray-50 rounded-xl">
-                   ₵
+                  <DollarSign size={14} className="text-gray-400" />
                   <p className="text-xs text-gray-500 mt-1">Budget</p>
                   <p className="font-semibold">
-                     {selected.proposal?.pricing || 0}
+                    ${selected.proposal?.pricing || 0}
                   </p>
                 </div>
 

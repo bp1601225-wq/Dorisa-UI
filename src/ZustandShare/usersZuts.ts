@@ -5,14 +5,45 @@ import { toast } from "sonner";
 
 type UsersZutstype = {
   users: UserType[];
+  total?:number,
+  loading?:boolean,
+
+
+  paginationModel?:{
+    page:number,
+    pageSize:number
+  },
+
+
+  setPaginationModel?: (model:any) => void,
+
+
+
+
+
+
+
+
+
+
+
   fetchUsers: () => Promise<void>;
   AddUsers: (user: UserType) => Promise<void>;
   EditUsers: (updatedUser: UserType) => Promise<void>;
   DeleteUsers: (id: string) => Promise<void>;
+
+  
 };
 
 export const useUsersStore = create<UsersZutstype>((set, get) => ({
   users: [],
+  total:0,
+  loading:false,
+
+  paginationModel:{
+    page:0,
+    pageSize:10
+  },
 
   fetchUsers: async (page = 1, pageSize = 10) => {
     try {
@@ -22,17 +53,22 @@ export const useUsersStore = create<UsersZutstype>((set, get) => ({
           pageSize
         }
       });
-      toast.success(response.data.message);
+      // toast.success(response.data.message);
 
       
 
       set({
         users: response.data.data,
+        total: response.data.total, 
+        loading: false
       });
+
+
+
+
     } catch (err: any) {
       toast.error(err.message || "Something went wrong");
-      console.error(err);
-      set({ users: [] });
+      set({ users: [], loading: false });
     }
   },
 

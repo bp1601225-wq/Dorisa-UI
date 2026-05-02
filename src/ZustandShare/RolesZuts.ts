@@ -66,7 +66,7 @@ EditRoles: async (UpdatedRole: RoleType): Promise<void> => {
 
   set((state) => ({
     roles: state.roles.map((role: RoleType) =>
-      role.id === UpdatedRole.id ? response.data : role 
+      role.id === UpdatedRole.id ? response.data.data : role 
     ),
   }));
 

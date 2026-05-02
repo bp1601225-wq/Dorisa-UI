@@ -8,6 +8,7 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../api";
+import RoleBasedTable from "../utils/RoleBasedTable";
 
 export default function Reviews(){
 
@@ -27,7 +28,7 @@ fetchClientRequest();
 
 // Paginated
 const [page, setPage] = useState(1);
-const itemsPerPage = 5;
+const itemsPerPage = 20;
 
 
 // What user selects in dropdown (not yet applied)
@@ -149,244 +150,6 @@ const handleManageClick = async (request: any) => {
 };
 
 
-//  Tabular functions based on roles 
-function TableRoles (){
-if (!currentUser) return
-
-
-if (currentUser.role === "Client"){
-  return (
-    
-<table className="min-w-full text-sm">
-  <thead className="bg-slate-100 text-left text-slate-600">
-<tr>
-  <th className="px-4 py-3">My Details</th>
-
-  {/* Hide on small screens */}
-  <th className="px-4 py-3 hidden md:table-cell">Requested Service</th>
-
-  <th className="px-4 py-3">Status</th>
-
-  {/* Hide on small screens */}
-  <th className="px-4 py-3 hidden md:table-cell">My Country</th>
-
-  {/* Hide on small screens */}
-  <th className="px-4 py-3 hidden lg:table-cell">Created</th>
-
-  {/* <th className="px-4 py-3">Action</th> */}
-</tr>
-</thead>
-
-  <tbody>
-    {currentItems.map((s: any) => {
-// Destructure components separately
-
-      const { id, service, client } = s;
-
-  const fullName =
-
-[client.firstName, client.middleName, client.lastName]
-  .filter(Boolean)
-  .join(" ") || client.fullName || "N/A";
-
-      return (
-        <tr
-          key={id}
-          className="border-t hover:bg-slate-50 transition"
-        >
-          {/* Client */}
-          <td className="px-4 py-3 ">
-            <p className="font-semibold text-slate-900">{fullName}</p>
-            <p className="text-xs text-slate-500">{client.email}</p>
-          </td>
-
-          {/* Service */}
-          <td className="px-4 py-3">          
-            <p className="font-medium text-slate-800">
-              {service.ServiceName}
-            </p>
-            <p className="text-xs text-slate-500">
-              {service.Description.slice(0, 10)}
-            </p>
-          </td>
-
-          {/* Status */}
-   <td className="px-4 py-3">
-  <span
-    className={`text-xs font-semibold uppercase tracking-wide rounded-full border px-3 py-1 
-  "bg-gray-200 text-gray-700 border-gray-200"}`}
-  >
-    {s.request_status}
-  </span>
-</td>
-
-          {/* Country */}
-          <td className="px-4 py-3 text-slate-700">
-            {client.country}
-          </td>
-
-          {/* Date */}
-          <td className="px-4 py-3 text-slate-600">
-            {new Date(s.createdAt).toLocaleDateString()}
-          </td>
-
-          {/* Actions */}
-          <td className="px-4 py-3">
-            <div className="flex gap-2">
-             
-
-            </div>
-          </td>
-        </tr>
-      );
-    })}
-  </tbody>
-</table>
-
-  )
-
-  // OtherWise show this 
-
-} else {
-  return <table className="min-w-full text-sm">
-  <thead className="bg-slate-100 text-left text-slate-600">
-<tr>
-  <th className="px-4 py-3">Client</th>
-
-  {/* Hide on small screens */}
-  <th className="px-4 py-3 hidden md:table-cell">Service</th>
-
-  <th className="px-4 py-3">Status</th>
-
-  {/* Hide on small screens */}
-  <th className="px-4 py-3 hidden md:table-cell">Country</th>
-
-  {/* Hide on small screens */}
-  <th className="px-4 py-3 hidden lg:table-cell">Created</th>
-
-  <th className="px-4 py-3">Action</th>
-</tr>
-</thead>
-
-  <tbody>
-    {currentItems.map((s: any) => {
-        
-// Destructure components separately
-
-      const { id, service, client } = s;
-
-  const fullName =
-
-[client.firstName, client.middleName, client.lastName]
-  .filter(Boolean)
-  .join(" ") || "N/A";
-
-      return (
-        <tr
-          key={id}
-          className="border-t hover:bg-slate-50 transition"
-        >
-          {/* Client */}
-          <td className="px-4 py-3">
-            <p className="font-semibold text-slate-900">{fullName}</p>
-            <p className="text-xs text-slate-500">{client.email}</p>
-          </td>
-
-          {/* Service */}
-          <td className="px-4 py-3">          
-            <p className="font-medium text-slate-800">
-              {service.ServiceName}
-            </p>
-            <p className="text-xs text-slate-500">
-              {service.Description}
-            </p>
-          </td>
-
-          {/* Status */}
-   <td className="px-4 py-3">
-<span
-  className={`inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide rounded-full border px-3 py-1
-  "bg-gray-200 text-gray-700 border-gray-200"}`}
->
-  {s.request_status === "PENDING" && (
-    <>
-      <Hourglass size={14} className="animate-pulse" />
-      Pending
-    </>
-  )}
-
-
-   {s.request_status === "DRAFT" && (
-    <>
-      <Pencil  size={14} className="animate-pulse" />
-      DRAFT
-    </>
-  )}
-</span>
-</td>
-
-          {/* Country */}
-          <td className="px-4 py-3 text-slate-700">
-            {client.country}
-          </td>
-
-          {/* Date */}
-          <td className="px-4 py-3 text-slate-600">
-            {new Date(s.createdAt).toLocaleDateString()}
-          </td>
-
-          {/* Actions */}
-          <td className="px-4 py-3">
-            <div className="flex gap-2">
-              {/* <button className="text-xs font-medium text-slate-600 hover:text-black">
-                View
-              </button> */}
-
-
-              {/* Access url Parameters */}
-{/* <Link to={`/reviews/${id}`}> */}
-
-{ 
-          <button
-            disabled={loadingId === id}
-            className={`flex gap-2 items-center text-xs font-semibold text-white 
-  bg-black px-3 py-2 rounded-full transition-all
-  ${loadingId === id ? "opacity-70 cursor-not-allowed" : "hover:bg-black/80"}`}
-            onClick={() => handleManageClick(s)}
-          >
-              {loadingId === id ? (
-    <>
-      <Loader2 className="animate-spin" size={18} />
-      Loading...
-    </>
-  ) : (
-    <>
-      <Wrench size={18} />
-      Manage
-    </>
-  )}
-              </button> 
-              
-              } 
-{/* </Link> */}
-
-
-            </div>
-          </td>
-        </tr>
-      );
-    })}
-  </tbody>
-</table>
-}
-
-  
-}
-
-
-
-// ACTUAK UI
-
 
 return (
 <main className="min-h-screen  ">
@@ -493,9 +256,14 @@ Filter by
 {/* Proposal Display */}
 <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-lg">
 
-{/*  Hide based on roles */}
 
-{TableRoles()}
+
+<RoleBasedTable 
+ currentUser={currentUser}
+  currentItems={currentItems}
+  loadingId={loadingId}
+  handleManageClick={handleManageClick}/>
+
 
 </div>
 

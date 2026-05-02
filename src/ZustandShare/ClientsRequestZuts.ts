@@ -32,7 +32,8 @@ export const useClientsRequestStore = create<ClientsRequestStoreType>((set, get)
     } catch (error: any) {
       set({ clientRequests: [] })
       toast.error(error.message)
-      console.error(error)
+      console.error(error.response.data.message
+      )
     }
   },
 

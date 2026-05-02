@@ -201,8 +201,8 @@ className="w-[250px] rounded-lg border border-slate-300 px-3 py-2 text-sm focus:
             </td>
 
             <td className="px-4 py-3 text-slate-600">
-              {service.Description}
-            </td>
+              {service.Description.substring(0, 100) + " " + "....."}
+            </td> 
 
             <td className="px-4 py-3">
               <span

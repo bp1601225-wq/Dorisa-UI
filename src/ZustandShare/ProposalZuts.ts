@@ -27,6 +27,7 @@ type ProposalZutsType = {
 
   fetchNegotiation: () => Promise<void>
 
+  
 }
 
 
@@ -71,6 +72,8 @@ export const useProposalStore = create<ProposalZutsType>((set, get) => ({
       }))
 
       toast.success(response.data.message)
+      toast.success("OKA")
+
       // get().fetchProposals()
     } catch (error: any) {
       const message =
@@ -126,7 +129,7 @@ try {
 NegotiateProposals:async (payload:NegotiationType) => {
   
   try {
-  const response = await api.post("/client-negotiating", payload )
+  const response = await api.post("/create-negotiation", payload )
 
   set ((state)=>({
     Negotiaton: [...state.Negotiaton, response.data]

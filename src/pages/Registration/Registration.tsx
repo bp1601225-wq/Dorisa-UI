@@ -17,6 +17,7 @@ import { type RegistrationForm, type UserType } from "../../../GlobalTypes";
 // import { useClientStore } from "../../ZustandShare/ClientsZuts";
 import { Link } from "react-router-dom";
 import { useUsersStore } from "../../ZustandShare/usersZuts";
+import meetingBg from "../../assets/meeting.jpeg";
 
 
 
@@ -100,8 +101,17 @@ return (
 variants={slideUp}
 initial="hidden"
 animate="visible"
-className="min-h-screen bg-gradient-to-br from-green-500 px-4 py-12"
+className="relative min-h-screen overflow-hidden bg-gradient-to-br from-green-500 px-4 py-12"
 >
+<div className="pointer-events-none absolute inset-0">
+  <img
+    src={meetingBg}
+    alt="Registration background"
+    className="h-full w-full object-cover opacity-25"
+  />
+  <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/70 via-emerald-600/45 to-slate-900/65" />
+</div>
+<div className="relative z-10">
 {/* HEADER */}
 <motion.div
 variants={containerVariants}
@@ -327,9 +337,13 @@ needs and prepare a tailored proposal.
   </Link>
 </p>
 </div>
+</div>
 </motion.div>
 
+
 </form>
+
+
 );
 };
 

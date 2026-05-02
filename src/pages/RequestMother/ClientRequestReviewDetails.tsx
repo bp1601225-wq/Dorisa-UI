@@ -24,6 +24,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type Proposal } from "../../../GlobalTypes";
 import SettingsModal from "../utils/Modal";
 import { useProposalStore } from "../../ZustandShare/ProposalZuts";
+import Projects from "./Projects/Project";
+import { useNavigate } from "react-router-dom";
 
 function ClientRequestDetailsId() {
 
@@ -41,6 +43,8 @@ const { register, handleSubmit, formState:{errors} } = useForm<ProposalZodField>
 resolver: zodResolver(ProposalReviewSchema),
 });
 
+
+const navigate = useNavigate();
 // make an API call here to fetch the detailed request
 useEffect(() => {
 if (!id) return;
@@ -448,8 +452,11 @@ console.log(errors)
             // make an API call
           await createProposal(pendingData)
 
+           navigate("/reviews");
           setIsOpen(false)
           }}
+
+    
         >
           Confirm & Send
         </Button>
