@@ -38,3 +38,15 @@ axios.get("URL", {
 });
 
 // req.query
+
+
+Simple Mental Model
+
+Every async UI action:
+
+click →
+  startLoading →
+    fetch / mutate →
+      update state →
+        open UI →
+  stopLoading

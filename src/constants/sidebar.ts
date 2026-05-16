@@ -1,4 +1,4 @@
 export const SIDEBAR_WIDTHS = {
-  expanded: 250,
-  collapsed: 88,
+  expanded: 230,
+  // collapsed: 88,
 };

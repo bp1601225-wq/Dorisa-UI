@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar/Sidebar";
 import { useAuth } from "../context/AuthContext";
 import SettingsModal from "../pages/utils/Modal";
 import "../App.css";

@@ -3,6 +3,8 @@ import { motion, type Variants } from "framer-motion";
 import React from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
+
+
 export const Arraycountries = [
   "United States",
   "United Kingdom",
@@ -179,4 +181,29 @@ export const DetailRow = ({ icon, label, value }: any) => {
 };
 
 
+export function InputText({ text, placeholder, register }: any) {
+  return (
+    <div className="flex flex-col gap-1">
+      <label className="text-sm font-medium text-gray-700">
+        {text}
+      </label>
 
+      <input
+        type="text"
+        placeholder={placeholder}
+        className="
+          border border-gray-300
+          rounded-lg
+          p-2
+          outline-none
+          focus:ring-1
+          focus:ring-green-400
+          focus:border-green-400
+          transition
+        "
+        {...register}
+      />
+    </div>
+  );
+}
+//  Loading

@@ -27,6 +27,9 @@ import ProtectedRoute from './protectedRoutes'
 import UsersList from '../UsersList.tsx'
 import ClientRequestDetailsId from '../RequestMother/ClientRequestReviewDetails.tsx'
 import Projects from '../RequestMother/Projects/Project.tsx'
+import Negotiate from '../Negotiation/ProposalNegotiate.tsx'
+import Negotiation from '../Negotiation/ProposalNegotiate.tsx'
+import ProjectReviews from '../RequestMother/Projects/ProjectReviewDetails.tsx'
 
 export const router = createBrowserRouter([
   // ✅ ROOT → directly go to welcome (no flash)
@@ -147,6 +150,19 @@ export const router = createBrowserRouter([
         ],
       },
 
+
+          // SETTINGS
+      {
+        path: '/negotiation/:id',
+        element: 
+        <ProtectedRoute>
+
+        <Negotiation />
+        </ProtectedRoute>
+        ,
+      },
+
+
       // SETTINGS
       {
         path: 'settings',
@@ -167,6 +183,13 @@ export const router = createBrowserRouter([
          <Projects />
         </ProtectedRoute>
         
+      },
+
+      {
+        path:"/projects/:id",
+        element: <ProtectedRoute>
+<ProjectReviews />
+        </ProtectedRoute>
       },
 
 

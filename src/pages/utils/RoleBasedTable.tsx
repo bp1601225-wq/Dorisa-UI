@@ -1,4 +1,5 @@
 import { Hourglass, Pencil, Loader2, Wrench, Flag, Circle, CheckCircle, RefreshCcw, RefreshCw } from "lucide-react";
+import { status } from "nprogress";
 
 type Props = {
 currentUser: any;
@@ -16,6 +17,8 @@ handleManageClick,
 if (!currentUser) return null;
 
 const isClient = currentUser.role === "Client";
+
+
 
 return (
 <table className="min-w-full text-sm">
@@ -205,25 +208,28 @@ return (
 
 <td className="px-4 py-3">
 <button
-    disabled={loadingId === id}
-    onClick={() => handleManageClick(s)}
-    className={`flex items-center gap-2 text-xs font-semibold text-white bg-black px-3 py-2 rounded-full ${
-    loadingId === id
-        ? "opacity-60 cursor-not-allowed"
-        : "hover:bg-black/80"
-    }`}
+  disabled={loadingId === id || s.request_status !== "DRAFT"}
+  onClick={() => handleManageClick(s)}
+  className={`flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-full border
+  ${
+    s.request_status === "DRAFT"
+      ? "text-green-600 border-green-500 bg-white hover:bg-green-200 cursor-pointer"
+      : "text-gray-400 border-gray-300 bg-gray-100 cursor-not-allowed pointer-events-none"
+  }
+  ${loadingId === id ? "opacity-60" : ""}
+  `}
 >
-    {loadingId === id ? (
+  {loadingId === id ? (
     <>
-        <Loader2 className="animate-spin" size={16} />
-        Loading...
+      <Loader2 className="animate-spin" size={16} />
+      Loading...
     </>
-    ) : (
+  ) : (
     <>
-        <Wrench size={16} />
-        Manage
+      <Wrench size={16} />
+      {s.request_status === "DRAFT" ? "Manage" : "Locked"}
     </>
-    )}
+  )}
 </button>
 </td>
 </>

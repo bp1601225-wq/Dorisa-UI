@@ -53,6 +53,8 @@ const fetchDetails = async () => {
 const res = await api.get(`/get-all-client-requests-id/${id}`);
 
 const Data = res.data.data
+
+
 setDetails(Data)
 };
 

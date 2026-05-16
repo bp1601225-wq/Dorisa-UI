@@ -79,6 +79,7 @@ const Corporate = ({ register, errors, isSubmitting }: CorporateProps) => {
           )}
         </motion.div>
 
+
         {/* Country */}
         <motion.div variants={itemVariants} className="space-y-2">
           <label className="text-sm font-semibold text-slate-600">Country</label>

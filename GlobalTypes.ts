@@ -128,9 +128,9 @@ client_request_id: string
   service_id: string;
   client_id: string;
   contract_id?: string;
-
-  scope: string;
-  deliverables: string;
+  scope:string, 
+  deliverables:string
+  versions?:ProposalVersionType[]
   timeline: string;
   pricing: number;
   status: ProposalStatus
@@ -155,7 +155,21 @@ export interface ProjectType {
   service?: ServiceCatalog;
   client?: UserType;
   proposal?: Proposal;
+
+  MileStone?: MilestoneType[]
+
 }
+
+
+export interface MilestoneType  {
+  id?: string;
+  projectId:string;
+  title: string;
+  description: string;
+  amount: number;
+  status: "pending" | "completed";
+  dateCreated?: string
+};
 
 
 export interface NegotiationType {
@@ -167,3 +181,16 @@ export interface NegotiationType {
  NegotiatingText:string
   created_at?:string
 }
+
+export interface ProposalVersionType {
+  id?: string;
+  proposalId: string;
+  clientId: string;
+  serviceId: string;
+  version: number;
+  message: string;
+  amount: number;
+}
+
+
+

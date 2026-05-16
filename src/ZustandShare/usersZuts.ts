@@ -61,8 +61,10 @@ export const useUsersStore = create<UsersZutstype>((set, get) => ({
         users: response.data.data,
         total: response.data.total, 
         loading: false
-      });
+      })
 
+
+      // console.log()
 
 
 

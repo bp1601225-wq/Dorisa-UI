@@ -9,7 +9,8 @@ import type { NegotiationType, ProjectType } from "../../../../GlobalTypes";
 import { useAuth } from "../../../context/AuthContext";
 import { useProjectStore } from "../../../ZustandShare/ProjectZuts";
 import { alpha } from "@mui/material/styles";
-
+import { Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type ProposalRow = {
 id: string;
@@ -31,7 +32,7 @@ const {currentUser} = useAuth()
 
 const {createProjects} = useProjectStore()
 
-const { fetchProposals, proposalReviews, NegotiateProposals } = useProposalStore()
+const { fetchProposals, proposalReviews, NegotiateProposals, updateProposalStatus } = useProposalStore()
 
 const [selectedProposal, setSelectedProposal]= useState<ProposalRow | null>(null)
 
@@ -53,7 +54,7 @@ useEffect(() => {
 console.log(proposalReviews)
 }, [proposalReviews])
 
-
+const navigate = useNavigate();
 //  1. DEFINE COLUMNS (table headers)
 const columns: GridColDef[] = [
 {
@@ -61,11 +62,11 @@ field: "service",
 headerName: "Service",
 flex: 1,
 },
-{
-field: "deliverables",
-headerName: "Deliverables",
-flex: 1,
-},
+// {
+// field: "deliverables",
+// headerName: "Deliverables",
+// flex: 1,
+// },
 {
 field: "pricing",
 headerName: "Price",
@@ -125,21 +126,27 @@ color:
 
 
 //  2. TRANSFORM YOUR DATA → ROWS
-const rows: ProposalRow[] = proposalReviews?.map((p: any) => ({
-id: p.id, // REQUIRED
-service: p.service?.ServiceName,
-deliverables: p.deliverables,
-pricing: p.pricing,
-timeline: p.timeline,
-status: p.status,
-raw: p,
-})) || [];
+const rows: ProposalRow[] = proposalReviews?.map((p: any) => {
 
+  const latestVersion = p.versions?.[0];
+
+  return {
+    id: p?.id ?? p?._id,
+    service: p.service?.ServiceName,
+    deliverables: p.deliverables,
+    pricing: latestVersion?.amount ?? p.pricing,
+    timeline: p.timeline,
+    // status: latestVersion?.status ?? p.status,
+    status:  p.status,
+
+    raw: p,
+  };
+}) || [];
 
 
 //  Function to create a project
 
-function CreateProject(){
+async function CreateProject(){
 if (!selectedProposal || !currentUser?.id) return;
 
 const serviceId = selectedProposal.raw?.service?.id;
@@ -158,12 +165,18 @@ projectStatus: "PLANNING"
 
 
 console.log(project)
-createProjects(project)
+
+setSelectedProposal((prev) => (prev ? { ...prev, status: "APPROVED" } : prev))
+
+
+// await updateProposalStatus(selectedProposal.id, "APPROVED")
+await createProjects(project)
 
 setIsOpenModal(false)
 
 }
 
+// navigate
 
 
 
@@ -178,7 +191,12 @@ return (
   <p className="text-sm text-gray-500 mt-1">
     Review and manage submitted proposals in one place.
   </p>
+
+    <p className="text-sm text-gray-500 mt-1 tracking-wider ">
+     Proposals with request marked Approved has already begun its projects.
+  </p>
 </div>
+
 
 {/* Filters */}
 <div className="w-full mb-4 flex justify-between items-center">
@@ -200,7 +218,20 @@ return (
   </div>
 </div>
 
+
+
+
+<div className="flex items-center gap-2">
+
+<p>View all your angoing projects with approved proposals.</p>
+<button className="bg-blue-400 p-2 text-white rounded mb-2 active:scale-105 cursor-pointer animate-pulse" onClick={()=>navigate("/projects")}>You can view your projects</button>
+</div>
+
+
+
 <div className="w-full grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+
+
 
   {/* ✅ DATA GRID */}
   <div className="bg-white p-4 rounded-xl shadow">
@@ -336,21 +367,40 @@ return (
   {/* ACTIONS */}
   <div className="flex gap-3 pt-1">
     <Button
-    disabled={selectedProposal.status === "APPROVED"}
+  disabled={
+  selectedProposal?.status === "APPROVED" ||
+  selectedProposal?.status === "NEGOTIATING"
+}
     onClick={()=>setIsOpenModal(true)}
     variant="contained" color="success" fullWidth>
       {selectedProposal.status === "APPROVED" ? "Approved" : "Approve"}
     </Button>
 
 <Button
+disabled={selectedProposal.status === "APPROVED" || selectedProposal.status === "NEGOTIATING" }
 variant="outlined"
 color="error"
 fullWidth
 onClick={() => setIsNegotiateOpen(true)}
 >
-NEGOTIATE
+{selectedProposal.status === "NEGOTIATING"  ? "Under Negotiation" : "Negotiate"}
 </Button>
   </div>
+  
+  {/* Other projects */}
+{selectedProposal.status === "NEGOTIATING" && (
+<div className="flex items-center gap-2">
+  <Button
+    onClick={() => navigate(`/negotiation/${selectedProposal.id}`)}
+    variant="outlined"
+    color="secondary"
+  >
+    View Negotiation Details
+  </Button>
+</div>
+)}
+
+
 
 </div>
 )}
@@ -408,6 +458,8 @@ NEGOTIATE
 </>
 
 </SettingsModal>
+
+
 
 
 <div>
@@ -511,8 +563,13 @@ if(!selectedProposal) return
 
 
 
+setSelectedProposal((prev) => (prev ? { ...prev, status: "NEGOTIATING" } : prev))
+// await updateProposalStatus(selectedProposal.id, "NEGOTIATING")
+
+
+
 await NegotiateProposals(NegotiationMessage)
-  console.log(NegotiationMessage)
+console.log(NegotiationMessage)
 
 
     // console.log("NEGOTIATE MESSAGE:", {

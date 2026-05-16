@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { ServiceStatus } from "../../GlobalTypes";
+import type { TypeBackground } from "@mui/material";
 
 export const Authschema = z.object({
   email: z
@@ -52,11 +53,12 @@ phone: z
   .min(10, "Phone must be at least 10 digits")
   .regex(/^\+?[0-9\s-]{10,20}$/, "Invalid phone number format"),
   roleId: z.string().optional()
-
 })
 
 export type UserField = z.infer<typeof UserSchema>
 
+
+// Update User details
 
 // Building proposal Schema 
 
@@ -81,6 +83,44 @@ status: z.enum([
   "ACCEPTED"
 ]),
 
+
 });
 
+// Proposal Version Type
 export type ProposalZodField = z.infer<typeof ProposalReviewSchema>
+
+
+export const ProposalVersionSchema = z.object({
+  amount: z.preprocess(
+    (value) => {
+      if (typeof value === "string") {
+        const trimmed = value.trim();
+        if (trimmed === "") return undefined;
+        const numeric = Number(trimmed);
+        return Number.isNaN(numeric) ? value : numeric;
+      }
+      return value;
+    },
+    z.number({ error: "Amount is required" }).min(1, "Amount is required")
+  ),
+  message: z.string().min(1, "Message is required"),
+});
+
+export type ProposalVersionField = z.infer<typeof ProposalVersionSchema>
+
+
+// MilestoneType
+export const MileStoneSchema = z.object({
+  id: z.string().optional(),
+  projectId: z.string().optional(),
+
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+
+  amount: z
+    .number()
+    .min(1, "Amount is required"),
+});
+
+
+export type MileStoneField = z.infer<typeof MileStoneSchema>
